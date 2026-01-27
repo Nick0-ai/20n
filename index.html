@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20n | The End of Static Intelligence</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #000000;
+            --bg-secondary: #0a0a0a;
+            --text-primary: #ffffff;
+            --text-secondary: #888888;
+            --accent: #ffffff;
+            --accent-dim: rgba(255, 255, 255, 0.1);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Noise texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            z-index: 1000;
+        }
+
+        /* Grid background */
+        .grid-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Gradient orb */
+        .orb {
+            position: fixed;
+            width: 800px;
+            height: 800px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
+            top: -400px;
+            right: -200px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .orb-2 {
+            top: auto;
+            bottom: -400px;
+            left: -200px;
+            right: auto;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 24px 48px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            background: rgba(0,0,0,0.5);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -1px;
+            color: var(--text-primary);
+        }
+
+        .logo span {
+            opacity: 0.4;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 120px 48px 80px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--accent-dim);
+            border: 1px solid var(--border);
+            border-radius: 100px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 48px;
+            color: var(--text-secondary);
+        }
+
+        .status-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: #00ff88;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .hero h1 {
+            font-size: clamp(48px, 8vw, 96px);
+            font-weight: 700;
+            line-height: 1;
+            letter-spacing: -3px;
+            margin-bottom: 32px;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, #fff 0%, #666 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 48px;
+            line-height: 1.8;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 32px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--text-primary);
+            color: var(--bg-primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(255,255,255,0.2);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--accent-dim);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        /* Stats Section */
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 80px;
+            margin-top: 80px;
+            padding-top: 80px;
+            border-top: 1px solid var(--border);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-secondary);
+        }
+
+        /* Manifesto Section */
+        .manifesto {
+            padding: 120px 48px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .manifesto-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .section-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .manifesto h2 {
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 48px;
+        }
+
+        .manifesto-text {
+            font-size: 18px;
+            line-height: 2;
+            color: var(--text-secondary);
+        }
+
+        .manifesto-text p {
+            margin-bottom: 32px;
+        }
+
+        .manifesto-text strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* Architecture Section */
+        .architecture {
+            padding: 120px 48px;
+            background: var(--bg-secondary);
+            position: relative;
+            z-index: 1;
+        }
+
+        .architecture-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .architecture h2 {
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 64px;
+            text-align: center;
+        }
+
+        .pillars {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+        }
+
+        .pillar {
+            padding: 48px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .pillar:hover {
+            border-color: rgba(255,255,255,0.2);
+            transform: translateY(-4px);
+        }
+
+        .pillar-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+            letter-spacing: 2px;
+        }
+
+        .pillar h3 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            letter-spacing: -0.5px;
+        }
+
+        .pillar p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Diagram Section */
+        .diagram {
+            padding: 120px 48px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .diagram-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .diagram h2 {
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 700;
+            letter-spacing: -2px;
+            margin-bottom: 64px;
+        }
+
+        .diagram-visual {
+            position: relative;
+            padding: 80px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, transparent 100%);
+        }
+
+        .diagram-svg {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 120px 48px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            background: var(--bg-secondary);
+        }
+
+        .cta-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta h2 {
+            font-size: clamp(32px, 5vw, 48px);
+            font-weight: 700;
+            letter-spacing: -2px;
+            margin-bottom: 24px;
+        }
+
+        .cta p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 48px;
+            line-height: 1.8;
+        }
+
+        .cta-quote {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 48px;
+            font-style: italic;
+        }
+
+        /* Footer */
+        footer {
+            padding: 48px;
+            border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        .footer-logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: -1px;
+        }
+
+        .footer-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                padding: 16px 24px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 100px 24px 60px;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 40px;
+            }
+
+            .manifesto,
+            .architecture,
+            .diagram,
+            .cta {
+                padding: 80px 24px;
+            }
+
+            .pillar {
+                padding: 32px;
+            }
+
+            .diagram-visual {
+                padding: 40px 20px;
+            }
+
+            footer {
+                padding: 32px 24px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate {
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+
+        /* Terminal cursor effect */
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1em;
+            background: var(--text-primary);
+            margin-left: 4px;
+            animation: blink 1s infinite;
+            vertical-align: text-bottom;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-bg"></div>
+    <div class="orb"></div>
+    <div class="orb orb-2"></div>
+
+    <nav>
+        <div class="logo">20n<span>_</span></div>
+        <div class="nav-links">
+            <a href="#manifesto">Manifesto</a>
+            <a href="#architecture">Architecture</a>
+            <a href="#join">Join</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="status-badge">Research Lab Active</div>
+            <h1 class="animate">
+                The End of<br>
+                <span class="highlight">Static Intelligence</span>
+            </h1>
+            <p class="hero-subtitle animate delay-1">
+                We don't build AI that reads. We build AI that lives.
+                A pathway to liquid, embodied AGI via active inference.
+            </p>
+            <div class="hero-cta animate delay-2">
+                <a href="manifesto.html" class="btn btn-primary" id="downloadBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Download Manifesto
+                </a>
+                <a href="#join" class="btn btn-secondary">
+                    Join the Resistance
+                </a>
+            </div>
+            <div class="stats animate delay-3">
+                <div class="stat">
+                    <div class="stat-value">20W</div>
+                    <div class="stat-label">Target Power</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">1000x</div>
+                    <div class="stat-label">More Efficient</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">1</div>
+                    <div class="stat-label">Shot Learning</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="manifesto" id="manifesto">
+        <div class="manifesto-container">
+            <div class="section-label">// The Problem</div>
+            <h2>Large Language Models have reached their asymptote.</h2>
+            <div class="manifesto-text">
+                <p>
+                    They rest on a false hypothesis: that intelligence is a <strong>static compression of past data</strong>.
+                    This paradigm is energetically unsustainable and structurally incapable of acting in the dynamic physical world.
+                </p>
+                <p>
+                    The current consensus (OpenAI, Google, Meta) is based on the Scaling Law:
+                    <strong>More data + More GPUs = More intelligence</strong>. This is a dead end.
+                </p>
+                <p>
+                    <strong>The Energy Wall:</strong> They are melting the world's electrical grid.<br>
+                    <strong>The Data Wall:</strong> They have already read the entire internet. There is nothing left to read.<br>
+                    <strong>Structural Hallucination:</strong> LLMs are probabilistic parrots. They don't understand the physical world, they predict the next token.
+                </p>
+                <p>
+                    <strong>20n proposes a fundamental paradigm shift:</strong> moving from discrete, statistical intelligence (Transformers)
+                    to continuous, biological intelligence (Liquid Networks & Active Inference).
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="architecture" id="architecture">
+        <div class="architecture-container">
+            <div class="section-label" style="text-align: center;">// The Trinity</div>
+            <h2>Neuro-Symbolic Liquid Architecture</h2>
+            <div class="pillars">
+                <div class="pillar">
+                    <div class="pillar-number">01</div>
+                    <h3>Liquid Neural Networks</h3>
+                    <p>
+                        Instead of static neuron layers, we use differential equations. The network is "liquid":
+                        its parameters change during inference, not just during training. It adapts to new situations
+                        without retraining.
+                    </p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-number">02</div>
+                    <h3>Active Inference</h3>
+                    <p>
+                        The AI doesn't seek to maximize a "reward" (like others do with Reinforcement Learning).
+                        20n's AI seeks to minimize surprise (free energy). It has an internal model of the world,
+                        and acts to make the world match its model. This is how the biological brain works.
+                    </p>
+                </div>
+                <div class="pillar">
+                    <div class="pillar-number">03</div>
+                    <h3>Spiking Neural Networks</h3>
+                    <p>
+                        Information is only transmitted when necessary (via "spikes", like electrical impulses in the brain),
+                        not continuously. Result: 20 Watts consumption (human brain) vs 20,000 Watts (GPU cluster).
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="diagram">
+        <div class="diagram-container">
+            <div class="section-label">// The Loop</div>
+            <h2>Entropy Minimization Cycle</h2>
+            <div class="diagram-visual">
+                <svg class="diagram-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Outer circle -->
+                    <circle cx="200" cy="200" r="150" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+                    <circle cx="200" cy="200" r="100" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+
+                    <!-- Center -->
+                    <circle cx="200" cy="200" r="40" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                    <text x="200" y="195" text-anchor="middle" fill="white" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="1">ENTROPY</text>
+                    <text x="200" y="210" text-anchor="middle" fill="white" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="1">MINIMIZATION</text>
+
+                    <!-- Top node -->
+                    <circle cx="200" cy="50" r="30" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+                    <text x="200" y="45" text-anchor="middle" fill="white" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.5">WORLD</text>
+                    <text x="200" y="57" text-anchor="middle" fill="white" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.5">MODEL</text>
+
+                    <!-- Bottom node -->
+                    <circle cx="200" cy="350" r="30" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+                    <text x="200" y="345" text-anchor="middle" fill="white" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.5">CHAOS</text>
+                    <text x="200" y="357" text-anchor="middle" fill="white" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.5">ENVIRONMENT</text>
+
+                    <!-- Arrows -->
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="rgba(255,255,255,0.5)"/>
+                        </marker>
+                    </defs>
+
+                    <!-- Right arrow (down) -->
+                    <path d="M 230 90 Q 300 200 230 310" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1" marker-end="url(#arrowhead)"/>
+                    <text x="310" y="200" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="0.5">PREDICTIONS</text>
+                    <text x="310" y="215" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="0.5">/ ACTION</text>
+
+                    <!-- Left arrow (up) -->
+                    <path d="M 170 310 Q 100 200 170 90" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1" marker-end="url(#arrowhead)"/>
+                    <text x="90" y="200" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="0.5">SENSORY</text>
+                    <text x="90" y="215" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="0.5">/ SURPRISE</text>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta" id="join">
+        <div class="cta-container">
+            <div class="section-label">// Join</div>
+            <h2>Join the Resistance<span class="cursor"></span></h2>
+            <p>
+                Most AI researchers today have become data janitors. They clean datasets to feed voracious monsters.
+                If you want to continue tuning hyperparameters on LLMs, stay at Google.
+            </p>
+            <p>
+                But if you want to solve intelligence, understand consciousness, and create a new form of synthetic life
+                capable of looking us in the eyes and understanding us...
+            </p>
+            <a href="mailto:core@20n.ai" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                core@20n.ai
+            </a>
+            <p class="cta-quote">
+                "We don't have H100 GPUs. We have superior mathematics."<br><br>
+                Ad Astra Per Aspera.
+            </p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">20n_</div>
+            <div class="footer-text">Building the first artificial brain capable of learning in real-time with 20 Watts.</div>
+        </div>
+    </footer>
+
+    <script>
+        // Download manifesto functionality
+        document.querySelector('.btn-primary').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.open('manifesto.html', '_blank');
+        });
+
+        // Smooth reveal on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.pillar, .manifesto-text p').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
