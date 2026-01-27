@@ -176,9 +176,9 @@
 
         .cover-title {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 64px;
+            font-size: 56px;
             font-weight: 400;
-            line-height: 1.05;
+            line-height: 1.1;
             letter-spacing: -2px;
             margin-bottom: 24px;
             max-width: 500px;
@@ -446,6 +446,82 @@
             text-align: left;
         }
 
+        /* Math page styles */
+        .equation-block {
+            background: var(--void-light);
+            border: 1px solid rgba(0, 229, 255, 0.15);
+            padding: 24px;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .equation-block::before {
+            content: attr(data-label);
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-family: 'Space Mono', monospace;
+            font-size: 8px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--neural);
+            background: var(--void);
+            padding: 0 10px;
+        }
+
+        .equation-main {
+            font-family: 'Space Mono', monospace;
+            font-size: 16px;
+            color: var(--bone);
+            text-align: center;
+            margin: 16px 0;
+            padding: 12px;
+            background: rgba(0, 229, 255, 0.03);
+            border-left: 2px solid var(--neural);
+            font-style: italic;
+        }
+
+        .equation-desc {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            color: var(--graphite);
+            margin-top: 12px;
+            line-height: 1.8;
+        }
+
+        .equation-desc strong {
+            color: var(--bone-dim);
+        }
+
+        .math-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .math-card {
+            background: rgba(0, 229, 255, 0.02);
+            border: 1px solid rgba(0, 229, 255, 0.08);
+            padding: 16px;
+        }
+
+        .math-card .label {
+            font-family: 'Space Mono', monospace;
+            font-size: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--neural);
+            margin-bottom: 8px;
+        }
+
+        .math-card .eq {
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            color: var(--bone);
+            font-style: italic;
+        }
+
         /* Diagram */
         .diagram-wrapper {
             margin: 32px 0;
@@ -535,6 +611,18 @@
         .timeline-desc {
             font-size: 12px;
             color: var(--bone-dim);
+        }
+
+        .timeline-specs {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            color: var(--graphite);
+            margin-top: 8px;
+            line-height: 1.8;
+        }
+
+        .timeline-specs span {
+            color: var(--neural);
         }
 
         /* Quote */
@@ -715,10 +803,10 @@
             </div>
 
             <div class="cover-eyebrow">Technical Manifesto</div>
-            <h1 class="cover-title">The End of<br><em>Static</em><br>Intelligence</h1>
+            <h1 class="cover-title"><em>Computational</em><br>Biology<br>on Silicon</h1>
             <p class="cover-subtitle">
-                A pathway to liquid, embodied AGI through active inference
-                and neuromorphic efficiency.
+                Solving the 20-Watt AGI paradox via Liquid Networks,
+                Active Inference, and neuromorphic efficiency.
             </p>
 
             <div class="cover-info">
@@ -782,21 +870,27 @@
             <p>
                 Scaling Transformers requires more energy than current global production will allow by 2030.
                 It's a physical impossibility. The giants are melting the world's electrical grid to run
-                chatbots and advertising algorithms.
+                chatbots and advertising algorithms. Global AI power consumption: ~450 MW and rising.
+            </p>
+
+            <h3>The Physics Wall</h3>
+            <p>
+                LLMs have no notion of causality or Newtonian physics. They hallucinate reality—predicting
+                text patterns, not world dynamics. 20n integrates ODEs as computational primitives.
+                Our models don't predict physics—they <strong>are</strong> physics.
             </p>
 
             <h3>The Latency Wall</h3>
             <p>
                 A robot cannot wait 500ms for a Cloud to process an image before deciding not to fall.
                 Intelligence must be at the edge, not in a server farm thousands of miles away.
-                Real-time embodied intelligence requires local computation.
+                Real-time embodied intelligence requires local computation with sub-5ms response.
             </p>
 
-            <h3>The Hallucination Problem</h3>
+            <h3>The Data Wall</h3>
             <p>
-                An LLM doesn't know gravity. It hallucinates physics. It predicts text patterns,
-                not world dynamics. 20n integrates the differential equations of physics directly
-                into its neural architecture.
+                They've read the entire internet. There's nothing left. Quality training data is exhausted.
+                The well is dry. 20n learns from physics, not from scraping the web.
             </p>
         </div>
 
@@ -806,8 +900,8 @@
                 <div class="label">Human Brain</div>
             </div>
             <div class="stat-card">
-                <div class="value">20<span>kW</span></div>
-                <div class="label">GPU Cluster</div>
+                <div class="value">~450<span>MW</span></div>
+                <div class="label">Global AI</div>
             </div>
             <div class="stat-card">
                 <div class="value">1000<span>x</span></div>
@@ -821,7 +915,7 @@
         </div>
     </div>
 
-    <!-- PAGE 3: THE TRINITY -->
+    <!-- PAGE 3: THE MATHEMATICS -->
     <div class="page">
         <div class="corner-mark tl"></div>
         <div class="corner-mark tr"></div>
@@ -835,6 +929,84 @@
 
         <div class="section-label">
             <span class="section-num">02</span>
+            <span class="section-tag">The Mathematics</span>
+        </div>
+
+        <h2>Formal <em>Foundations</em></h2>
+
+        <p class="lead">
+            We don't have H100 GPUs. We have superior mathematics.
+            The following equations define 20n's computational substrate.
+        </p>
+
+        <div class="equation-block" data-label="Liquid Time-Constant Networks">
+            <div class="equation-main">dx/dt = -x/τ(x, t) + f(x) · σ(Wx + b)</div>
+            <div class="equation-desc">
+                <strong>Neural ODE with time-varying dynamics.</strong> Unlike static feed-forward networks,
+                the time constant τ is itself a function of state. The network continuously adapts its temporal
+                behavior during inference—no retraining required. Proven to achieve state-of-the-art with
+                19 neurons vs 100,000+ for traditional approaches.
+            </div>
+        </div>
+
+        <div class="equation-block" data-label="Variational Free Energy">
+            <div class="equation-main">F = D_KL[q(θ) || p(θ|y)] + log p(y)</div>
+            <div class="equation-desc">
+                <strong>Active Inference via Friston's Free Energy Principle.</strong> The agent minimizes
+                surprise (free energy) rather than maximizing reward. q(θ) is the approximate posterior,
+                p(θ|y) the true posterior given observations y. Action selection emerges from gradient
+                descent on F—the same algorithm for perception and action.
+            </div>
+        </div>
+
+        <div class="equation-block" data-label="Spike-Timing Dependent Plasticity">
+            <div class="equation-main">V(t) = V_rest + Σ w_i · ε(t - t_i) · H(t - t_i)</div>
+            <div class="equation-desc">
+                <strong>Event-driven computation.</strong> V(t) membrane potential, ε(t) post-synaptic kernel,
+                H(t) Heaviside step function. Information transmits only via discrete spikes—energy consumed
+                only when neurons fire. Result: 20W vs 20,000W for equivalent GPU computation.
+            </div>
+        </div>
+
+        <div class="math-grid">
+            <div class="math-card">
+                <div class="label">Continuous Normalizing Flow</div>
+                <div class="eq">∂p(z,t)/∂t = -∇·(p(z,t)f(z,t))</div>
+            </div>
+            <div class="math-card">
+                <div class="label">Adjoint Sensitivity</div>
+                <div class="eq">dL/dθ = -∫ a(t)ᵀ(∂f/∂θ) dt</div>
+            </div>
+            <div class="math-card">
+                <div class="label">Expected Free Energy</div>
+                <div class="eq">G(π) = E_q[log q(s) - log p(s,o|π)]</div>
+            </div>
+            <div class="math-card">
+                <div class="label">Prediction Error</div>
+                <div class="eq">ε = y - g(μ) = sensory - predicted</div>
+            </div>
+        </div>
+
+        <div class="page-footer">
+            <span>20n // Technical Manifesto</span>
+            <span>Confidential</span>
+        </div>
+    </div>
+
+    <!-- PAGE 4: THE TRINITY -->
+    <div class="page">
+        <div class="corner-mark tl"></div>
+        <div class="corner-mark tr"></div>
+        <div class="corner-mark bl"></div>
+        <div class="corner-mark br"></div>
+
+        <div class="page-header">
+            <div class="page-logo">20n_</div>
+            <div class="page-number">04</div>
+        </div>
+
+        <div class="section-label">
+            <span class="section-num">03</span>
             <span class="section-tag">The Architecture</span>
         </div>
 
@@ -865,9 +1037,9 @@
                     <h4>Active Inference (Free Energy Principle)</h4>
                     <p>
                         The AI doesn't seek to maximize a "reward" (as others do with Reinforcement Learning,
-                        which is slow and unstable). 20n's AI seeks to minimize surprise (free energy). It has
+                        which is slow and unstable). 20n's AI seeks to minimize Free Energy (Surprise). It has
                         an internal model of the world, and it acts to make the world match its model.
-                        This is how the biological brain functions—prediction and correction in a continuous loop.
+                        This is how the biological brain functions—Karl Friston's Free Energy Principle.
                     </p>
                 </div>
             </div>
@@ -895,7 +1067,7 @@
         </div>
     </div>
 
-    <!-- PAGE 4: THE LOOP -->
+    <!-- PAGE 5: THE LOOP -->
     <div class="page">
         <div class="corner-mark tl"></div>
         <div class="corner-mark tr"></div>
@@ -904,15 +1076,15 @@
 
         <div class="page-header">
             <div class="page-logo">20n_</div>
-            <div class="page-number">04</div>
+            <div class="page-number">05</div>
         </div>
 
         <div class="section-label">
-            <span class="section-num">03</span>
+            <span class="section-num">04</span>
             <span class="section-tag">The Loop</span>
         </div>
 
-        <h2>Entropy <em>Minimization</em> Cycle</h2>
+        <h2>Active Inference <em>Control Loop</em></h2>
 
         <p>
             The core architecture operates as a closed feedback loop. Unlike feedforward networks that process
@@ -922,24 +1094,27 @@
 
         <div class="diagram-wrapper">
             <svg viewBox="0 0 500 320" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: auto;">
-                <!-- Background circles -->
-                <circle cx="250" cy="160" r="130" fill="none" stroke="rgba(0,229,255,0.08)" stroke-width="1"/>
-                <circle cx="250" cy="160" r="80" fill="none" stroke="rgba(0,229,255,0.05)" stroke-width="1"/>
+                <!-- Grid background -->
+                <defs>
+                    <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                        <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(0,229,255,0.05)" stroke-width="0.5"/>
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#grid)"/>
 
-                <!-- Center node -->
-                <rect x="190" y="130" width="120" height="60" rx="4" fill="rgba(0,229,255,0.05)" stroke="rgba(0,229,255,0.3)" stroke-width="1"/>
-                <text x="250" y="155" text-anchor="middle" fill="#00e5ff" font-family="Space Mono, monospace" font-size="8" letter-spacing="1">ENTROPY</text>
-                <text x="250" y="170" text-anchor="middle" fill="#e8e4dc" font-family="Space Mono, monospace" font-size="8" letter-spacing="1">MINIMIZATION</text>
+                <!-- Center node - Summing junction -->
+                <circle cx="250" cy="160" r="25" fill="rgba(0,229,255,0.05)" stroke="rgba(0,229,255,0.5)" stroke-width="1.5"/>
+                <text x="250" y="165" text-anchor="middle" fill="#00e5ff" font-family="Space Mono, monospace" font-size="14">F</text>
 
-                <!-- Top node -->
-                <rect x="175" y="15" width="150" height="45" rx="4" fill="rgba(5,8,16,0.9)" stroke="rgba(0,229,255,0.2)" stroke-width="1"/>
-                <text x="250" y="35" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="7" letter-spacing="1">GENERATIVE</text>
-                <text x="250" y="48" text-anchor="middle" fill="#e8e4dc" font-family="Cormorant Garamond, serif" font-size="12">World Model</text>
+                <!-- Top node - Generative Model -->
+                <rect x="175" y="20" width="150" height="50" fill="rgba(5,8,16,0.9)" stroke="rgba(0,229,255,0.3)" stroke-width="1"/>
+                <text x="250" y="42" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="7" letter-spacing="1">GENERATIVE MODEL</text>
+                <text x="250" y="58" text-anchor="middle" fill="#e8e4dc" font-family="Space Mono, monospace" font-size="10">p(y, θ)</text>
 
-                <!-- Bottom node -->
-                <rect x="175" y="260" width="150" height="45" rx="4" fill="rgba(5,8,16,0.9)" stroke="rgba(255,107,53,0.2)" stroke-width="1"/>
-                <text x="250" y="280" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="7" letter-spacing="1">PHYSICAL</text>
-                <text x="250" y="293" text-anchor="middle" fill="#e8e4dc" font-family="Cormorant Garamond, serif" font-size="12">Environment</text>
+                <!-- Bottom node - Environment -->
+                <rect x="175" y="250" width="150" height="50" fill="rgba(5,8,16,0.9)" stroke="rgba(255,107,53,0.3)" stroke-width="1"/>
+                <text x="250" y="272" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="7" letter-spacing="1">ENVIRONMENT</text>
+                <text x="250" y="288" text-anchor="middle" fill="#ff6b35" font-family="Space Mono, monospace" font-size="10">Physical World</text>
 
                 <!-- Arrows -->
                 <defs>
@@ -951,17 +1126,25 @@
                     </marker>
                 </defs>
 
-                <!-- Right arrow -->
-                <path d="M 325 60 Q 400 160 325 260" fill="none" stroke="#00e5ff" stroke-width="1" stroke-dasharray="4,4" marker-end="url(#arr-c)"/>
-                <text x="405" y="155" text-anchor="middle" fill="#00e5ff" font-family="Space Mono, monospace" font-size="7" letter-spacing="1">PREDICTIONS</text>
-                <text x="405" y="168" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="7">/ action</text>
+                <!-- Vertical connections -->
+                <line x1="250" y1="70" x2="250" y2="135" stroke="#00e5ff" stroke-width="1" marker-end="url(#arr-c)"/>
+                <line x1="250" y1="185" x2="250" y2="250" stroke="#00e5ff" stroke-width="1" marker-end="url(#arr-c)"/>
 
-                <!-- Left arrow -->
-                <path d="M 175 260 Q 100 160 175 60" fill="none" stroke="#ff6b35" stroke-width="1" stroke-dasharray="4,4" marker-end="url(#arr-o)"/>
-                <text x="95" y="155" text-anchor="middle" fill="#ff6b35" font-family="Space Mono, monospace" font-size="7" letter-spacing="1">SENSORY</text>
-                <text x="95" y="168" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="7">/ surprise</text>
+                <!-- Right side - Action -->
+                <path d="M 275 160 L 380 160 L 380 275 L 325 275" fill="none" stroke="#00e5ff" stroke-width="1" marker-end="url(#arr-c)"/>
+                <text x="415" y="155" text-anchor="middle" fill="#00e5ff" font-family="Space Mono, monospace" font-size="8" letter-spacing="1">ACTION</text>
+                <text x="415" y="170" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="7">a(t)</text>
+
+                <!-- Left side - Sensory -->
+                <path d="M 175 275 L 120 275 L 120 160 L 225 160" fill="none" stroke="#ff6b35" stroke-width="1" marker-end="url(#arr-o)"/>
+                <text x="85" y="155" text-anchor="middle" fill="#ff6b35" font-family="Space Mono, monospace" font-size="8" letter-spacing="1">SENSORY</text>
+                <text x="85" y="170" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="7">y(t)</text>
+
+                <!-- Labels -->
+                <text x="270" y="105" text-anchor="start" fill="#6b7280" font-family="Space Mono, monospace" font-size="7">predictions</text>
+                <text x="270" y="225" text-anchor="start" fill="#6b7280" font-family="Space Mono, monospace" font-size="7">commands</text>
             </svg>
-            <div class="diagram-caption">Fig. 1 — The Active Inference Loop</div>
+            <div class="diagram-caption">Fig. 1 — Closed-loop perception-action cycle. F = Free Energy minimization.</div>
         </div>
 
         <p>
@@ -977,7 +1160,7 @@
         </div>
     </div>
 
-    <!-- PAGE 5: ROADMAP -->
+    <!-- PAGE 6: ROADMAP -->
     <div class="page">
         <div class="corner-mark tl"></div>
         <div class="corner-mark tr"></div>
@@ -986,11 +1169,11 @@
 
         <div class="page-header">
             <div class="page-logo">20n_</div>
-            <div class="page-number">05</div>
+            <div class="page-number">06</div>
         </div>
 
         <div class="section-label">
-            <span class="section-num">04</span>
+            <span class="section-num">05</span>
             <span class="section-tag">The Protocol</span>
         </div>
 
@@ -1006,29 +1189,37 @@
                 <div class="timeline-phase">Phase 01</div>
                 <div class="timeline-title">The Silica Worm</div>
                 <p class="timeline-desc">
-                    Simulation only. Create a simple digital organism (a "worm") capable of learning to move
+                    Simulation only. Create a simple digital organism capable of learning to move
                     in a complex environment (wind, moving obstacles) with zero pre-training, only through
-                    curiosity and energy minimization. Proof of architectural efficiency with 100x less data
-                    than traditional approaches.
+                    curiosity and free energy minimization. Proof of architectural efficiency.
                 </p>
+                <div class="timeline-specs">
+                    Platform: <span>MuJoCo</span> | Parameters: <span>&lt; 10k</span> | Training: <span>Zero-shot</span>
+                </div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-phase">Phase 02</div>
                 <div class="timeline-title">The Ghost in the Shell</div>
                 <p class="timeline-desc">
-                    Sim2Real transfer (Simulation to Reality). Integration of the 20n brain into a low-cost
-                    robotic arm or open-source quadruped. Objective: The robot learns to grasp an unknown
-                    object in 10 seconds. Traditional approaches require hours of training.
+                    Sim2Real transfer (Simulation to Reality). Integration of the 20n brain into physical
+                    robotic hardware. The robot learns to grasp an unknown object in 10 seconds.
+                    Traditional approaches require hours of training. We require one demonstration.
                 </p>
+                <div class="timeline-specs">
+                    Hardware: <span>Unitree Go2</span> | Latency: <span>&lt; 5ms</span> | Transfer: <span>Sim2Real</span>
+                </div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-phase">Phase 03</div>
                 <div class="timeline-title">Apex Humanoid</div>
                 <p class="timeline-desc">
-                    Construction of proprietary body. Biotech collaboration (brain-machine interface).
-                    The first synthetic life form capable of continuous learning in unstructured environments,
-                    operating at 20W power consumption.
+                    Construction of proprietary embodied intelligence. The first synthetic life form
+                    capable of continuous learning in unstructured environments, operating entirely
+                    at the edge. No cloud. No latency. Pure autonomy.
                 </p>
+                <div class="timeline-specs">
+                    Power: <span>20W</span> | Learning: <span>Continuous</span> | Environment: <span>Unstructured</span>
+                </div>
             </div>
         </div>
 
@@ -1042,8 +1233,8 @@
                 <div class="label">Less Energy</div>
             </div>
             <div class="stat-card">
-                <div class="value">∞</div>
-                <div class="label">Adaptability</div>
+                <div class="value">&lt;10<span>k</span></div>
+                <div class="label">Parameters</div>
             </div>
         </div>
 
@@ -1053,7 +1244,7 @@
         </div>
     </div>
 
-    <!-- PAGE 6: CALL TO ARMS -->
+    <!-- PAGE 7: CALL TO ARMS -->
     <div class="page">
         <div class="corner-mark tl"></div>
         <div class="corner-mark tr"></div>
@@ -1062,11 +1253,11 @@
 
         <div class="page-header">
             <div class="page-logo">20n_</div>
-            <div class="page-number">06</div>
+            <div class="page-number">07</div>
         </div>
 
         <div class="section-label">
-            <span class="section-num">05</span>
+            <span class="section-num">06</span>
             <span class="section-tag">The Call</span>
         </div>
 
@@ -1137,8 +1328,8 @@
         <div class="final-page">
             <div class="final-logo">20n<span>_</span></div>
             <p class="final-tagline">
-                Building the first artificial brain capable of learning in real-time with 20 Watts,
-                to free robotics from the tyranny of the Cloud.
+                Computational Biology on Silicon.<br>
+                Solving the 20-Watt AGI paradox.
             </p>
             <div class="final-contact">core@20n.ai</div>
             <p class="final-latin">Ad Astra Per Aspera</p>

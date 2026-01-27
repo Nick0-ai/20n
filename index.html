@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>20n | Liquid Intelligence</title>
+    <title>20n | Computational Biology on Silicon</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -52,6 +52,45 @@
             opacity: 0.035;
             z-index: 9999;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* Fixed Watts Counter */
+        .watts-counter {
+            position: fixed;
+            top: 100px;
+            right: 24px;
+            z-index: 100;
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            text-align: right;
+            color: var(--graphite);
+            letter-spacing: 1px;
+            line-height: 1.8;
+        }
+
+        .watts-counter .label {
+            text-transform: uppercase;
+            font-size: 8px;
+            letter-spacing: 2px;
+        }
+
+        .watts-counter .value {
+            font-size: 14px;
+            color: var(--synapse);
+        }
+
+        .watts-counter .target {
+            color: var(--neural);
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .watts-counter .divider {
+            width: 60px;
+            height: 1px;
+            background: var(--graphite);
+            margin: 8px 0 8px auto;
+            opacity: 0.3;
         }
 
         /* Canvas for liquid animation */
@@ -142,8 +181,8 @@
 
         .hero-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 60px;
             max-width: 1400px;
             margin: 0 auto;
             width: 100%;
@@ -160,7 +199,7 @@
             text-transform: uppercase;
             letter-spacing: 4px;
             color: var(--neural);
-            margin-bottom: 32px;
+            margin-bottom: 24px;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -174,49 +213,36 @@
         }
 
         .hero-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(56px, 8vw, 120px);
-            font-weight: 400;
-            line-height: 0.95;
-            letter-spacing: -2px;
-            margin-bottom: 40px;
-        }
-
-        .hero-title .line {
-            display: block;
-            overflow: hidden;
-        }
-
-        .hero-title .word {
-            display: inline-block;
-            transform: translateY(100%);
-            animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .hero-title .line:nth-child(2) .word {
-            animation-delay: 0.1s;
-        }
-
-        .hero-title .line:nth-child(3) .word {
-            animation-delay: 0.2s;
-        }
-
-        @keyframes slideUp {
-            to { transform: translateY(0); }
+            font-family: 'Space Mono', monospace;
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
         }
 
         .hero-title em {
-            font-style: italic;
+            font-style: normal;
             color: var(--neural);
             text-shadow: 0 0 60px var(--neural-glow);
         }
 
-        .hero-desc {
-            font-size: 17px;
+        .hero-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(20px, 3vw, 28px);
+            font-style: italic;
             color: var(--bone-dim);
-            max-width: 480px;
+            margin-bottom: 32px;
+            line-height: 1.4;
+        }
+
+        .hero-desc {
+            font-size: 15px;
+            color: var(--graphite);
+            max-width: 520px;
             line-height: 1.9;
-            margin-bottom: 48px;
+            margin-bottom: 40px;
         }
 
         .hero-desc strong {
@@ -279,116 +305,82 @@
             background: rgba(232, 228, 220, 0.05);
         }
 
-        /* Hero visual */
+        /* Hero visual - Equation style */
         .hero-right {
             position: relative;
-            height: 600px;
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column;
+            gap: 24px;
         }
 
-        .neural-viz {
+        .equation-card {
+            background: rgba(5, 8, 16, 0.8);
+            border: 1px solid rgba(0, 229, 255, 0.15);
+            padding: 24px 28px;
+            font-family: 'Space Mono', monospace;
             position: relative;
-            width: 100%;
-            height: 100%;
         }
 
-        .blob {
+        .equation-card::before {
+            content: attr(data-label);
             position: absolute;
-            border-radius: 50%;
-            filter: blur(60px);
-            animation: morph 15s ease-in-out infinite;
+            top: -8px;
+            left: 16px;
+            font-size: 8px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--neural);
+            background: var(--void);
+            padding: 0 8px;
         }
 
-        .blob-1 {
-            width: 400px;
-            height: 400px;
-            background: var(--neural);
-            opacity: 0.3;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        .equation {
+            font-size: 18px;
+            color: var(--bone);
+            margin-bottom: 8px;
+            font-style: italic;
         }
 
-        .blob-2 {
-            width: 300px;
-            height: 300px;
-            background: var(--synapse);
-            opacity: 0.2;
-            top: 30%;
-            left: 60%;
-            animation-delay: -5s;
+        .equation-desc {
+            font-size: 10px;
+            color: var(--graphite);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .blob-3 {
-            width: 200px;
-            height: 200px;
-            background: var(--neural);
-            opacity: 0.4;
-            top: 60%;
-            left: 30%;
-            animation-delay: -10s;
-        }
-
-        @keyframes morph {
-            0%, 100% {
-                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
-                transform: translate(-50%, -50%) rotate(0deg) scale(1);
-            }
-            25% {
-                border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
-                transform: translate(-50%, -50%) rotate(90deg) scale(1.1);
-            }
-            50% {
-                border-radius: 50% 60% 30% 60% / 40% 30% 70% 50%;
-                transform: translate(-50%, -50%) rotate(180deg) scale(0.95);
-            }
-            75% {
-                border-radius: 60% 40% 60% 30% / 70% 50% 40% 60%;
-                transform: translate(-50%, -50%) rotate(270deg) scale(1.05);
-            }
-        }
-
-        .stats-overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+        .stats-row {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 40px;
-            z-index: 2;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 16px;
         }
 
-        .stat {
-            text-align: center;
-            padding: 24px;
-            background: rgba(5, 8, 16, 0.7);
-            backdrop-filter: blur(20px);
+        .stat-mini {
+            background: rgba(0, 229, 255, 0.05);
             border: 1px solid rgba(0, 229, 255, 0.1);
+            padding: 16px;
+            text-align: center;
         }
 
-        .stat-value {
+        .stat-mini .value {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 48px;
+            font-size: 32px;
             font-weight: 600;
             color: var(--bone);
             line-height: 1;
         }
 
-        .stat-value span {
+        .stat-mini .value span {
             color: var(--neural);
-            font-size: 24px;
+            font-size: 16px;
         }
 
-        .stat-label {
-            font-family: 'Space Mono', monospace;
-            font-size: 9px;
+        .stat-mini .label {
+            font-size: 8px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             color: var(--graphite);
-            margin-top: 8px;
+            margin-top: 6px;
         }
 
         /* Manifesto Section */
@@ -475,18 +467,35 @@
             z-index: 1;
         }
 
+        .walls-header {
+            max-width: 1400px;
+            margin: 0 auto 48px;
+        }
+
+        .walls-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(32px, 4vw, 48px);
+            font-weight: 400;
+            margin-bottom: 16px;
+        }
+
+        .walls-header p {
+            color: var(--graphite);
+            max-width: 600px;
+        }
+
         .walls-grid {
             max-width: 1400px;
             margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 2px;
             background: rgba(0, 229, 255, 0.1);
         }
 
         .wall-card {
             background: var(--void);
-            padding: 48px;
+            padding: 40px 32px;
             position: relative;
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -512,35 +521,24 @@
             background: var(--void-light);
         }
 
-        .wall-icon {
-            width: 48px;
-            height: 48px;
-            margin-bottom: 32px;
-            stroke: var(--neural);
-            stroke-width: 1;
-            fill: none;
-        }
-
-        .wall-title {
+        .wall-number {
             font-family: 'Space Mono', monospace;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--synapse);
+            font-size: 10px;
+            color: var(--graphite);
             margin-bottom: 16px;
         }
 
         .wall-name {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 28px;
+            font-size: 22px;
             font-weight: 600;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             color: var(--bone);
         }
 
         .wall-desc {
-            font-size: 14px;
-            line-height: 1.8;
+            font-size: 13px;
+            line-height: 1.7;
             color: var(--graphite);
         }
 
@@ -583,7 +581,7 @@
 
         .pillar {
             position: relative;
-            padding: 56px 40px;
+            padding: 48px 36px;
             background: var(--void);
             border: 1px solid rgba(232, 228, 220, 0.06);
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -596,46 +594,48 @@
 
         .pillar-number {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 120px;
+            font-size: 100px;
             font-weight: 400;
             color: var(--neural);
             opacity: 0.08;
             position: absolute;
-            top: 20px;
-            right: 30px;
+            top: 16px;
+            right: 24px;
             line-height: 1;
-        }
-
-        .pillar-icon {
-            width: 56px;
-            height: 56px;
-            margin-bottom: 32px;
-            position: relative;
-        }
-
-        .pillar-icon svg {
-            width: 100%;
-            height: 100%;
-            stroke: var(--neural);
-            stroke-width: 1;
-            fill: none;
         }
 
         .pillar h3 {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 600;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
             color: var(--bone);
         }
 
         .pillar p {
-            font-size: 14px;
-            line-height: 1.9;
+            font-size: 13px;
+            line-height: 1.8;
             color: var(--graphite);
+            margin-bottom: 20px;
         }
 
-        /* Diagram Section */
+        .pillar-equation {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            color: var(--graphite);
+            background: rgba(0, 229, 255, 0.05);
+            padding: 12px 16px;
+            border-left: 2px solid var(--neural);
+            margin-top: 16px;
+        }
+
+        .pillar-equation .eq {
+            color: var(--bone);
+            font-style: italic;
+            margin-bottom: 4px;
+        }
+
+        /* Diagram Section - Control Theory Style */
         .diagram {
             padding: 160px 48px;
             position: relative;
@@ -661,9 +661,20 @@
 
         .diagram-visual {
             position: relative;
-            padding: 80px;
+            padding: 60px;
             background: var(--void-light);
             border: 1px solid rgba(0, 229, 255, 0.1);
+        }
+
+        .diagram-label {
+            position: absolute;
+            top: 16px;
+            left: 20px;
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--graphite);
         }
 
         .diagram-visual::before,
@@ -691,9 +702,103 @@
 
         .diagram-svg {
             width: 100%;
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
             display: block;
+        }
+
+        /* Roadmap Section */
+        .roadmap {
+            padding: 160px 48px;
+            background: var(--void-light);
+            position: relative;
+            z-index: 1;
+        }
+
+        .roadmap-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .roadmap-header {
+            margin-bottom: 64px;
+        }
+
+        .roadmap-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 400;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+        }
+
+        .roadmap-header p {
+            color: var(--graphite);
+            max-width: 600px;
+        }
+
+        .roadmap-phases {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .phase {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 48px;
+            padding: 40px;
+            background: var(--void);
+            border: 1px solid rgba(232, 228, 220, 0.06);
+            position: relative;
+        }
+
+        .phase::before {
+            content: '';
+            position: absolute;
+            left: 200px;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: rgba(0, 229, 255, 0.2);
+        }
+
+        .phase-meta {
+            padding-right: 32px;
+        }
+
+        .phase-number {
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--synapse);
+            margin-bottom: 12px;
+        }
+
+        .phase-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--bone);
+            margin-bottom: 16px;
+        }
+
+        .phase-specs {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            color: var(--graphite);
+            line-height: 2;
+        }
+
+        .phase-specs span {
+            color: var(--neural);
+        }
+
+        .phase-content p {
+            font-size: 14px;
+            line-height: 1.9;
+            color: var(--bone-dim);
         }
 
         /* CTA Section */
@@ -731,6 +836,14 @@
             max-width: 600px;
             margin: 0 auto 48px;
             line-height: 1.9;
+        }
+
+        .cta-text.janitor {
+            background: rgba(255, 107, 53, 0.1);
+            border-left: 3px solid var(--synapse);
+            padding: 24px 32px;
+            text-align: left;
+            font-style: italic;
         }
 
         .cta-email {
@@ -807,20 +920,29 @@
                 gap: 60px;
             }
 
-            .hero-right {
-                height: 400px;
-            }
-
             .manifesto-text {
                 columns: 1;
             }
 
             .walls-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .pillars {
                 grid-template-columns: 1fr;
+            }
+
+            .phase {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+
+            .phase::before {
+                display: none;
+            }
+
+            .watts-counter {
+                display: none;
             }
         }
 
@@ -841,21 +963,17 @@
             .walls,
             .trinity,
             .diagram,
+            .roadmap,
             .cta {
                 padding: 100px 24px;
             }
 
-            .stats-overlay {
-                grid-template-columns: 1fr 1fr;
-                gap: 16px;
+            .walls-grid {
+                grid-template-columns: 1fr;
             }
 
-            .stat {
-                padding: 16px;
-            }
-
-            .stat-value {
-                font-size: 32px;
+            .stats-row {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -875,11 +993,21 @@
 <body>
     <canvas id="liquid-canvas"></canvas>
 
+    <!-- Fixed Watts Counter -->
+    <div class="watts-counter">
+        <div class="label">Global AI Power</div>
+        <div class="value" id="global-watts">~450 MW</div>
+        <div class="divider"></div>
+        <div class="label">20n Target</div>
+        <div class="target">20 W</div>
+    </div>
+
     <nav>
         <div class="logo">20n</div>
         <div class="nav-links">
             <a href="#manifesto">Manifesto</a>
             <a href="#architecture">Architecture</a>
+            <a href="#roadmap">Roadmap</a>
             <a href="#join">Join</a>
         </div>
     </nav>
@@ -889,14 +1017,15 @@
             <div class="hero-left">
                 <div class="hero-label">Research Laboratory</div>
                 <h1 class="hero-title">
-                    <span class="line"><span class="word">The End of</span></span>
-                    <span class="line"><span class="word"><em>Static</em></span></span>
-                    <span class="line"><span class="word">Intelligence</span></span>
+                    <em>Computational</em><br>Biology on Silicon
                 </h1>
+                <p class="hero-subtitle">
+                    Solving the 20-Watt AGI paradox via Liquid Networks.
+                </p>
                 <p class="hero-desc">
                     We don't build AI that reads. <strong>We build AI that lives.</strong>
-                    A pathway to liquid, embodied AGI through active inference and
-                    neuromorphic efficiency.
+                    Embodied intelligence through active inference, differential equations,
+                    and neuromorphic efficiency.
                 </p>
                 <div class="hero-cta">
                     <a href="manifesto.html" class="btn btn-primary">Download Manifesto</a>
@@ -904,27 +1033,26 @@
                 </div>
             </div>
             <div class="hero-right">
-                <div class="neural-viz">
-                    <div class="blob blob-1"></div>
-                    <div class="blob blob-2"></div>
-                    <div class="blob blob-3"></div>
-                    <div class="stats-overlay">
-                        <div class="stat">
-                            <div class="stat-value">20<span>W</span></div>
-                            <div class="stat-label">Target Power</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">1000<span>x</span></div>
-                            <div class="stat-label">More Efficient</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value">1<span>shot</span></div>
-                            <div class="stat-label">Learning</div>
-                        </div>
-                        <div class="stat">
-                            <div class="stat-value"><span>∞</span></div>
-                            <div class="stat-label">Adaptability</div>
-                        </div>
+                <div class="equation-card" data-label="Liquid State">
+                    <div class="equation">dx/dt = f(x, u, t, θ)</div>
+                    <div class="equation-desc">Continuous-time neural dynamics</div>
+                </div>
+                <div class="equation-card" data-label="Free Energy">
+                    <div class="equation">F = E[log q(θ)] - E[log p(y,θ)]</div>
+                    <div class="equation-desc">Variational free energy minimization</div>
+                </div>
+                <div class="stats-row">
+                    <div class="stat-mini">
+                        <div class="value">20<span>W</span></div>
+                        <div class="label">Target</div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="value">1000<span>x</span></div>
+                        <div class="label">Efficiency</div>
+                    </div>
+                    <div class="stat-mini">
+                        <div class="value">&lt;10<span>k</span></div>
+                        <div class="label">Parameters</div>
                     </div>
                 </div>
             </div>
@@ -937,10 +1065,10 @@
                 <span class="section-number">01</span>
                 <span class="section-title">The Problem</span>
             </div>
-            <h2 class="reveal">Large Language Models have reached their <em>asymptote</em>.</h2>
+            <h2 class="reveal">They build <em>monuments</em>.<br>We build <em>organisms</em>.</h2>
             <div class="manifesto-text reveal">
                 <p>
-                    They rest on a false hypothesis: that intelligence is a <strong>static compression of past data</strong>.
+                    Large Language Models rest on a false hypothesis: that intelligence is a <strong>static compression of past data</strong>.
                     This paradigm is energetically unsustainable and structurally incapable of acting in the dynamic physical world.
                 </p>
                 <p>
@@ -960,42 +1088,44 @@
     </section>
 
     <section class="walls">
+        <div class="walls-header">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <span class="section-title">The Walls</span>
+            </div>
+            <h2 class="reveal">Four fundamental limits of current AI.</h2>
+        </div>
         <div class="walls-grid">
             <div class="wall-card reveal">
-                <svg class="wall-icon" viewBox="0 0 48 48">
-                    <circle cx="24" cy="24" r="18"/>
-                    <path d="M24 12v24M16 20l8-8 8 8M16 28l8 8 8-8"/>
-                </svg>
-                <div class="wall-title">The Wall</div>
-                <div class="wall-name">Energy Crisis</div>
+                <div class="wall-number">01</div>
+                <div class="wall-name">Energy Wall</div>
                 <p class="wall-desc">
-                    Scaling Transformers requires more energy than global production allows.
+                    Scaling Transformers requires more energy than global production allows by 2030.
                     They're melting the grid for chatbots.
                 </p>
             </div>
             <div class="wall-card reveal">
-                <svg class="wall-icon" viewBox="0 0 48 48">
-                    <rect x="8" y="8" width="32" height="32" rx="4"/>
-                    <line x1="16" y1="16" x2="32" y2="32"/>
-                    <line x1="32" y1="16" x2="16" y2="32"/>
-                </svg>
-                <div class="wall-title">The Wall</div>
-                <div class="wall-name">Data Exhaustion</div>
+                <div class="wall-number">02</div>
+                <div class="wall-name">Data Wall</div>
                 <p class="wall-desc">
                     They've read the entire internet. There's nothing left.
-                    The well is dry.
+                    The well is dry. Quality data is exhausted.
                 </p>
             </div>
             <div class="wall-card reveal">
-                <svg class="wall-icon" viewBox="0 0 48 48">
-                    <path d="M24 6c-9.94 0-18 8.06-18 18s8.06 18 18 18 18-8.06 18-18"/>
-                    <path d="M24 6v18l12.73 7.35"/>
-                </svg>
-                <div class="wall-title">The Wall</div>
-                <div class="wall-name">Latency Death</div>
+                <div class="wall-number">03</div>
+                <div class="wall-name">Latency Wall</div>
                 <p class="wall-desc">
                     A robot can't wait 500ms for the Cloud.
-                    Intelligence must live at the edge.
+                    Intelligence must live at the edge. Real-time or death.
+                </p>
+            </div>
+            <div class="wall-card reveal">
+                <div class="wall-number">04</div>
+                <div class="wall-name">Physics Wall</div>
+                <p class="wall-desc">
+                    LLMs have no notion of causality or Newtonian physics. They hallucinate reality.
+                    20n integrates ODEs as computational primitives. Our models don't predict physics—they <em>are</em> physics.
                 </p>
             </div>
         </div>
@@ -1004,7 +1134,7 @@
     <section class="trinity" id="architecture">
         <div class="trinity-header">
             <div class="section-header" style="justify-content: center; margin-bottom: 32px;">
-                <span class="section-number">02</span>
+                <span class="section-number">03</span>
                 <span class="section-title">The Trinity</span>
             </div>
             <h2 class="reveal">Neuro-Symbolic<br>Liquid Architecture</h2>
@@ -1013,50 +1143,40 @@
         <div class="pillars">
             <div class="pillar reveal">
                 <span class="pillar-number">01</span>
-                <div class="pillar-icon">
-                    <svg viewBox="0 0 56 56">
-                        <path d="M28 8c-11.046 0-20 8.954-20 20s8.954 20 20 20 20-8.954 20-20"/>
-                        <circle cx="28" cy="28" r="8"/>
-                        <path d="M28 8v12M28 36v12"/>
-                    </svg>
-                </div>
                 <h3>Liquid Neural Networks</h3>
                 <p>
                     Instead of static neuron layers, we use differential equations. The network is "liquid"—
                     its parameters change during inference, not just training. It adapts without retraining.
                 </p>
+                <div class="pillar-equation">
+                    <div class="eq">dx/dt = -x/τ + f(x)·σ(Wx + b)</div>
+                    Neural ODE with time-varying dynamics
+                </div>
             </div>
             <div class="pillar reveal">
                 <span class="pillar-number">02</span>
-                <div class="pillar-icon">
-                    <svg viewBox="0 0 56 56">
-                        <circle cx="28" cy="28" r="20"/>
-                        <circle cx="28" cy="28" r="12"/>
-                        <circle cx="28" cy="28" r="4"/>
-                    </svg>
-                </div>
                 <h3>Active Inference</h3>
                 <p>
-                    The AI doesn't maximize reward. It minimizes surprise. It has an internal world model
-                    and acts to make reality match predictions. This is how biological brains work.
+                    Reward functions are sparse and brittle. We minimize <strong>Free Energy (Surprise)</strong>.
+                    The agent has an internal world model and acts to make reality match predictions.
+                    This is how biological brains work—Friston's Free Energy Principle.
                 </p>
+                <div class="pillar-equation">
+                    <div class="eq">F = D_KL[q(θ)||p(θ|y)] + log p(y)</div>
+                    Variational inference as action selection
+                </div>
             </div>
             <div class="pillar reveal">
                 <span class="pillar-number">03</span>
-                <div class="pillar-icon">
-                    <svg viewBox="0 0 56 56">
-                        <path d="M8 28h40"/>
-                        <circle cx="16" cy="28" r="4"/>
-                        <circle cx="28" cy="28" r="4"/>
-                        <circle cx="40" cy="28" r="4"/>
-                        <path d="M16 20v-8M28 20v-8M40 20v-8M16 36v8M28 36v8M40 36v8"/>
-                    </svg>
-                </div>
                 <h3>Spiking Networks</h3>
                 <p>
                     Information transmits only when necessary—via spikes, like electrical impulses in the brain.
-                    Result: 20W consumption vs 20,000W for GPU clusters.
+                    Event-driven computation. Result: 20W consumption vs 20,000W for GPU clusters.
                 </p>
+                <div class="pillar-equation">
+                    <div class="eq">V(t) = V_rest + Σ w_i · δ(t - t_i)</div>
+                    Spike-timing dependent plasticity
+                </div>
             </div>
         </div>
     </section>
@@ -1065,60 +1185,141 @@
         <div class="diagram-container">
             <div class="diagram-header">
                 <div class="section-header" style="justify-content: center; margin-bottom: 32px;">
-                    <span class="section-number">03</span>
+                    <span class="section-number">04</span>
                     <span class="section-title">The Loop</span>
                 </div>
-                <h2 class="reveal">Entropy Minimization Cycle</h2>
+                <h2 class="reveal">Active Inference Control Loop</h2>
             </div>
             <div class="diagram-visual reveal">
-                <svg class="diagram-svg" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Animated circles -->
-                    <circle cx="250" cy="200" r="160" fill="none" stroke="rgba(0,229,255,0.1)" stroke-width="1">
-                        <animate attributeName="r" values="160;165;160" dur="4s" repeatCount="indefinite"/>
-                    </circle>
-                    <circle cx="250" cy="200" r="100" fill="none" stroke="rgba(0,229,255,0.05)" stroke-width="1">
-                        <animate attributeName="r" values="100;105;100" dur="3s" repeatCount="indefinite"/>
-                    </circle>
+                <div class="diagram-label">Fig. 1 — Closed-loop perception-action cycle</div>
+                <svg class="diagram-svg" viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Grid background -->
+                    <defs>
+                        <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(0,229,255,0.05)" stroke-width="0.5"/>
+                        </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#grid)"/>
 
-                    <!-- Center -->
-                    <rect x="190" y="165" width="120" height="70" rx="4" fill="rgba(0,229,255,0.05)" stroke="rgba(0,229,255,0.3)" stroke-width="1"/>
-                    <text x="250" y="193" text-anchor="middle" fill="#00e5ff" font-family="Space Mono, monospace" font-size="9" letter-spacing="1">ENTROPY</text>
-                    <text x="250" y="210" text-anchor="middle" fill="#e8e4dc" font-family="Space Mono, monospace" font-size="9" letter-spacing="1">MINIMIZATION</text>
+                    <!-- Main blocks - Control Theory style -->
+                    <!-- Generative Model -->
+                    <rect x="250" y="30" width="200" height="60" fill="none" stroke="#00e5ff" stroke-width="1"/>
+                    <text x="350" y="55" text-anchor="middle" fill="#00e5ff" font-family="Space Mono, monospace" font-size="10" letter-spacing="1">GENERATIVE MODEL</text>
+                    <text x="350" y="72" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="8">p(y, θ)</text>
 
-                    <!-- Top node -->
-                    <rect x="175" y="20" width="150" height="55" rx="4" fill="rgba(5,8,16,0.9)" stroke="rgba(0,229,255,0.2)" stroke-width="1"/>
-                    <text x="250" y="43" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="8" letter-spacing="1">GENERATIVE</text>
-                    <text x="250" y="58" text-anchor="middle" fill="#e8e4dc" font-family="Cormorant Garamond, serif" font-size="14">World Model</text>
+                    <!-- Free Energy Minimizer -->
+                    <rect x="250" y="170" width="200" height="60" fill="rgba(0,229,255,0.1)" stroke="#00e5ff" stroke-width="2"/>
+                    <text x="350" y="195" text-anchor="middle" fill="#e8e4dc" font-family="Space Mono, monospace" font-size="10" letter-spacing="1">FREE ENERGY</text>
+                    <text x="350" y="212" text-anchor="middle" fill="#00e5ff" font-family="Space Mono, monospace" font-size="9">argmin F(q, y)</text>
 
-                    <!-- Bottom node -->
-                    <rect x="175" y="325" width="150" height="55" rx="4" fill="rgba(5,8,16,0.9)" stroke="rgba(255,107,53,0.2)" stroke-width="1"/>
-                    <text x="250" y="348" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="8" letter-spacing="1">PHYSICAL</text>
-                    <text x="250" y="363" text-anchor="middle" fill="#e8e4dc" font-family="Cormorant Garamond, serif" font-size="14">Environment</text>
+                    <!-- Environment -->
+                    <rect x="250" y="310" width="200" height="60" fill="none" stroke="#ff6b35" stroke-width="1"/>
+                    <text x="350" y="335" text-anchor="middle" fill="#ff6b35" font-family="Space Mono, monospace" font-size="10" letter-spacing="1">ENVIRONMENT</text>
+                    <text x="350" y="352" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="8">Physical World</text>
 
                     <!-- Arrows -->
                     <defs>
-                        <marker id="arrow-cyan" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                            <polygon points="0 0, 10 3.5, 0 7" fill="#00e5ff"/>
+                        <marker id="arr1" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                            <polygon points="0 0, 8 3, 0 6" fill="#00e5ff"/>
                         </marker>
-                        <marker id="arrow-orange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                            <polygon points="0 0, 10 3.5, 0 7" fill="#ff6b35"/>
+                        <marker id="arr2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                            <polygon points="0 0, 8 3, 0 6" fill="#ff6b35"/>
                         </marker>
                     </defs>
 
-                    <!-- Right arrow -->
-                    <path d="M 325 75 Q 420 200 325 325" fill="none" stroke="#00e5ff" stroke-width="1" stroke-dasharray="4,4" marker-end="url(#arrow-cyan)">
-                        <animate attributeName="stroke-dashoffset" values="0;-16" dur="1s" repeatCount="indefinite"/>
-                    </path>
-                    <text x="430" y="195" text-anchor="middle" fill="#00e5ff" font-family="Space Mono, monospace" font-size="8" letter-spacing="1">PREDICTIONS</text>
-                    <text x="430" y="210" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="8">/ action</text>
+                    <!-- Vertical connections -->
+                    <line x1="350" y1="90" x2="350" y2="170" stroke="#00e5ff" stroke-width="1" marker-end="url(#arr1)"/>
+                    <line x1="350" y1="230" x2="350" y2="310" stroke="#00e5ff" stroke-width="1" marker-end="url(#arr1)"/>
 
-                    <!-- Left arrow -->
-                    <path d="M 175 325 Q 80 200 175 75" fill="none" stroke="#ff6b35" stroke-width="1" stroke-dasharray="4,4" marker-end="url(#arrow-orange)">
-                        <animate attributeName="stroke-dashoffset" values="0;-16" dur="1s" repeatCount="indefinite"/>
-                    </path>
-                    <text x="70" y="195" text-anchor="middle" fill="#ff6b35" font-family="Space Mono, monospace" font-size="8" letter-spacing="1">SENSORY</text>
-                    <text x="70" y="210" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="8">/ surprise</text>
+                    <!-- Feedback loops -->
+                    <!-- Right side - Action -->
+                    <path d="M 450 200 L 550 200 L 550 340 L 450 340" fill="none" stroke="#00e5ff" stroke-width="1" marker-end="url(#arr1)"/>
+                    <text x="580" y="270" text-anchor="middle" fill="#00e5ff" font-family="Space Mono, monospace" font-size="9" letter-spacing="1">ACTION</text>
+                    <text x="580" y="285" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="8">a(t)</text>
+
+                    <!-- Left side - Sensory -->
+                    <path d="M 250 340 L 150 340 L 150 200 L 250 200" fill="none" stroke="#ff6b35" stroke-width="1" marker-end="url(#arr2)"/>
+                    <text x="120" y="270" text-anchor="middle" fill="#ff6b35" font-family="Space Mono, monospace" font-size="9" letter-spacing="1">SENSORY</text>
+                    <text x="120" y="285" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="8">y(t)</text>
+
+                    <!-- Labels -->
+                    <text x="380" y="135" text-anchor="start" fill="#6b7280" font-family="Space Mono, monospace" font-size="8">predictions</text>
+                    <text x="380" y="275" text-anchor="start" fill="#6b7280" font-family="Space Mono, monospace" font-size="8">commands</text>
+
+                    <!-- Summing junction -->
+                    <circle cx="350" cy="200" r="15" fill="var(--void)" stroke="#00e5ff" stroke-width="1"/>
+                    <text x="350" y="204" text-anchor="middle" fill="#00e5ff" font-family="Space Mono, monospace" font-size="12">Σ</text>
                 </svg>
+            </div>
+        </div>
+    </section>
+
+    <section class="roadmap" id="roadmap">
+        <div class="roadmap-container">
+            <div class="roadmap-header">
+                <div class="section-header">
+                    <span class="section-number">05</span>
+                    <span class="section-title">The Protocol</span>
+                </div>
+                <h2 class="reveal">Research Roadmap</h2>
+                <p class="reveal">From mathematical foundations to embodied synthetic life.</p>
+            </div>
+            <div class="roadmap-phases">
+                <div class="phase reveal">
+                    <div class="phase-meta">
+                        <div class="phase-number">Phase 01</div>
+                        <div class="phase-name">The Silica Worm</div>
+                        <div class="phase-specs">
+                            Platform: <span>MuJoCo</span><br>
+                            Parameters: <span>&lt; 10k</span><br>
+                            Training: <span>Zero-shot</span>
+                        </div>
+                    </div>
+                    <div class="phase-content">
+                        <p>
+                            Autonomous navigation in chaotic simulated environments. A simple digital organism
+                            capable of learning to move through wind, moving obstacles, and terrain changes
+                            with zero pre-training—only through curiosity and free energy minimization.
+                            Proof of architectural efficiency with 100x less data than traditional RL approaches.
+                        </p>
+                    </div>
+                </div>
+                <div class="phase reveal">
+                    <div class="phase-meta">
+                        <div class="phase-number">Phase 02</div>
+                        <div class="phase-name">Ghost in the Shell</div>
+                        <div class="phase-specs">
+                            Hardware: <span>Unitree Go2</span><br>
+                            Latency: <span>&lt; 5ms</span><br>
+                            Transfer: <span>Sim2Real</span>
+                        </div>
+                    </div>
+                    <div class="phase-content">
+                        <p>
+                            Simulation to Reality transfer. Integration of the 20n liquid brain into physical
+                            robotic hardware. The robot learns to grasp unknown objects in under 10 seconds.
+                            Traditional approaches require hours of training. We require one demonstration.
+                        </p>
+                    </div>
+                </div>
+                <div class="phase reveal">
+                    <div class="phase-meta">
+                        <div class="phase-number">Phase 03</div>
+                        <div class="phase-name">Apex Humanoid</div>
+                        <div class="phase-specs">
+                            Power: <span>20W</span><br>
+                            Learning: <span>Continuous</span><br>
+                            Environment: <span>Unstructured</span>
+                        </div>
+                    </div>
+                    <div class="phase-content">
+                        <p>
+                            Construction of proprietary embodied intelligence. The first synthetic life form
+                            capable of continuous learning in unstructured environments, operating entirely
+                            at the edge with 20W power consumption. No cloud. No latency. Pure autonomy.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1126,9 +1327,9 @@
     <section class="cta" id="join">
         <div class="cta-container">
             <h2 class="reveal">Join the<br><em>Resistance</em></h2>
-            <p class="cta-text reveal">
-                Most AI researchers have become data janitors, cleaning datasets to feed voracious monsters.
-                If you want to tune hyperparameters, stay at Google.
+            <p class="cta-text janitor reveal">
+                Most AI researchers today have become data janitors, cleaning datasets to feed voracious monsters.
+                If you want to tune hyperparameters on LLMs, stay at Google.
             </p>
             <p class="cta-text reveal">
                 But if you want to solve intelligence, understand consciousness, and create synthetic life
@@ -1148,7 +1349,7 @@
     <footer>
         <div class="footer-content">
             <div class="footer-logo">20n_</div>
-            <div class="footer-text">Building liquid intelligence with 20 Watts</div>
+            <div class="footer-text">Computational Biology on Silicon</div>
         </div>
     </footer>
 
@@ -1165,9 +1366,10 @@
 
         reveals.forEach(el => observer.observe(el));
 
-        // Liquid canvas animation
+        // Interactive liquid canvas with mouse reaction
         const canvas = document.getElementById('liquid-canvas');
         const ctx = canvas.getContext('2d');
+        let mouse = { x: null, y: null, radius: 150 };
 
         function resize() {
             canvas.width = window.innerWidth;
@@ -1176,6 +1378,16 @@
         resize();
         window.addEventListener('resize', resize);
 
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+        });
+
+        window.addEventListener('mouseout', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
         class Particle {
             constructor() {
                 this.reset();
@@ -1183,14 +1395,38 @@
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
+                this.baseX = this.x;
+                this.baseY = this.y;
                 this.vx = (Math.random() - 0.5) * 0.3;
                 this.vy = (Math.random() - 0.5) * 0.3;
                 this.radius = Math.random() * 2 + 0.5;
                 this.alpha = Math.random() * 0.3 + 0.1;
             }
             update() {
+                // Mouse interaction
+                if (mouse.x !== null && mouse.y !== null) {
+                    const dx = mouse.x - this.x;
+                    const dy = mouse.y - this.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < mouse.radius) {
+                        const force = (mouse.radius - dist) / mouse.radius;
+                        this.vx -= (dx / dist) * force * 0.5;
+                        this.vy -= (dy / dist) * force * 0.5;
+                    }
+                }
+
+                // Drift back to base position
+                this.vx += (this.baseX - this.x) * 0.001;
+                this.vy += (this.baseY - this.y) * 0.001;
+
+                // Damping
+                this.vx *= 0.98;
+                this.vy *= 0.98;
+
                 this.x += this.vx;
                 this.y += this.vy;
+
+                // Bounds
                 if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
                 if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
             }
@@ -1202,7 +1438,7 @@
             }
         }
 
-        const particles = Array.from({ length: 80 }, () => new Particle());
+        const particles = Array.from({ length: 100 }, () => new Particle());
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -1218,11 +1454,11 @@
                     const dx = p1.x - p2.x;
                     const dy = p1.y - p2.y;
                     const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 150) {
+                    if (dist < 120) {
                         ctx.beginPath();
                         ctx.moveTo(p1.x, p1.y);
                         ctx.lineTo(p2.x, p2.y);
-                        ctx.strokeStyle = `rgba(0, 229, 255, ${0.1 * (1 - dist / 150)})`;
+                        ctx.strokeStyle = `rgba(0, 229, 255, ${0.15 * (1 - dist / 120)})`;
                         ctx.lineWidth = 0.5;
                         ctx.stroke();
                     }
@@ -1232,6 +1468,14 @@
             requestAnimationFrame(animate);
         }
         animate();
+
+        // Animate watts counter
+        let currentWatts = 450;
+        setInterval(() => {
+            currentWatts += (Math.random() - 0.5) * 10;
+            currentWatts = Math.max(400, Math.min(500, currentWatts));
+            document.getElementById('global-watts').textContent = `~${Math.round(currentWatts)} MW`;
+        }, 2000);
     </script>
 </body>
 </html>
