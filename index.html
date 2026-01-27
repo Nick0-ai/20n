@@ -49,9 +49,63 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            opacity: 0.035;
+            opacity: 0.04;
             z-index: 9999;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* Scanlines overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.03) 2px,
+                rgba(0, 0, 0, 0.03) 4px
+            );
+        }
+
+        /* Glitch effect for titles */
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+
+        @keyframes glitch-skew {
+            0%, 100% { transform: skew(0deg); }
+            20% { transform: skew(-0.5deg); }
+            40% { transform: skew(0.5deg); }
+            60% { transform: skew(-0.3deg); }
+            80% { transform: skew(0.3deg); }
+        }
+
+        /* Animated gradient border */
+        @keyframes gradient-shift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Pulse glow */
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 229, 255, 0.1); }
+            50% { box-shadow: 0 0 40px rgba(0, 229, 255, 0.25); }
+        }
+
+        /* Float animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
 
         /* Fixed Watts Counter */
@@ -220,12 +274,46 @@
             letter-spacing: -1px;
             margin-bottom: 16px;
             text-transform: uppercase;
+            position: relative;
+        }
+
+        .hero-title:hover {
+            animation: glitch-skew 0.3s ease;
         }
 
         .hero-title em {
             font-style: normal;
             color: var(--neural);
-            text-shadow: 0 0 60px var(--neural-glow);
+            text-shadow:
+                0 0 60px var(--neural-glow),
+                0 0 120px rgba(0, 229, 255, 0.2);
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-title em::before,
+        .hero-title em::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+        }
+
+        .hero-title:hover em::before {
+            animation: glitch 0.3s ease;
+            color: var(--synapse);
+            opacity: 0.8;
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+        }
+
+        .hero-title:hover em::after {
+            animation: glitch 0.3s ease reverse;
+            color: var(--neural);
+            opacity: 0.8;
+            clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
         }
 
         .hero-subtitle {
@@ -297,12 +385,34 @@
         .btn-ghost {
             color: var(--bone-dim);
             border: 1px solid rgba(232, 228, 220, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-ghost::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, var(--neural-dim) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0;
+        }
+
+        .btn-ghost:hover::before {
+            width: 300px;
+            height: 300px;
+            opacity: 1;
         }
 
         .btn-ghost:hover {
-            color: var(--bone);
-            border-color: var(--bone);
-            background: rgba(232, 228, 220, 0.05);
+            color: var(--neural);
+            border-color: var(--neural);
+            text-shadow: 0 0 20px var(--neural-glow);
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
         }
 
         /* Hero visual - Equation style */
@@ -314,11 +424,42 @@
         }
 
         .equation-card {
-            background: rgba(5, 8, 16, 0.8);
-            border: 1px solid rgba(0, 229, 255, 0.15);
+            background: rgba(5, 8, 16, 0.9);
+            border: 1px solid rgba(0, 229, 255, 0.2);
             padding: 24px 28px;
             font-family: 'Space Mono', monospace;
             position: relative;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: float 6s ease-in-out infinite;
+            backdrop-filter: blur(10px);
+        }
+
+        .equation-card:nth-child(2) {
+            animation-delay: -3s;
+        }
+
+        .equation-card::after {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            background: linear-gradient(135deg, var(--neural), transparent, var(--synapse));
+            background-size: 200% 200%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            animation: gradient-shift 4s ease infinite;
+        }
+
+        .equation-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            border-color: transparent;
+            box-shadow:
+                0 20px 60px rgba(0, 229, 255, 0.15),
+                0 0 0 1px rgba(0, 229, 255, 0.3);
+        }
+
+        .equation-card:hover::after {
+            opacity: 1;
         }
 
         .equation-card::before {
@@ -332,6 +473,12 @@
             color: var(--neural);
             background: var(--void);
             padding: 0 8px;
+            transition: all 0.3s ease;
+        }
+
+        .equation-card:hover::before {
+            color: var(--bone);
+            text-shadow: 0 0 10px var(--neural);
         }
 
         .equation {
@@ -339,6 +486,12 @@
             color: var(--bone);
             margin-bottom: 8px;
             font-style: italic;
+            transition: all 0.3s ease;
+        }
+
+        .equation-card:hover .equation {
+            color: var(--neural);
+            text-shadow: 0 0 20px var(--neural-glow);
         }
 
         .equation-desc {
@@ -498,6 +651,7 @@
             padding: 40px 32px;
             position: relative;
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
         }
 
         .wall-card::before {
@@ -507,18 +661,37 @@
             left: 0;
             width: 100%;
             height: 3px;
-            background: linear-gradient(90deg, var(--neural) 0%, transparent 100%);
+            background: linear-gradient(90deg, var(--neural) 0%, var(--synapse) 100%);
             transform: scaleX(0);
             transform-origin: left;
             transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .wall-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, var(--neural-dim) 0%, transparent 70%);
+            transform: translate(50%, 50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
 
         .wall-card:hover::before {
             transform: scaleX(1);
         }
 
+        .wall-card:hover::after {
+            opacity: 1;
+        }
+
         .wall-card:hover {
             background: var(--void-light);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
         }
 
         .wall-number {
@@ -585,11 +758,32 @@
             background: var(--void);
             border: 1px solid rgba(232, 228, 220, 0.06);
             transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
+        }
+
+        .pillar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--neural), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .pillar:hover::before {
+            transform: translateX(100%);
         }
 
         .pillar:hover {
-            border-color: var(--neural-dim);
+            border-color: rgba(0, 229, 255, 0.3);
             transform: translateY(-8px);
+            box-shadow:
+                0 30px 80px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(0, 229, 255, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
         }
 
         .pillar-number {
@@ -602,6 +796,12 @@
             top: 16px;
             right: 24px;
             line-height: 1;
+            transition: all 0.5s ease;
+        }
+
+        .pillar:hover .pillar-number {
+            opacity: 0.15;
+            transform: scale(1.1);
         }
 
         .pillar h3 {
