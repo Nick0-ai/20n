@@ -3,25 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>20n | The End of Static Intelligence</title>
+    <title>20n | Liquid Intelligence</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --void: #050810;
+            --void-light: #0a0f1c;
+            --neural: #00e5ff;
+            --neural-dim: rgba(0, 229, 255, 0.15);
+            --neural-glow: rgba(0, 229, 255, 0.4);
+            --synapse: #ff6b35;
+            --synapse-dim: rgba(255, 107, 53, 0.2);
+            --bone: #e8e4dc;
+            --bone-dim: rgba(232, 228, 220, 0.7);
+            --graphite: #6b7280;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        :root {
-            --bg-primary: #000000;
-            --bg-secondary: #0a0a0a;
-            --text-primary: #ffffff;
-            --text-secondary: #888888;
-            --accent: #ffffff;
-            --accent-dim: rgba(255, 255, 255, 0.1);
-            --border: rgba(255, 255, 255, 0.08);
         }
 
         html {
@@ -29,16 +32,16 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            font-family: 'Outfit', sans-serif;
+            background: var(--void);
+            color: var(--bone);
             min-height: 100vh;
             overflow-x: hidden;
             line-height: 1.6;
         }
 
-        /* Noise texture overlay */
-        body::before {
+        /* Grain overlay */
+        body::after {
             content: '';
             position: fixed;
             top: 0;
@@ -46,44 +49,21 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            opacity: 0.03;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-            z-index: 1000;
+            opacity: 0.035;
+            z-index: 9999;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
         }
 
-        /* Grid background */
-        .grid-bg {
+        /* Canvas for liquid animation */
+        #liquid-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image:
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 60px 60px;
             pointer-events: none;
             z-index: 0;
-        }
-
-        /* Gradient orb */
-        .orb {
-            position: fixed;
-            width: 800px;
-            height: 800px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
-            top: -400px;
-            right: -200px;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .orb-2 {
-            top: auto;
-            bottom: -400px;
-            left: -200px;
-            right: auto;
+            opacity: 0.6;
         }
 
         /* Navigation */
@@ -92,306 +72,572 @@
             top: 0;
             left: 0;
             right: 0;
-            padding: 24px 48px;
+            padding: 28px 48px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             z-index: 100;
-            backdrop-filter: blur(20px);
-            background: rgba(0,0,0,0.5);
-            border-bottom: 1px solid var(--border);
+            mix-blend-mode: difference;
         }
 
         .logo {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 24px;
+            font-family: 'Space Mono', monospace;
+            font-size: 20px;
             font-weight: 700;
+            color: var(--bone);
             letter-spacing: -1px;
-            color: var(--text-primary);
         }
 
-        .logo span {
-            opacity: 0.4;
+        .logo::after {
+            content: '_';
+            color: var(--neural);
+            animation: blink 1.2s step-end infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
         .nav-links {
             display: flex;
-            gap: 32px;
-            align-items: center;
+            gap: 40px;
         }
 
         .nav-links a {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            color: var(--text-secondary);
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            color: var(--bone-dim);
             text-decoration: none;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::before {
+            content: '//';
+            margin-right: 6px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .nav-links a:hover::before {
+            opacity: 1;
         }
 
         .nav-links a:hover {
-            color: var(--text-primary);
+            color: var(--neural);
         }
 
-        /* Hero Section */
+        /* Hero */
         .hero {
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            padding: 120px 48px 80px;
             position: relative;
             z-index: 1;
+            padding: 0 48px;
         }
 
-        .hero-content {
-            max-width: 900px;
-            text-align: center;
-        }
-
-        .status-badge {
-            display: inline-flex;
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
             align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: var(--accent-dim);
-            border: 1px solid var(--border);
-            border-radius: 100px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
+        }
+
+        .hero-left {
+            position: relative;
+        }
+
+        .hero-label {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 48px;
-            color: var(--text-secondary);
-        }
-
-        .status-badge::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: #00ff88;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        .hero h1 {
-            font-size: clamp(48px, 8vw, 96px);
-            font-weight: 700;
-            line-height: 1;
-            letter-spacing: -3px;
+            letter-spacing: 4px;
+            color: var(--neural);
             margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        .hero h1 .highlight {
-            background: linear-gradient(135deg, #fff 0%, #666 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .hero-label::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--neural);
         }
 
-        .hero-subtitle {
-            font-size: 18px;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin: 0 auto 48px;
-            line-height: 1.8;
+        .hero-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(56px, 8vw, 120px);
+            font-weight: 400;
+            line-height: 0.95;
+            letter-spacing: -2px;
+            margin-bottom: 40px;
+        }
+
+        .hero-title .line {
+            display: block;
+            overflow: hidden;
+        }
+
+        .hero-title .word {
+            display: inline-block;
+            transform: translateY(100%);
+            animation: slideUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        .hero-title .line:nth-child(2) .word {
+            animation-delay: 0.1s;
+        }
+
+        .hero-title .line:nth-child(3) .word {
+            animation-delay: 0.2s;
+        }
+
+        @keyframes slideUp {
+            to { transform: translateY(0); }
+        }
+
+        .hero-title em {
+            font-style: italic;
+            color: var(--neural);
+            text-shadow: 0 0 60px var(--neural-glow);
+        }
+
+        .hero-desc {
+            font-size: 17px;
+            color: var(--bone-dim);
+            max-width: 480px;
+            line-height: 1.9;
+            margin-bottom: 48px;
+        }
+
+        .hero-desc strong {
+            color: var(--bone);
+            font-weight: 500;
         }
 
         .hero-cta {
             display: flex;
-            gap: 16px;
-            justify-content: center;
-            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
         }
 
         .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            padding: 16px 32px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            font-weight: 500;
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            padding: 18px 32px;
             text-decoration: none;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            border: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-primary {
-            background: var(--text-primary);
-            color: var(--bg-primary);
+            background: var(--bone);
+            color: var(--void);
+            clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+        }
+
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--neural);
+            transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: -1;
+        }
+
+        .btn-primary:hover::before {
+            left: 0;
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 40px rgba(255,255,255,0.2);
+            color: var(--void);
         }
 
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-primary);
-            border: 1px solid var(--border);
+        .btn-ghost {
+            color: var(--bone-dim);
+            border: 1px solid rgba(232, 228, 220, 0.2);
         }
 
-        .btn-secondary:hover {
-            background: var(--accent-dim);
-            border-color: rgba(255,255,255,0.2);
+        .btn-ghost:hover {
+            color: var(--bone);
+            border-color: var(--bone);
+            background: rgba(232, 228, 220, 0.05);
         }
 
-        .btn svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        /* Stats Section */
-        .stats {
+        /* Hero visual */
+        .hero-right {
+            position: relative;
+            height: 600px;
             display: flex;
+            align-items: center;
             justify-content: center;
-            gap: 80px;
-            margin-top: 80px;
-            padding-top: 80px;
-            border-top: 1px solid var(--border);
+        }
+
+        .neural-viz {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            animation: morph 15s ease-in-out infinite;
+        }
+
+        .blob-1 {
+            width: 400px;
+            height: 400px;
+            background: var(--neural);
+            opacity: 0.3;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .blob-2 {
+            width: 300px;
+            height: 300px;
+            background: var(--synapse);
+            opacity: 0.2;
+            top: 30%;
+            left: 60%;
+            animation-delay: -5s;
+        }
+
+        .blob-3 {
+            width: 200px;
+            height: 200px;
+            background: var(--neural);
+            opacity: 0.4;
+            top: 60%;
+            left: 30%;
+            animation-delay: -10s;
+        }
+
+        @keyframes morph {
+            0%, 100% {
+                border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+                transform: translate(-50%, -50%) rotate(0deg) scale(1);
+            }
+            25% {
+                border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+                transform: translate(-50%, -50%) rotate(90deg) scale(1.1);
+            }
+            50% {
+                border-radius: 50% 60% 30% 60% / 40% 30% 70% 50%;
+                transform: translate(-50%, -50%) rotate(180deg) scale(0.95);
+            }
+            75% {
+                border-radius: 60% 40% 60% 30% / 70% 50% 40% 60%;
+                transform: translate(-50%, -50%) rotate(270deg) scale(1.05);
+            }
+        }
+
+        .stats-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            z-index: 2;
         }
 
         .stat {
             text-align: center;
+            padding: 24px;
+            background: rgba(5, 8, 16, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 229, 255, 0.1);
         }
 
         .stat-value {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Cormorant Garamond', serif;
             font-size: 48px;
-            font-weight: 700;
+            font-weight: 600;
+            color: var(--bone);
             line-height: 1;
-            margin-bottom: 8px;
+        }
+
+        .stat-value span {
+            color: var(--neural);
+            font-size: 24px;
         }
 
         .stat-label {
-            font-size: 12px;
+            font-family: 'Space Mono', monospace;
+            font-size: 9px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: var(--text-secondary);
+            color: var(--graphite);
+            margin-top: 8px;
         }
 
         /* Manifesto Section */
         .manifesto {
-            padding: 120px 48px;
             position: relative;
             z-index: 1;
+            padding: 160px 48px;
+            background: linear-gradient(180deg, var(--void) 0%, var(--void-light) 100%);
         }
 
         .manifesto-container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
         }
 
-        .section-label {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-bottom: 64px;
+        }
+
+        .section-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 72px;
+            font-weight: 400;
+            color: var(--neural);
+            opacity: 0.3;
+            line-height: 1;
+        }
+
+        .section-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
+            letter-spacing: 4px;
+            color: var(--bone-dim);
         }
 
         .manifesto h2 {
-            font-size: clamp(32px, 5vw, 56px);
-            font-weight: 700;
-            line-height: 1.1;
-            letter-spacing: -2px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(36px, 5vw, 64px);
+            font-weight: 400;
+            line-height: 1.15;
+            letter-spacing: -1px;
             margin-bottom: 48px;
         }
 
+        .manifesto h2 em {
+            font-style: italic;
+            color: var(--synapse);
+        }
+
         .manifesto-text {
-            font-size: 18px;
+            columns: 2;
+            column-gap: 64px;
+            font-size: 16px;
             line-height: 2;
-            color: var(--text-secondary);
+            color: var(--bone-dim);
         }
 
         .manifesto-text p {
-            margin-bottom: 32px;
+            margin-bottom: 24px;
+            break-inside: avoid;
         }
 
         .manifesto-text strong {
-            color: var(--text-primary);
-            font-weight: 600;
+            color: var(--bone);
+            font-weight: 500;
         }
 
-        /* Architecture Section */
-        .architecture {
+        .manifesto-text .highlight {
+            background: var(--neural-dim);
+            padding: 2px 6px;
+            color: var(--neural);
+            font-family: 'Space Mono', monospace;
+            font-size: 13px;
+        }
+
+        /* Walls Section */
+        .walls {
             padding: 120px 48px;
-            background: var(--bg-secondary);
             position: relative;
             z-index: 1;
         }
 
-        .architecture-container {
-            max-width: 1200px;
+        .walls-grid {
+            max-width: 1400px;
             margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            background: rgba(0, 229, 255, 0.1);
         }
 
-        .architecture h2 {
-            font-size: clamp(32px, 5vw, 56px);
-            font-weight: 700;
-            line-height: 1.1;
-            letter-spacing: -2px;
-            margin-bottom: 64px;
+        .wall-card {
+            background: var(--void);
+            padding: 48px;
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .wall-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--neural) 0%, transparent 100%);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .wall-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .wall-card:hover {
+            background: var(--void-light);
+        }
+
+        .wall-icon {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 32px;
+            stroke: var(--neural);
+            stroke-width: 1;
+            fill: none;
+        }
+
+        .wall-title {
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--synapse);
+            margin-bottom: 16px;
+        }
+
+        .wall-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: var(--bone);
+        }
+
+        .wall-desc {
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--graphite);
+        }
+
+        /* Trinity Section */
+        .trinity {
+            padding: 160px 48px;
+            background: var(--void-light);
+            position: relative;
+            z-index: 1;
+        }
+
+        .trinity-header {
+            max-width: 800px;
+            margin: 0 auto 80px;
             text-align: center;
         }
 
+        .trinity-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(40px, 6vw, 72px);
+            font-weight: 400;
+            letter-spacing: -2px;
+            margin-bottom: 24px;
+        }
+
+        .trinity-header p {
+            font-size: 17px;
+            color: var(--bone-dim);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
         .pillars {
+            max-width: 1200px;
+            margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 32px;
         }
 
         .pillar {
-            padding: 48px;
-            background: var(--bg-primary);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            transition: all 0.3s ease;
+            position: relative;
+            padding: 56px 40px;
+            background: var(--void);
+            border: 1px solid rgba(232, 228, 220, 0.06);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .pillar:hover {
-            border-color: rgba(255,255,255,0.2);
-            transform: translateY(-4px);
+            border-color: var(--neural-dim);
+            transform: translateY(-8px);
         }
 
         .pillar-number {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-            letter-spacing: 2px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 120px;
+            font-weight: 400;
+            color: var(--neural);
+            opacity: 0.08;
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            line-height: 1;
+        }
+
+        .pillar-icon {
+            width: 56px;
+            height: 56px;
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .pillar-icon svg {
+            width: 100%;
+            height: 100%;
+            stroke: var(--neural);
+            stroke-width: 1;
+            fill: none;
         }
 
         .pillar h3 {
-            font-size: 24px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 28px;
             font-weight: 600;
-            margin-bottom: 16px;
-            letter-spacing: -0.5px;
+            margin-bottom: 20px;
+            color: var(--bone);
         }
 
         .pillar p {
-            font-size: 15px;
-            color: var(--text-secondary);
-            line-height: 1.8;
+            font-size: 14px;
+            line-height: 1.9;
+            color: var(--graphite);
         }
 
         /* Diagram Section */
         .diagram {
-            padding: 120px 48px;
+            padding: 160px 48px;
             position: relative;
             z-index: 1;
         }
@@ -399,102 +645,188 @@
         .diagram-container {
             max-width: 1000px;
             margin: 0 auto;
-            text-align: center;
         }
 
-        .diagram h2 {
-            font-size: clamp(32px, 5vw, 56px);
-            font-weight: 700;
-            letter-spacing: -2px;
-            margin-bottom: 64px;
+        .diagram-header {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .diagram-header h2 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 400;
+            letter-spacing: -1px;
         }
 
         .diagram-visual {
             position: relative;
             padding: 80px;
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, transparent 100%);
+            background: var(--void-light);
+            border: 1px solid rgba(0, 229, 255, 0.1);
+        }
+
+        .diagram-visual::before,
+        .diagram-visual::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--neural);
+        }
+
+        .diagram-visual::before {
+            top: -1px;
+            left: -1px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .diagram-visual::after {
+            bottom: -1px;
+            right: -1px;
+            border-left: none;
+            border-top: none;
         }
 
         .diagram-svg {
             width: 100%;
             max-width: 600px;
-            height: auto;
+            margin: 0 auto;
+            display: block;
         }
 
         /* CTA Section */
         .cta {
-            padding: 120px 48px;
-            text-align: center;
+            padding: 200px 48px;
             position: relative;
             z-index: 1;
-            background: var(--bg-secondary);
+            text-align: center;
+            background: radial-gradient(ellipse at center, var(--void-light) 0%, var(--void) 70%);
         }
 
         .cta-container {
-            max-width: 700px;
+            max-width: 800px;
             margin: 0 auto;
         }
 
         .cta h2 {
-            font-size: clamp(32px, 5vw, 48px);
-            font-weight: 700;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(48px, 7vw, 96px);
+            font-weight: 400;
             letter-spacing: -2px;
-            margin-bottom: 24px;
+            margin-bottom: 32px;
+            line-height: 1.1;
         }
 
-        .cta p {
+        .cta h2 em {
+            font-style: italic;
+            color: var(--neural);
+            text-shadow: 0 0 80px var(--neural-glow);
+        }
+
+        .cta-text {
             font-size: 18px;
-            color: var(--text-secondary);
-            margin-bottom: 48px;
-            line-height: 1.8;
+            color: var(--bone-dim);
+            max-width: 600px;
+            margin: 0 auto 48px;
+            line-height: 1.9;
+        }
+
+        .cta-email {
+            display: inline-flex;
+            align-items: center;
+            gap: 16px;
+            font-family: 'Space Mono', monospace;
+            font-size: 16px;
+            color: var(--neural);
+            text-decoration: none;
+            padding: 24px 40px;
+            border: 1px solid var(--neural-dim);
+            transition: all 0.4s ease;
+        }
+
+        .cta-email:hover {
+            background: var(--neural-dim);
+            border-color: var(--neural);
         }
 
         .cta-quote {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 14px;
-            color: var(--text-secondary);
-            margin-top: 48px;
+            margin-top: 80px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 20px;
             font-style: italic;
+            color: var(--graphite);
+        }
+
+        .cta-latin {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--bone-dim);
+            margin-top: 16px;
+            opacity: 0.5;
         }
 
         /* Footer */
         footer {
             padding: 48px;
-            border-top: 1px solid var(--border);
+            border-top: 1px solid rgba(232, 228, 220, 0.06);
             position: relative;
             z-index: 1;
         }
 
         .footer-content {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 24px;
         }
 
         .footer-logo {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 18px;
+            font-family: 'Space Mono', monospace;
+            font-size: 16px;
             font-weight: 700;
-            letter-spacing: -1px;
+            color: var(--bone);
         }
 
         .footer-text {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            color: var(--text-secondary);
-            letter-spacing: 1px;
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            color: var(--graphite);
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 60px;
+            }
+
+            .hero-right {
+                height: 400px;
+            }
+
+            .manifesto-text {
+                columns: 1;
+            }
+
+            .walls-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pillars {
+                grid-template-columns: 1fr;
+            }
+        }
+
         @media (max-width: 768px) {
             nav {
-                padding: 16px 24px;
+                padding: 20px 24px;
             }
 
             .nav-links {
@@ -502,84 +834,49 @@
             }
 
             .hero {
-                padding: 100px 24px 60px;
-            }
-
-            .stats {
-                flex-direction: column;
-                gap: 40px;
+                padding: 120px 24px 80px;
             }
 
             .manifesto,
-            .architecture,
+            .walls,
+            .trinity,
             .diagram,
             .cta {
-                padding: 80px 24px;
+                padding: 100px 24px;
             }
 
-            .pillar {
-                padding: 32px;
+            .stats-overlay {
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
             }
 
-            .diagram-visual {
-                padding: 40px 20px;
+            .stat {
+                padding: 16px;
             }
 
-            footer {
-                padding: 32px 24px;
-            }
-
-            .footer-content {
-                flex-direction: column;
-                text-align: center;
+            .stat-value {
+                font-size: 32px;
             }
         }
 
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(40px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        /* Scroll animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .animate {
-            animation: fadeInUp 0.8s ease forwards;
-        }
-
-        .delay-1 { animation-delay: 0.1s; }
-        .delay-2 { animation-delay: 0.2s; }
-        .delay-3 { animation-delay: 0.3s; }
-        .delay-4 { animation-delay: 0.4s; }
-
-        /* Terminal cursor effect */
-        .cursor {
-            display: inline-block;
-            width: 3px;
-            height: 1em;
-            background: var(--text-primary);
-            margin-left: 4px;
-            animation: blink 1s infinite;
-            vertical-align: text-bottom;
-        }
-
-        @keyframes blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
-    <div class="grid-bg"></div>
-    <div class="orb"></div>
-    <div class="orb orb-2"></div>
+    <canvas id="liquid-canvas"></canvas>
 
     <nav>
-        <div class="logo">20n<span>_</span></div>
+        <div class="logo">20n</div>
         <div class="nav-links">
             <a href="#manifesto">Manifesto</a>
             <a href="#architecture">Architecture</a>
@@ -588,39 +885,47 @@
     </nav>
 
     <section class="hero">
-        <div class="hero-content">
-            <div class="status-badge">Research Lab Active</div>
-            <h1 class="animate">
-                The End of<br>
-                <span class="highlight">Static Intelligence</span>
-            </h1>
-            <p class="hero-subtitle animate delay-1">
-                We don't build AI that reads. We build AI that lives.
-                A pathway to liquid, embodied AGI via active inference.
-            </p>
-            <div class="hero-cta animate delay-2">
-                <a href="manifesto.html" class="btn btn-primary" id="downloadBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    Download Manifesto
-                </a>
-                <a href="#join" class="btn btn-secondary">
-                    Join the Resistance
-                </a>
+        <div class="hero-grid">
+            <div class="hero-left">
+                <div class="hero-label">Research Laboratory</div>
+                <h1 class="hero-title">
+                    <span class="line"><span class="word">The End of</span></span>
+                    <span class="line"><span class="word"><em>Static</em></span></span>
+                    <span class="line"><span class="word">Intelligence</span></span>
+                </h1>
+                <p class="hero-desc">
+                    We don't build AI that reads. <strong>We build AI that lives.</strong>
+                    A pathway to liquid, embodied AGI through active inference and
+                    neuromorphic efficiency.
+                </p>
+                <div class="hero-cta">
+                    <a href="manifesto.html" class="btn btn-primary">Download Manifesto</a>
+                    <a href="#join" class="btn btn-ghost">Join Us</a>
+                </div>
             </div>
-            <div class="stats animate delay-3">
-                <div class="stat">
-                    <div class="stat-value">20W</div>
-                    <div class="stat-label">Target Power</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">1000x</div>
-                    <div class="stat-label">More Efficient</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">1</div>
-                    <div class="stat-label">Shot Learning</div>
+            <div class="hero-right">
+                <div class="neural-viz">
+                    <div class="blob blob-1"></div>
+                    <div class="blob blob-2"></div>
+                    <div class="blob blob-3"></div>
+                    <div class="stats-overlay">
+                        <div class="stat">
+                            <div class="stat-value">20<span>W</span></div>
+                            <div class="stat-label">Target Power</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">1000<span>x</span></div>
+                            <div class="stat-label">More Efficient</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">1<span>shot</span></div>
+                            <div class="stat-label">Learning</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value"><span>∞</span></div>
+                            <div class="stat-label">Adaptability</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -628,106 +933,191 @@
 
     <section class="manifesto" id="manifesto">
         <div class="manifesto-container">
-            <div class="section-label">// The Problem</div>
-            <h2>Large Language Models have reached their asymptote.</h2>
-            <div class="manifesto-text">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <span class="section-title">The Problem</span>
+            </div>
+            <h2 class="reveal">Large Language Models have reached their <em>asymptote</em>.</h2>
+            <div class="manifesto-text reveal">
                 <p>
                     They rest on a false hypothesis: that intelligence is a <strong>static compression of past data</strong>.
                     This paradigm is energetically unsustainable and structurally incapable of acting in the dynamic physical world.
                 </p>
                 <p>
-                    The current consensus (OpenAI, Google, Meta) is based on the Scaling Law:
-                    <strong>More data + More GPUs = More intelligence</strong>. This is a dead end.
+                    The current consensus—OpenAI, Google, Meta—is based on the Scaling Law:
+                    <span class="highlight">More data + More GPUs = More intelligence</span>. This is a dead end.
                 </p>
                 <p>
-                    <strong>The Energy Wall:</strong> They are melting the world's electrical grid.<br>
-                    <strong>The Data Wall:</strong> They have already read the entire internet. There is nothing left to read.<br>
-                    <strong>Structural Hallucination:</strong> LLMs are probabilistic parrots. They don't understand the physical world, they predict the next token.
+                    <strong>20n proposes a fundamental paradigm shift:</strong> moving from discrete, statistical intelligence
+                    (Transformers) to continuous, biological intelligence (Liquid Networks & Active Inference).
                 </p>
                 <p>
-                    <strong>20n proposes a fundamental paradigm shift:</strong> moving from discrete, statistical intelligence (Transformers)
-                    to continuous, biological intelligence (Liquid Networks & Active Inference).
+                    We don't build an AI that predicts the next token. We build an AI that minimizes entropy to survive
+                    and act in the chaos of the real world.
                 </p>
             </div>
         </div>
     </section>
 
-    <section class="architecture" id="architecture">
-        <div class="architecture-container">
-            <div class="section-label" style="text-align: center;">// The Trinity</div>
-            <h2>Neuro-Symbolic Liquid Architecture</h2>
-            <div class="pillars">
-                <div class="pillar">
-                    <div class="pillar-number">01</div>
-                    <h3>Liquid Neural Networks</h3>
-                    <p>
-                        Instead of static neuron layers, we use differential equations. The network is "liquid":
-                        its parameters change during inference, not just during training. It adapts to new situations
-                        without retraining.
-                    </p>
+    <section class="walls">
+        <div class="walls-grid">
+            <div class="wall-card reveal">
+                <svg class="wall-icon" viewBox="0 0 48 48">
+                    <circle cx="24" cy="24" r="18"/>
+                    <path d="M24 12v24M16 20l8-8 8 8M16 28l8 8 8-8"/>
+                </svg>
+                <div class="wall-title">The Wall</div>
+                <div class="wall-name">Energy Crisis</div>
+                <p class="wall-desc">
+                    Scaling Transformers requires more energy than global production allows.
+                    They're melting the grid for chatbots.
+                </p>
+            </div>
+            <div class="wall-card reveal">
+                <svg class="wall-icon" viewBox="0 0 48 48">
+                    <rect x="8" y="8" width="32" height="32" rx="4"/>
+                    <line x1="16" y1="16" x2="32" y2="32"/>
+                    <line x1="32" y1="16" x2="16" y2="32"/>
+                </svg>
+                <div class="wall-title">The Wall</div>
+                <div class="wall-name">Data Exhaustion</div>
+                <p class="wall-desc">
+                    They've read the entire internet. There's nothing left.
+                    The well is dry.
+                </p>
+            </div>
+            <div class="wall-card reveal">
+                <svg class="wall-icon" viewBox="0 0 48 48">
+                    <path d="M24 6c-9.94 0-18 8.06-18 18s8.06 18 18 18 18-8.06 18-18"/>
+                    <path d="M24 6v18l12.73 7.35"/>
+                </svg>
+                <div class="wall-title">The Wall</div>
+                <div class="wall-name">Latency Death</div>
+                <p class="wall-desc">
+                    A robot can't wait 500ms for the Cloud.
+                    Intelligence must live at the edge.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section class="trinity" id="architecture">
+        <div class="trinity-header">
+            <div class="section-header" style="justify-content: center; margin-bottom: 32px;">
+                <span class="section-number">02</span>
+                <span class="section-title">The Trinity</span>
+            </div>
+            <h2 class="reveal">Neuro-Symbolic<br>Liquid Architecture</h2>
+            <p class="reveal">Three pillars that fundamentally diverge from the Transformer paradigm.</p>
+        </div>
+        <div class="pillars">
+            <div class="pillar reveal">
+                <span class="pillar-number">01</span>
+                <div class="pillar-icon">
+                    <svg viewBox="0 0 56 56">
+                        <path d="M28 8c-11.046 0-20 8.954-20 20s8.954 20 20 20 20-8.954 20-20"/>
+                        <circle cx="28" cy="28" r="8"/>
+                        <path d="M28 8v12M28 36v12"/>
+                    </svg>
                 </div>
-                <div class="pillar">
-                    <div class="pillar-number">02</div>
-                    <h3>Active Inference</h3>
-                    <p>
-                        The AI doesn't seek to maximize a "reward" (like others do with Reinforcement Learning).
-                        20n's AI seeks to minimize surprise (free energy). It has an internal model of the world,
-                        and acts to make the world match its model. This is how the biological brain works.
-                    </p>
+                <h3>Liquid Neural Networks</h3>
+                <p>
+                    Instead of static neuron layers, we use differential equations. The network is "liquid"—
+                    its parameters change during inference, not just training. It adapts without retraining.
+                </p>
+            </div>
+            <div class="pillar reveal">
+                <span class="pillar-number">02</span>
+                <div class="pillar-icon">
+                    <svg viewBox="0 0 56 56">
+                        <circle cx="28" cy="28" r="20"/>
+                        <circle cx="28" cy="28" r="12"/>
+                        <circle cx="28" cy="28" r="4"/>
+                    </svg>
                 </div>
-                <div class="pillar">
-                    <div class="pillar-number">03</div>
-                    <h3>Spiking Neural Networks</h3>
-                    <p>
-                        Information is only transmitted when necessary (via "spikes", like electrical impulses in the brain),
-                        not continuously. Result: 20 Watts consumption (human brain) vs 20,000 Watts (GPU cluster).
-                    </p>
+                <h3>Active Inference</h3>
+                <p>
+                    The AI doesn't maximize reward. It minimizes surprise. It has an internal world model
+                    and acts to make reality match predictions. This is how biological brains work.
+                </p>
+            </div>
+            <div class="pillar reveal">
+                <span class="pillar-number">03</span>
+                <div class="pillar-icon">
+                    <svg viewBox="0 0 56 56">
+                        <path d="M8 28h40"/>
+                        <circle cx="16" cy="28" r="4"/>
+                        <circle cx="28" cy="28" r="4"/>
+                        <circle cx="40" cy="28" r="4"/>
+                        <path d="M16 20v-8M28 20v-8M40 20v-8M16 36v8M28 36v8M40 36v8"/>
+                    </svg>
                 </div>
+                <h3>Spiking Networks</h3>
+                <p>
+                    Information transmits only when necessary—via spikes, like electrical impulses in the brain.
+                    Result: 20W consumption vs 20,000W for GPU clusters.
+                </p>
             </div>
         </div>
     </section>
 
     <section class="diagram">
         <div class="diagram-container">
-            <div class="section-label">// The Loop</div>
-            <h2>Entropy Minimization Cycle</h2>
-            <div class="diagram-visual">
-                <svg class="diagram-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Outer circle -->
-                    <circle cx="200" cy="200" r="150" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
-                    <circle cx="200" cy="200" r="100" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+            <div class="diagram-header">
+                <div class="section-header" style="justify-content: center; margin-bottom: 32px;">
+                    <span class="section-number">03</span>
+                    <span class="section-title">The Loop</span>
+                </div>
+                <h2 class="reveal">Entropy Minimization Cycle</h2>
+            </div>
+            <div class="diagram-visual reveal">
+                <svg class="diagram-svg" viewBox="0 0 500 400" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Animated circles -->
+                    <circle cx="250" cy="200" r="160" fill="none" stroke="rgba(0,229,255,0.1)" stroke-width="1">
+                        <animate attributeName="r" values="160;165;160" dur="4s" repeatCount="indefinite"/>
+                    </circle>
+                    <circle cx="250" cy="200" r="100" fill="none" stroke="rgba(0,229,255,0.05)" stroke-width="1">
+                        <animate attributeName="r" values="100;105;100" dur="3s" repeatCount="indefinite"/>
+                    </circle>
 
                     <!-- Center -->
-                    <circle cx="200" cy="200" r="40" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
-                    <text x="200" y="195" text-anchor="middle" fill="white" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="1">ENTROPY</text>
-                    <text x="200" y="210" text-anchor="middle" fill="white" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="1">MINIMIZATION</text>
+                    <rect x="190" y="165" width="120" height="70" rx="4" fill="rgba(0,229,255,0.05)" stroke="rgba(0,229,255,0.3)" stroke-width="1"/>
+                    <text x="250" y="193" text-anchor="middle" fill="#00e5ff" font-family="Space Mono, monospace" font-size="9" letter-spacing="1">ENTROPY</text>
+                    <text x="250" y="210" text-anchor="middle" fill="#e8e4dc" font-family="Space Mono, monospace" font-size="9" letter-spacing="1">MINIMIZATION</text>
 
                     <!-- Top node -->
-                    <circle cx="200" cy="50" r="30" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
-                    <text x="200" y="45" text-anchor="middle" fill="white" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.5">WORLD</text>
-                    <text x="200" y="57" text-anchor="middle" fill="white" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.5">MODEL</text>
+                    <rect x="175" y="20" width="150" height="55" rx="4" fill="rgba(5,8,16,0.9)" stroke="rgba(0,229,255,0.2)" stroke-width="1"/>
+                    <text x="250" y="43" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="8" letter-spacing="1">GENERATIVE</text>
+                    <text x="250" y="58" text-anchor="middle" fill="#e8e4dc" font-family="Cormorant Garamond, serif" font-size="14">World Model</text>
 
                     <!-- Bottom node -->
-                    <circle cx="200" cy="350" r="30" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
-                    <text x="200" y="345" text-anchor="middle" fill="white" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.5">CHAOS</text>
-                    <text x="200" y="357" text-anchor="middle" fill="white" font-family="JetBrains Mono, monospace" font-size="7" letter-spacing="0.5">ENVIRONMENT</text>
+                    <rect x="175" y="325" width="150" height="55" rx="4" fill="rgba(5,8,16,0.9)" stroke="rgba(255,107,53,0.2)" stroke-width="1"/>
+                    <text x="250" y="348" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="8" letter-spacing="1">PHYSICAL</text>
+                    <text x="250" y="363" text-anchor="middle" fill="#e8e4dc" font-family="Cormorant Garamond, serif" font-size="14">Environment</text>
 
                     <!-- Arrows -->
                     <defs>
-                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                            <polygon points="0 0, 10 3.5, 0 7" fill="rgba(255,255,255,0.5)"/>
+                        <marker id="arrow-cyan" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#00e5ff"/>
+                        </marker>
+                        <marker id="arrow-orange" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#ff6b35"/>
                         </marker>
                     </defs>
 
-                    <!-- Right arrow (down) -->
-                    <path d="M 230 90 Q 300 200 230 310" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1" marker-end="url(#arrowhead)"/>
-                    <text x="310" y="200" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="0.5">PREDICTIONS</text>
-                    <text x="310" y="215" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="0.5">/ ACTION</text>
+                    <!-- Right arrow -->
+                    <path d="M 325 75 Q 420 200 325 325" fill="none" stroke="#00e5ff" stroke-width="1" stroke-dasharray="4,4" marker-end="url(#arrow-cyan)">
+                        <animate attributeName="stroke-dashoffset" values="0;-16" dur="1s" repeatCount="indefinite"/>
+                    </path>
+                    <text x="430" y="195" text-anchor="middle" fill="#00e5ff" font-family="Space Mono, monospace" font-size="8" letter-spacing="1">PREDICTIONS</text>
+                    <text x="430" y="210" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="8">/ action</text>
 
-                    <!-- Left arrow (up) -->
-                    <path d="M 170 310 Q 100 200 170 90" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1" marker-end="url(#arrowhead)"/>
-                    <text x="90" y="200" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="0.5">SENSORY</text>
-                    <text x="90" y="215" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-family="JetBrains Mono, monospace" font-size="8" letter-spacing="0.5">/ SURPRISE</text>
+                    <!-- Left arrow -->
+                    <path d="M 175 325 Q 80 200 175 75" fill="none" stroke="#ff6b35" stroke-width="1" stroke-dasharray="4,4" marker-end="url(#arrow-orange)">
+                        <animate attributeName="stroke-dashoffset" values="0;-16" dur="1s" repeatCount="indefinite"/>
+                    </path>
+                    <text x="70" y="195" text-anchor="middle" fill="#ff6b35" font-family="Space Mono, monospace" font-size="8" letter-spacing="1">SENSORY</text>
+                    <text x="70" y="210" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="8">/ surprise</text>
                 </svg>
             </div>
         </div>
@@ -735,64 +1125,113 @@
 
     <section class="cta" id="join">
         <div class="cta-container">
-            <div class="section-label">// Join</div>
-            <h2>Join the Resistance<span class="cursor"></span></h2>
-            <p>
-                Most AI researchers today have become data janitors. They clean datasets to feed voracious monsters.
-                If you want to continue tuning hyperparameters on LLMs, stay at Google.
+            <h2 class="reveal">Join the<br><em>Resistance</em></h2>
+            <p class="cta-text reveal">
+                Most AI researchers have become data janitors, cleaning datasets to feed voracious monsters.
+                If you want to tune hyperparameters, stay at Google.
             </p>
-            <p>
-                But if you want to solve intelligence, understand consciousness, and create a new form of synthetic life
-                capable of looking us in the eyes and understanding us...
+            <p class="cta-text reveal">
+                But if you want to solve intelligence, understand consciousness, and create synthetic life
+                capable of looking us in the eyes and understanding us—
             </p>
-            <a href="mailto:core@20n.ai" class="btn btn-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            <a href="mailto:core@20n.ai" class="cta-email reveal">
+                <span>core@20n.ai</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>
-                core@20n.ai
             </a>
-            <p class="cta-quote">
-                "We don't have H100 GPUs. We have superior mathematics."<br><br>
-                Ad Astra Per Aspera.
-            </p>
+            <p class="cta-quote reveal">"We don't have H100 GPUs. We have superior mathematics."</p>
+            <p class="cta-latin reveal">Ad Astra Per Aspera</p>
         </div>
     </section>
 
     <footer>
         <div class="footer-content">
             <div class="footer-logo">20n_</div>
-            <div class="footer-text">Building the first artificial brain capable of learning in real-time with 20 Watts.</div>
+            <div class="footer-text">Building liquid intelligence with 20 Watts</div>
         </div>
     </footer>
 
     <script>
-        // Download manifesto functionality
-        document.querySelector('.btn-primary').addEventListener('click', function(e) {
-            e.preventDefault();
-            window.open('manifesto.html', '_blank');
-        });
-
-        // Smooth reveal on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
+        // Scroll reveal
+        const reveals = document.querySelectorAll('.reveal');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
+                    entry.target.classList.add('visible');
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-        document.querySelectorAll('.pillar, .manifesto-text p').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(el);
-        });
+        reveals.forEach(el => observer.observe(el));
+
+        // Liquid canvas animation
+        const canvas = document.getElementById('liquid-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.3;
+                this.vy = (Math.random() - 0.5) * 0.3;
+                this.radius = Math.random() * 2 + 0.5;
+                this.alpha = Math.random() * 0.3 + 0.1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(0, 229, 255, ${this.alpha})`;
+                ctx.fill();
+            }
+        }
+
+        const particles = Array.from({ length: 80 }, () => new Particle());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            // Draw connections
+            particles.forEach((p1, i) => {
+                particles.slice(i + 1).forEach(p2 => {
+                    const dx = p1.x - p2.x;
+                    const dy = p1.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.strokeStyle = `rgba(0, 229, 255, ${0.1 * (1 - dist / 150)})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                });
+            });
+
+            requestAnimationFrame(animate);
+        }
+        animate();
     </script>
 </body>
 </html>
