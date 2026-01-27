@@ -690,6 +690,18 @@
         .two-col p { break-inside: avoid; }
 
         /* ==================== PRINT STYLES ==================== */
+        @page {
+            size: A4;
+            margin: 15mm;
+            /* Remove browser headers/footers */
+            @top-left { content: none; }
+            @top-center { content: none; }
+            @top-right { content: none; }
+            @bottom-left { content: none; }
+            @bottom-center { content: none; }
+            @bottom-right { content: none; }
+        }
+
         @media print {
             * {
                 -webkit-print-color-adjust: exact !important;
@@ -697,15 +709,23 @@
                 color-adjust: exact !important;
             }
 
+            html {
+                /* Hide URL, date, page numbers from browser */
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
             body {
                 background: #ffffff !important;
                 color: #1a1a2e !important;
+                margin: 0 !important;
+                padding: 0 !important;
             }
 
             .page {
                 width: 100% !important;
                 min-height: auto !important;
-                padding: 10mm 12mm !important;
+                padding: 8mm 10mm !important;
                 margin: 0 !important;
                 background: #ffffff !important;
                 box-shadow: none !important;
