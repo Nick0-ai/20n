@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>20n | Computational Biology on Silicon</title>
+    <title>20n | Living Intelligence Laboratory</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Space+Mono:wght@400;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --void: #050810;
-            --void-light: #0a0f1c;
-            --neural: #00e5ff;
-            --neural-dim: rgba(0, 229, 255, 0.15);
-            --neural-glow: rgba(0, 229, 255, 0.4);
-            --synapse: #ff6b35;
-            --synapse-dim: rgba(255, 107, 53, 0.2);
-            --bone: #e8e4dc;
-            --bone-dim: rgba(232, 228, 220, 0.7);
-            --graphite: #6b7280;
+            --paper: #FAF8F5;
+            --paper-dark: #F5F2ED;
+            --ink: #1A1A1A;
+            --ink-light: #4A4A4A;
+            --ink-muted: #7A7A7A;
+            --chlorophyll: #1E7A4A;
+            --chlorophyll-light: #28A060;
+            --chlorophyll-bg: rgba(30, 122, 74, 0.08);
+            --cyan-bio: #2A8B8B;
+            --cyan-light: #3AADAD;
+            --annotation: #8B6B4A;
+            --sketch: #1E7A4A;
         }
 
         * {
@@ -32,29 +34,16 @@
         }
 
         body {
-            font-family: 'Outfit', sans-serif;
-            background: var(--void);
-            color: var(--bone);
-            min-height: 100vh;
-            overflow-x: hidden;
-            line-height: 1.6;
+            font-family: 'Source Sans 3', sans-serif;
+            background: var(--paper);
+            color: var(--ink);
+            line-height: 1.7;
+            font-size: 18px;
+            font-weight: 400;
+            position: relative;
         }
 
-        /* Grain overlay */
-        body::after {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            opacity: 0.04;
-            z-index: 9999;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-        }
-
-        /* Scanlines overlay */
+        /* Paper texture overlay */
         body::before {
             content: '';
             position: fixed;
@@ -63,100 +52,49 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 9998;
-            background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 2px,
-                rgba(0, 0, 0, 0.03) 2px,
-                rgba(0, 0, 0, 0.03) 4px
-            );
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+            z-index: 9999;
         }
 
-        /* Glitch effect for titles */
-        @keyframes glitch {
-            0%, 100% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
+        /* Typography */
+        h1, h2, h3, h4 {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+            line-height: 1.2;
+            color: var(--ink);
         }
 
-        @keyframes glitch-skew {
-            0%, 100% { transform: skew(0deg); }
-            20% { transform: skew(-0.5deg); }
-            40% { transform: skew(0.5deg); }
-            60% { transform: skew(-0.3deg); }
-            80% { transform: skew(0.3deg); }
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            letter-spacing: -0.02em;
         }
 
-        /* Animated gradient border */
-        @keyframes gradient-shift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+        h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            letter-spacing: -0.01em;
         }
 
-        /* Pulse glow */
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(0, 229, 255, 0.1); }
-            50% { box-shadow: 0 0 40px rgba(0, 229, 255, 0.25); }
+        h3 {
+            font-size: clamp(1.4rem, 2.5vw, 1.8rem);
         }
 
-        /* Float animation */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
+        p {
+            color: var(--ink-light);
+            max-width: 65ch;
         }
 
-        /* Fixed Watts Counter */
-        .watts-counter {
-            position: fixed;
-            top: 100px;
-            right: 24px;
-            z-index: 100;
-            font-family: 'Space Mono', monospace;
-            font-size: 9px;
-            text-align: right;
-            color: var(--graphite);
-            letter-spacing: 1px;
-            line-height: 1.8;
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85em;
         }
 
-        .watts-counter .label {
-            text-transform: uppercase;
-            font-size: 8px;
-            letter-spacing: 2px;
-        }
-
-        .watts-counter .value {
-            font-size: 14px;
-            color: var(--synapse);
-        }
-
-        .watts-counter .target {
-            color: var(--neural);
-            font-size: 18px;
-            font-weight: 700;
-        }
-
-        .watts-counter .divider {
-            width: 60px;
-            height: 1px;
-            background: var(--graphite);
-            margin: 8px 0 8px auto;
-            opacity: 0.3;
-        }
-
-        /* Canvas for liquid animation */
-        #liquid-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.6;
+        /* Annotation style */
+        .annotation {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 0.9rem;
+            color: var(--annotation);
         }
 
         /* Navigation */
@@ -165,202 +103,152 @@
             top: 0;
             left: 0;
             right: 0;
-            padding: 28px 48px;
+            padding: 1.5rem 4rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 100;
-            mix-blend-mode: difference;
+            z-index: 1000;
+            background: linear-gradient(to bottom, var(--paper) 60%, transparent);
         }
 
         .logo {
-            font-family: 'Space Mono', monospace;
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--bone);
-            letter-spacing: -1px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--ink);
             text-decoration: none;
+            letter-spacing: -0.03em;
         }
 
-        .logo::after {
-            content: '_';
-            color: var(--neural);
-            animation: blink 1.2s step-end infinite;
-        }
-
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+        .logo span {
+            color: var(--chlorophyll);
         }
 
         .nav-links {
             display: flex;
-            gap: 40px;
+            gap: 3rem;
+            list-style: none;
         }
 
         .nav-links a {
-            font-family: 'Space Mono', monospace;
-            font-size: 11px;
-            color: var(--bone-dim);
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: var(--ink-light);
             text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: color 0.3s ease;
+            letter-spacing: 0.02em;
             position: relative;
+            transition: color 0.3s ease;
         }
 
-        .nav-links a::before {
-            content: '//';
-            margin-right: 6px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .nav-links a:hover::before {
-            opacity: 1;
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--chlorophyll);
+            transition: width 0.3s ease;
         }
 
         .nav-links a:hover {
-            color: var(--neural);
+            color: var(--chlorophyll);
         }
 
-        /* Hero */
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
         .hero {
             min-height: 100vh;
             display: flex;
             align-items: center;
+            padding: 8rem 4rem 4rem;
             position: relative;
-            z-index: 1;
-            padding: 0 48px;
         }
 
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 60px;
+        .hero-content {
             max-width: 1400px;
             margin: 0 auto;
             width: 100%;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 6rem;
             align-items: center;
         }
 
-        .hero-left {
+        .hero-text {
             position: relative;
         }
 
-        .hero-label {
-            font-family: 'Space Mono', monospace;
-            font-size: 10px;
+        .hero-eyebrow {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
-            letter-spacing: 4px;
-            color: var(--neural);
-            margin-bottom: 24px;
+            color: var(--chlorophyll);
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 1rem;
         }
 
-        .hero-label::before {
+        .hero-eyebrow::before {
             content: '';
             width: 40px;
             height: 1px;
-            background: var(--neural);
+            background: var(--chlorophyll);
         }
 
-        .hero-title {
-            font-family: 'Space Mono', monospace;
-            font-size: clamp(32px, 5vw, 56px);
-            font-weight: 700;
-            line-height: 1.1;
-            letter-spacing: -1px;
-            margin-bottom: 16px;
-            text-transform: uppercase;
-            position: relative;
+        .hero h1 {
+            margin-bottom: 1.5rem;
         }
 
-        .hero-title:hover {
-            animation: glitch-skew 0.3s ease;
-        }
-
-        .hero-title em {
-            font-style: normal;
-            color: var(--neural);
-            text-shadow:
-                0 0 60px var(--neural-glow),
-                0 0 120px rgba(0, 229, 255, 0.2);
-            position: relative;
-            display: inline-block;
-        }
-
-        .hero-title em::before,
-        .hero-title em::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-        }
-
-        .hero-title:hover em::before {
-            animation: glitch 0.3s ease;
-            color: var(--synapse);
-            opacity: 0.8;
-            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
-        }
-
-        .hero-title:hover em::after {
-            animation: glitch 0.3s ease reverse;
-            color: var(--neural);
-            opacity: 0.8;
-            clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+        .hero h1 em {
+            font-style: italic;
+            color: var(--chlorophyll);
         }
 
         .hero-subtitle {
             font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(20px, 3vw, 28px);
-            font-style: italic;
-            color: var(--bone-dim);
-            margin-bottom: 32px;
-            line-height: 1.4;
+            font-size: 1.5rem;
+            font-weight: 400;
+            color: var(--ink-light);
+            margin-bottom: 2rem;
+            line-height: 1.5;
         }
 
         .hero-desc {
-            font-size: 15px;
-            color: var(--graphite);
-            max-width: 520px;
+            font-size: 1.1rem;
+            color: var(--ink-muted);
+            margin-bottom: 3rem;
             line-height: 1.9;
-            margin-bottom: 40px;
-        }
-
-        .hero-desc strong {
-            color: var(--bone);
-            font-weight: 500;
         }
 
         .hero-cta {
             display: flex;
-            gap: 20px;
+            gap: 1.5rem;
             align-items: center;
         }
 
         .btn {
-            font-family: 'Space Mono', monospace;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            padding: 18px 32px;
+            font-family: 'Source Sans 3', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 1rem 2rem;
             text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            overflow: hidden;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: none;
         }
 
         .btn-primary {
-            background: var(--bone);
-            color: var(--void);
-            clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+            background: var(--chlorophyll);
+            color: var(--paper);
+            position: relative;
+            overflow: hidden;
         }
 
         .btn-primary::before {
@@ -370,588 +258,353 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: var(--neural);
-            transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: -1;
+            background: var(--chlorophyll-light);
+            transition: left 0.4s ease;
+            z-index: 0;
         }
 
         .btn-primary:hover::before {
             left: 0;
         }
 
-        .btn-primary:hover {
-            color: var(--void);
-        }
-
-        .btn-ghost {
-            color: var(--bone-dim);
-            border: 1px solid rgba(232, 228, 220, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-ghost::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: radial-gradient(circle, var(--neural-dim) 0%, transparent 70%);
-            transform: translate(-50%, -50%);
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            opacity: 0;
-        }
-
-        .btn-ghost:hover::before {
-            width: 300px;
-            height: 300px;
-            opacity: 1;
-        }
-
-        .btn-ghost:hover {
-            color: var(--neural);
-            border-color: var(--neural);
-            text-shadow: 0 0 20px var(--neural-glow);
-            box-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
-        }
-
-        /* Hero visual - Equation style */
-        .hero-right {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        .equation-card {
-            background: rgba(5, 8, 16, 0.9);
-            border: 1px solid rgba(0, 229, 255, 0.2);
-            padding: 24px 28px;
-            font-family: 'Space Mono', monospace;
-            position: relative;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            animation: float 6s ease-in-out infinite;
-            backdrop-filter: blur(10px);
-        }
-
-        .equation-card:nth-child(2) {
-            animation-delay: -3s;
-        }
-
-        .equation-card::after {
-            content: '';
-            position: absolute;
-            inset: -1px;
-            background: linear-gradient(135deg, var(--neural), transparent, var(--synapse));
-            background-size: 200% 200%;
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            animation: gradient-shift 4s ease infinite;
-        }
-
-        .equation-card:hover {
-            transform: translateY(-4px) scale(1.02);
-            border-color: transparent;
-            box-shadow:
-                0 20px 60px rgba(0, 229, 255, 0.15),
-                0 0 0 1px rgba(0, 229, 255, 0.3);
-        }
-
-        .equation-card:hover::after {
-            opacity: 1;
-        }
-
-        .equation-card::before {
-            content: attr(data-label);
-            position: absolute;
-            top: -8px;
-            left: 16px;
-            font-size: 8px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--neural);
-            background: var(--void);
-            padding: 0 8px;
-            transition: all 0.3s ease;
-        }
-
-        .equation-card:hover::before {
-            color: var(--bone);
-            text-shadow: 0 0 10px var(--neural);
-        }
-
-        .equation {
-            font-size: 18px;
-            color: var(--bone);
-            margin-bottom: 8px;
-            font-style: italic;
-            transition: all 0.3s ease;
-        }
-
-        .equation-card:hover .equation {
-            color: var(--neural);
-            text-shadow: 0 0 20px var(--neural-glow);
-        }
-
-        .equation-desc {
-            font-size: 10px;
-            color: var(--graphite);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-top: 16px;
-        }
-
-        .stat-mini {
-            background: rgba(0, 229, 255, 0.05);
-            border: 1px solid rgba(0, 229, 255, 0.1);
-            padding: 16px;
-            text-align: center;
-        }
-
-        .stat-mini .value {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 32px;
-            font-weight: 600;
-            color: var(--bone);
-            line-height: 1;
-        }
-
-        .stat-mini .value span {
-            color: var(--neural);
-            font-size: 16px;
-        }
-
-        .stat-mini .label {
-            font-size: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--graphite);
-            margin-top: 6px;
-        }
-
-        /* Manifesto Section */
-        .manifesto {
+        .btn-primary span {
             position: relative;
             z-index: 1;
-            padding: 160px 48px;
-            background: linear-gradient(180deg, var(--void) 0%, var(--void-light) 100%);
         }
 
-        .manifesto-container {
-            max-width: 900px;
+        .btn-secondary {
+            background: transparent;
+            color: var(--ink-light);
+            border: 1px solid var(--ink-muted);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--chlorophyll);
+            color: var(--chlorophyll);
+        }
+
+        /* Hero Illustration */
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-illustration {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        /* Margin Note */
+        .margin-note {
+            position: absolute;
+            right: -180px;
+            width: 150px;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 0.85rem;
+            color: var(--annotation);
+            line-height: 1.5;
+            padding-left: 1rem;
+            border-left: 1px solid var(--annotation);
+            opacity: 0.8;
+        }
+
+        /* Sections */
+        section {
+            padding: 8rem 4rem;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
-        .section-header {
+        .section-label {
             display: flex;
             align-items: center;
-            gap: 24px;
-            margin-bottom: 64px;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
         }
 
         .section-number {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 72px;
+            font-size: 4rem;
             font-weight: 400;
-            color: var(--neural);
-            opacity: 0.3;
+            color: var(--chlorophyll);
+            opacity: 0.5;
             line-height: 1;
         }
 
-        .section-title {
-            font-family: 'Space Mono', monospace;
-            font-size: 10px;
+        .section-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.2em;
             text-transform: uppercase;
-            letter-spacing: 4px;
-            color: var(--bone-dim);
+            color: var(--ink-muted);
         }
 
-        .manifesto h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(36px, 5vw, 64px);
-            font-weight: 400;
-            line-height: 1.15;
-            letter-spacing: -1px;
-            margin-bottom: 48px;
+        /* Problem Section */
+        .problem {
+            background: var(--paper-dark);
+            margin: 0;
+            max-width: none;
+            padding: 8rem 4rem;
         }
 
-        .manifesto h2 em {
-            font-style: italic;
-            color: var(--synapse);
-        }
-
-        .manifesto-text {
-            columns: 2;
-            column-gap: 64px;
-            font-size: 16px;
-            line-height: 2;
-            color: var(--bone-dim);
-        }
-
-        .manifesto-text p {
-            margin-bottom: 24px;
-            break-inside: avoid;
-        }
-
-        .manifesto-text strong {
-            color: var(--bone);
-            font-weight: 500;
-        }
-
-        .manifesto-text .highlight {
-            background: var(--neural-dim);
-            padding: 2px 6px;
-            color: var(--neural);
-            font-family: 'Space Mono', monospace;
-            font-size: 13px;
-        }
-
-        /* Walls Section */
-        .walls {
-            padding: 120px 48px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .walls-header {
-            max-width: 1400px;
-            margin: 0 auto 48px;
-        }
-
-        .walls-header h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(32px, 4vw, 48px);
-            font-weight: 400;
-            margin-bottom: 16px;
-        }
-
-        .walls-header p {
-            color: var(--graphite);
-            max-width: 600px;
-        }
-
-        .walls-grid {
+        .problem-content {
             max-width: 1400px;
             margin: 0 auto;
+        }
+
+        .problem h2 {
+            margin-bottom: 2rem;
+        }
+
+        .problem h2 em {
+            font-style: italic;
+            color: var(--chlorophyll);
+        }
+
+        .problem-lead {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.4rem;
+            color: var(--ink-light);
+            max-width: 800px;
+            margin-bottom: 4rem;
+            line-height: 1.7;
+        }
+
+        /* Walls Grid */
+        .walls-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 2px;
-            background: rgba(0, 229, 255, 0.1);
+            gap: 2rem;
+            margin-top: 4rem;
         }
 
         .wall-card {
-            background: var(--void);
-            padding: 40px 32px;
+            padding: 2rem;
+            background: var(--paper);
+            border: 1px solid rgba(30, 122, 74, 0.15);
             position: relative;
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            overflow: hidden;
+            transition: all 0.4s ease;
+            border-left: 4px solid var(--chlorophyll);
         }
 
         .wall-card::before {
             content: '';
             position: absolute;
             top: 0;
-            left: 0;
-            width: 100%;
+            left: -4px;
+            width: calc(100% + 4px);
             height: 3px;
-            background: linear-gradient(90deg, var(--neural) 0%, var(--synapse) 100%);
+            background: linear-gradient(90deg, var(--chlorophyll), var(--cyan-bio));
             transform: scaleX(0);
             transform-origin: left;
-            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.4s ease;
         }
 
-        .wall-card::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            right: 0;
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, var(--neural-dim) 0%, transparent 70%);
-            transform: translate(50%, 50%);
-            opacity: 0;
-            transition: opacity 0.5s ease;
+        .wall-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06);
         }
 
         .wall-card:hover::before {
             transform: scaleX(1);
         }
 
-        .wall-card:hover::after {
-            opacity: 1;
-        }
-
-        .wall-card:hover {
-            background: var(--void-light);
-            transform: translateY(-4px);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-        }
-
         .wall-number {
-            font-family: 'Space Mono', monospace;
-            font-size: 10px;
-            color: var(--graphite);
-            margin-bottom: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--chlorophyll);
+            margin-bottom: 1rem;
+            letter-spacing: 0.1em;
         }
 
-        .wall-name {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 22px;
-            font-weight: 600;
-            margin-bottom: 12px;
-            color: var(--bone);
+        .wall-card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
         }
 
-        .wall-desc {
-            font-size: 13px;
+        .wall-card p {
+            font-size: 0.95rem;
+            color: var(--ink-muted);
             line-height: 1.7;
-            color: var(--graphite);
+        }
+
+        /* Illustration Break */
+        .illustration-break {
+            padding: 0;
+            overflow: hidden;
+            background: linear-gradient(to right, var(--chlorophyll-bg), transparent, var(--chlorophyll-bg));
+        }
+
+        .organism-illustration {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
         /* Trinity Section */
         .trinity {
-            padding: 160px 48px;
-            background: var(--void-light);
             position: relative;
-            z-index: 1;
         }
 
-        .trinity-header {
-            max-width: 800px;
-            margin: 0 auto 80px;
+        .trinity h2 {
             text-align: center;
+            margin-bottom: 1rem;
         }
 
-        .trinity-header h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(40px, 6vw, 72px);
-            font-weight: 400;
-            letter-spacing: -2px;
-            margin-bottom: 24px;
-        }
-
-        .trinity-header p {
-            font-size: 17px;
-            color: var(--bone-dim);
-            max-width: 600px;
-            margin: 0 auto;
+        .trinity-subtitle {
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--ink-muted);
+            margin-bottom: 5rem;
         }
 
         .pillars {
-            max-width: 1200px;
-            margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 32px;
+            gap: 3rem;
         }
 
         .pillar {
+            padding: 3rem;
+            background: var(--paper);
+            border: 1px solid rgba(30, 122, 74, 0.12);
             position: relative;
-            padding: 48px 36px;
-            background: var(--void);
-            border: 1px solid rgba(232, 228, 220, 0.06);
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            overflow: hidden;
+            border-top: 4px solid var(--chlorophyll);
         }
 
-        .pillar::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--neural), transparent);
-            transform: translateX(-100%);
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .pillar:hover::before {
-            transform: translateX(100%);
-        }
-
-        .pillar:hover {
-            border-color: rgba(0, 229, 255, 0.3);
-            transform: translateY(-8px);
-            box-shadow:
-                0 30px 80px rgba(0, 0, 0, 0.5),
-                0 0 0 1px rgba(0, 229, 255, 0.2),
-                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        .pillar-icon {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 2rem;
+            background: var(--chlorophyll-bg);
+            border-radius: 50%;
+            padding: 15px;
         }
 
         .pillar-number {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 100px;
-            font-weight: 400;
-            color: var(--neural);
-            opacity: 0.08;
             position: absolute;
-            top: 16px;
-            right: 24px;
-            line-height: 1;
-            transition: all 0.5s ease;
-        }
-
-        .pillar:hover .pillar-number {
+            top: 1.5rem;
+            right: 1.5rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 4rem;
+            font-weight: 400;
+            color: var(--chlorophyll);
             opacity: 0.15;
-            transform: scale(1.1);
+            line-height: 1;
         }
 
         .pillar h3 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            color: var(--bone);
+            margin-bottom: 1rem;
+            color: var(--chlorophyll);
         }
 
         .pillar p {
-            font-size: 13px;
+            font-size: 1rem;
+            color: var(--ink-muted);
             line-height: 1.8;
-            color: var(--graphite);
-            margin-bottom: 20px;
+            margin-bottom: 1.5rem;
         }
 
         .pillar-equation {
-            font-family: 'Space Mono', monospace;
-            font-size: 11px;
-            color: var(--graphite);
-            background: rgba(0, 229, 255, 0.05);
-            padding: 12px 16px;
-            border-left: 2px solid var(--neural);
-            margin-top: 16px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--ink-light);
+            background: var(--paper-dark);
+            padding: 1rem;
+            border-left: 2px solid var(--chlorophyll);
         }
 
-        .pillar-equation .eq {
-            color: var(--bone);
-            font-style: italic;
-            margin-bottom: 4px;
+        /* Diagram Section */
+        .diagram-section {
+            background: var(--paper-dark);
+            margin: 0;
+            max-width: none;
+            padding: 8rem 4rem;
         }
 
-        /* Diagram Section - Control Theory Style */
-        .diagram {
-            padding: 160px 48px;
-            position: relative;
-            z-index: 1;
-        }
-
-        .diagram-container {
+        .diagram-content {
             max-width: 1000px;
             margin: 0 auto;
         }
 
         .diagram-header {
             text-align: center;
-            margin-bottom: 80px;
+            margin-bottom: 4rem;
         }
 
-        .diagram-header h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(36px, 5vw, 56px);
-            font-weight: 400;
-            letter-spacing: -1px;
-        }
-
-        .diagram-visual {
+        .diagram-wrapper {
+            background: var(--paper);
+            padding: 3rem;
+            border: 1px solid rgba(45, 90, 61, 0.1);
             position: relative;
-            padding: 60px;
-            background: var(--void-light);
-            border: 1px solid rgba(0, 229, 255, 0.1);
         }
 
-        .diagram-label {
-            position: absolute;
-            top: 16px;
-            left: 20px;
-            font-family: 'Space Mono', monospace;
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--graphite);
-        }
-
-        .diagram-visual::before,
-        .diagram-visual::after {
+        .diagram-wrapper::before,
+        .diagram-wrapper::after {
             content: '';
             position: absolute;
             width: 20px;
             height: 20px;
-            border: 1px solid var(--neural);
+            border: 1px solid var(--chlorophyll);
         }
 
-        .diagram-visual::before {
+        .diagram-wrapper::before {
             top: -1px;
             left: -1px;
             border-right: none;
             border-bottom: none;
         }
 
-        .diagram-visual::after {
+        .diagram-wrapper::after {
             bottom: -1px;
             right: -1px;
             border-left: none;
             border-top: none;
         }
 
-        .diagram-svg {
-            width: 100%;
-            max-width: 700px;
-            margin: 0 auto;
-            display: block;
+        .diagram-caption {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 0.9rem;
+            color: var(--ink-muted);
         }
 
         /* Roadmap Section */
         .roadmap {
-            padding: 160px 48px;
-            background: var(--void-light);
             position: relative;
-            z-index: 1;
         }
 
-        .roadmap-container {
-            max-width: 1000px;
-            margin: 0 auto;
+        .roadmap h2 {
+            margin-bottom: 1rem;
         }
 
-        .roadmap-header {
-            margin-bottom: 64px;
+        .roadmap-subtitle {
+            font-size: 1.1rem;
+            color: var(--ink-muted);
+            margin-bottom: 4rem;
         }
 
-        .roadmap-header h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(36px, 5vw, 56px);
-            font-weight: 400;
-            letter-spacing: -1px;
-            margin-bottom: 16px;
-        }
-
-        .roadmap-header p {
-            color: var(--graphite);
-            max-width: 600px;
-        }
-
-        .roadmap-phases {
+        .phases {
             display: flex;
             flex-direction: column;
-            gap: 32px;
+            gap: 3rem;
         }
 
         .phase {
             display: grid;
             grid-template-columns: 200px 1fr;
-            gap: 48px;
-            padding: 40px;
-            background: var(--void);
-            border: 1px solid rgba(232, 228, 220, 0.06);
+            gap: 4rem;
+            padding: 2.5rem;
+            background: var(--paper);
+            border: 1px solid rgba(30, 122, 74, 0.12);
+            border-left: 5px solid var(--chlorophyll);
             position: relative;
+            transition: all 0.4s ease;
         }
 
         .phase::before {
@@ -960,135 +613,165 @@
             left: 200px;
             top: 0;
             bottom: 0;
-            width: 1px;
-            background: rgba(0, 229, 255, 0.2);
+            width: 2px;
+            background: linear-gradient(to bottom, var(--chlorophyll), var(--cyan-bio), var(--chlorophyll));
+            opacity: 0.4;
+        }
+
+        .phase:hover {
+            transform: translateX(8px);
+            border-color: rgba(45, 90, 61, 0.2);
         }
 
         .phase-meta {
-            padding-right: 32px;
+            padding-right: 2rem;
         }
 
-        .phase-number {
-            font-family: 'Space Mono', monospace;
-            font-size: 9px;
+        .phase-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--synapse);
-            margin-bottom: 12px;
+            color: var(--cyan-bio);
+            margin-bottom: 0.5rem;
         }
 
         .phase-name {
             font-family: 'Cormorant Garamond', serif;
-            font-size: 28px;
-            font-weight: 600;
-            color: var(--bone);
-            margin-bottom: 16px;
+            font-size: 1.8rem;
+            font-weight: 500;
+            color: var(--ink);
+            margin-bottom: 1.5rem;
         }
 
         .phase-specs {
-            font-family: 'Space Mono', monospace;
-            font-size: 10px;
-            color: var(--graphite);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--ink-muted);
             line-height: 2;
         }
 
         .phase-specs span {
-            color: var(--neural);
+            color: var(--chlorophyll);
         }
 
         .phase-content p {
-            font-size: 14px;
+            font-size: 1rem;
+            color: var(--ink-muted);
             line-height: 1.9;
-            color: var(--bone-dim);
+        }
+
+        /* Stats Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 5rem 0;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2.5rem;
+            background: var(--chlorophyll-bg);
+            border: 2px solid var(--chlorophyll);
+            border-radius: 0;
+        }
+
+        .stat-value {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 3.5rem;
+            font-weight: 600;
+            color: var(--chlorophyll);
+            line-height: 1;
+        }
+
+        .stat-value span {
+            font-size: 1.5rem;
+            color: var(--ink-muted);
+        }
+
+        .stat-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--ink-muted);
+            margin-top: 0.75rem;
         }
 
         /* CTA Section */
-        .cta {
-            padding: 200px 48px;
-            position: relative;
-            z-index: 1;
+        .cta-section {
             text-align: center;
-            background: radial-gradient(ellipse at center, var(--void-light) 0%, var(--void) 70%);
+            padding: 10rem 4rem;
+            background: var(--paper-dark);
+            margin: 0;
+            max-width: none;
         }
 
-        .cta-container {
+        .cta-content {
             max-width: 800px;
             margin: 0 auto;
         }
 
-        .cta h2 {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(48px, 7vw, 96px);
-            font-weight: 400;
-            letter-spacing: -2px;
-            margin-bottom: 32px;
-            line-height: 1.1;
+        .cta-section h2 {
+            margin-bottom: 2rem;
         }
 
-        .cta h2 em {
+        .cta-section h2 em {
             font-style: italic;
-            color: var(--neural);
-            text-shadow: 0 0 80px var(--neural-glow);
-        }
-
-        .cta-text {
-            font-size: 18px;
-            color: var(--bone-dim);
-            max-width: 600px;
-            margin: 0 auto 48px;
-            line-height: 1.9;
-        }
-
-        .cta-text.janitor {
-            background: rgba(255, 107, 53, 0.1);
-            border-left: 3px solid var(--synapse);
-            padding: 24px 32px;
-            text-align: left;
-            font-style: italic;
-        }
-
-        .cta-email {
-            display: inline-flex;
-            align-items: center;
-            gap: 16px;
-            font-family: 'Space Mono', monospace;
-            font-size: 16px;
-            color: var(--neural);
-            text-decoration: none;
-            padding: 24px 40px;
-            border: 1px solid var(--neural-dim);
-            transition: all 0.4s ease;
-        }
-
-        .cta-email:hover {
-            background: var(--neural-dim);
-            border-color: var(--neural);
+            color: var(--chlorophyll);
         }
 
         .cta-quote {
-            margin-top: 80px;
             font-family: 'Cormorant Garamond', serif;
-            font-size: 20px;
+            font-size: 1.3rem;
             font-style: italic;
-            color: var(--graphite);
+            color: var(--ink-muted);
+            padding: 2rem;
+            background: var(--paper);
+            border-left: 3px solid var(--cyan-bio);
+            margin: 3rem auto;
+            max-width: 600px;
+            text-align: left;
+        }
+
+        .cta-text {
+            font-size: 1.1rem;
+            color: var(--ink-muted);
+            margin-bottom: 3rem;
+            line-height: 1.9;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1rem;
+            color: var(--chlorophyll);
+            text-decoration: none;
+            padding: 1.25rem 2.5rem;
+            border: 1px solid var(--chlorophyll);
+            transition: all 0.4s ease;
+        }
+
+        .cta-btn:hover {
+            background: var(--chlorophyll);
+            color: var(--paper);
         }
 
         .cta-latin {
-            font-family: 'Space Mono', monospace;
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            color: var(--bone-dim);
-            margin-top: 16px;
-            opacity: 0.5;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            font-size: 1rem;
+            color: var(--ink-muted);
+            margin-top: 3rem;
+            letter-spacing: 0.1em;
         }
 
         /* Footer */
         footer {
-            padding: 48px;
-            border-top: 1px solid rgba(232, 228, 220, 0.06);
-            position: relative;
-            z-index: 1;
+            padding: 4rem;
+            border-top: 1px solid rgba(45, 90, 61, 0.1);
         }
 
         .footer-content {
@@ -1100,580 +783,551 @@
         }
 
         .footer-logo {
-            font-family: 'Space Mono', monospace;
-            font-size: 16px;
-            font-weight: 700;
-            color: var(--bone);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--ink);
+        }
+
+        .footer-logo span {
+            color: var(--chlorophyll);
         }
 
         .footer-text {
-            font-family: 'Space Mono', monospace;
-            font-size: 10px;
-            color: var(--graphite);
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            font-size: 0.9rem;
+            color: var(--ink-muted);
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* Responsive */
-        @media (max-width: 1024px) {
-            .hero-grid {
+        @media (max-width: 1200px) {
+            .hero-content {
                 grid-template-columns: 1fr;
-                gap: 60px;
+                gap: 4rem;
             }
 
-            .manifesto-text {
-                columns: 1;
+            .hero-visual {
+                order: -1;
             }
 
-            .walls-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .margin-note {
+                display: none;
             }
 
             .pillars {
                 grid-template-columns: 1fr;
             }
 
-            .phase {
-                grid-template-columns: 1fr;
-                gap: 24px;
-            }
-
-            .phase::before {
-                display: none;
-            }
-
-            .watts-counter {
-                display: none;
+            .walls-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
 
         @media (max-width: 768px) {
             nav {
-                padding: 20px 24px;
+                padding: 1rem 1.5rem;
             }
 
             .nav-links {
                 display: none;
             }
 
-            .hero {
-                padding: 120px 24px 80px;
-            }
-
-            .manifesto,
-            .walls,
-            .trinity,
-            .diagram,
-            .roadmap,
-            .cta {
-                padding: 100px 24px;
+            .hero,
+            section,
+            .problem,
+            .diagram-section,
+            .cta-section {
+                padding: 4rem 1.5rem;
             }
 
             .walls-grid {
                 grid-template-columns: 1fr;
             }
 
+            .phase {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .phase::before {
+                display: none;
+            }
+
             .stats-row {
                 grid-template-columns: 1fr;
             }
-        }
 
-        /* Scroll animations */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+            footer {
+                padding: 2rem 1.5rem;
+            }
 
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
+            .footer-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
-    <canvas id="liquid-canvas"></canvas>
-
-    <!-- Fixed Watts Counter -->
-    <div class="watts-counter">
-        <div class="label">Global AI Power</div>
-        <div class="value" id="global-watts">~450 MW</div>
-        <div class="divider"></div>
-        <div class="label">20n Target</div>
-        <div class="target">20 W</div>
-    </div>
-
     <nav>
-        <a href="/" class="logo">20n</a>
-        <div class="nav-links">
-            <a href="#manifesto">Manifesto</a>
-            <a href="#architecture">Architecture</a>
-            <a href="#roadmap">Roadmap</a>
-            <a href="/contact">Contact</a>
-        </div>
+        <a href="/" class="logo">20n<span>.</span></a>
+        <ul class="nav-links">
+            <li><a href="/manifesto">Manifesto</a></li>
+            <li><a href="#architecture">Architecture</a></li>
+            <li><a href="#roadmap">Roadmap</a></li>
+            <li><a href="/contact">Contact</a></li>
+        </ul>
     </nav>
 
     <section class="hero">
-        <div class="hero-grid">
-            <div class="hero-left">
-                <div class="hero-label">Research Laboratory</div>
-                <h1 class="hero-title">
-                    <em>Computational</em><br>Biology on Silicon
-                </h1>
-                <p class="hero-subtitle">
-                    Solving the 20-Watt AGI paradox via Liquid Networks.
-                </p>
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-eyebrow">Research Laboratory</div>
+                <h1>We build <em>living</em><br>intelligence.</h1>
+                <p class="hero-subtitle">Solving the 20-Watt paradox through Liquid Networks, Active Inference, and neuromorphic computation.</p>
                 <p class="hero-desc">
                     We don't build AI that reads. <strong>We build AI that lives.</strong>
-                    Embodied intelligence through active inference, differential equations,
-                    and neuromorphic efficiency.
+                    Embodied intelligence through continuous-time dynamics, biological principles, and radical efficiency.
                 </p>
                 <div class="hero-cta">
-                    <a href="/manifesto" class="btn btn-primary">Download Manifesto</a>
-                    <a href="/contact" class="btn btn-ghost">Join Us</a>
+                    <a href="/manifesto" class="btn btn-primary"><span>Read the Manifesto</span></a>
+                    <a href="/contact" class="btn btn-secondary">Join the Lab</a>
                 </div>
+                <p class="margin-note" style="top: 2rem;">
+                    The human brain runs on 20 watts. Current AI requires megawatts. We're closing that gap.
+                </p>
             </div>
-            <div class="hero-right">
-                <div class="equation-card" data-label="Liquid State">
-                    <div class="equation">dx/dt = f(x, u, t, θ)</div>
-                    <div class="equation-desc">Continuous-time neural dynamics</div>
-                </div>
-                <div class="equation-card" data-label="Free Energy">
-                    <div class="equation">F = E[log q(θ)] - E[log p(y,θ)]</div>
-                    <div class="equation-desc">Variational free energy minimization</div>
-                </div>
-                <div class="stats-row">
-                    <div class="stat-mini">
-                        <div class="value">20<span>W</span></div>
-                        <div class="label">Target</div>
-                    </div>
-                    <div class="stat-mini">
-                        <div class="value">1000<span>x</span></div>
-                        <div class="label">Efficiency</div>
-                    </div>
-                    <div class="stat-mini">
-                        <div class="value">&lt;10<span>k</span></div>
-                        <div class="label">Parameters</div>
-                    </div>
-                </div>
+            <div class="hero-visual">
+                <svg class="hero-illustration" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Organic neural network illustration -->
+                    <g stroke="var(--chlorophyll, #1E7A4A)" stroke-width="1.5" fill="none" opacity="0.8">
+                        <!-- Central organism -->
+                        <ellipse cx="200" cy="200" rx="60" ry="45" stroke-dasharray="2,4"/>
+                        <ellipse cx="200" cy="200" rx="90" ry="70" stroke-dasharray="3,6"/>
+                        <ellipse cx="200" cy="200" rx="130" ry="100" stroke-dasharray="4,8"/>
+
+                        <!-- Neural connections - organic curves -->
+                        <path d="M 200 155 Q 180 100 140 80" stroke-width="1.5"/>
+                        <path d="M 200 155 Q 220 100 260 80" stroke-width="1.5"/>
+                        <path d="M 260 200 Q 300 180 340 160" stroke-width="1.5"/>
+                        <path d="M 260 200 Q 320 220 360 240" stroke-width="1.5"/>
+                        <path d="M 200 245 Q 180 300 140 320" stroke-width="1.5"/>
+                        <path d="M 200 245 Q 220 300 260 320" stroke-width="1.5"/>
+                        <path d="M 140 200 Q 100 180 60 160" stroke-width="1.5"/>
+                        <path d="M 140 200 Q 80 220 40 240" stroke-width="1.5"/>
+
+                        <!-- Neurons/nodes -->
+                        <circle cx="200" cy="200" r="12" fill="#1E7A4A" opacity="0.6"/>
+                        <circle cx="140" cy="80" r="8" fill="#1E7A4A" opacity="0.7"/>
+                        <circle cx="260" cy="80" r="6" fill="#2A8B8B" opacity="0.7"/>
+                        <circle cx="340" cy="160" r="8" fill="#2A8B8B" opacity="0.7"/>
+                        <circle cx="360" cy="240" r="6" fill="#1E7A4A" opacity="0.7"/>
+                        <circle cx="140" cy="320" r="8" fill="#2A8B8B" opacity="0.7"/>
+                        <circle cx="260" cy="320" r="6" fill="#1E7A4A" opacity="0.7"/>
+                        <circle cx="60" cy="160" r="6" fill="#1E7A4A" opacity="0.7"/>
+                        <circle cx="40" cy="240" r="8" fill="#2A8B8B" opacity="0.7"/>
+
+                        <!-- Inner detail -->
+                        <path d="M 180 185 Q 200 175 220 185" stroke-width="0.8"/>
+                        <path d="M 180 215 Q 200 225 220 215" stroke-width="0.8"/>
+                        <line x1="180" y1="200" x2="220" y2="200" stroke-width="0.8" stroke-dasharray="2,2"/>
+                    </g>
+
+                    <!-- Annotations -->
+                    <g fill="#8B6B4A" font-family="'Cormorant Garamond', serif" font-style="italic" font-size="11">
+                        <text x="130" y="60">sensory input</text>
+                        <text x="330" y="145">action output</text>
+                        <text x="45" y="275">adaptation</text>
+                        <text x="280" y="340">learning</text>
+                    </g>
+
+                    <!-- Small connecting lines to annotations -->
+                    <g stroke="#8B6B4A" stroke-width="0.5" opacity="0.5">
+                        <line x1="140" y1="80" x2="150" y2="65"/>
+                        <line x1="340" y1="160" x2="330" y2="150"/>
+                        <line x1="40" y1="240" x2="55" y2="260"/>
+                        <line x1="260" y1="320" x2="280" y2="330"/>
+                    </g>
+                </svg>
             </div>
         </div>
     </section>
 
-    <section class="manifesto" id="manifesto">
-        <div class="manifesto-container">
-            <div class="section-header">
+    <section class="problem">
+        <div class="problem-content">
+            <div class="section-label">
                 <span class="section-number">01</span>
-                <span class="section-title">The Problem</span>
+                <span class="section-tag">The Problem</span>
             </div>
-            <h2 class="reveal">They build <em>monuments</em>.<br>We build <em>organisms</em>.</h2>
-            <div class="manifesto-text reveal">
-                <p>
-                    Large Language Models rest on a false hypothesis: that intelligence is a <strong>static compression of past data</strong>.
-                    This paradigm is energetically unsustainable and structurally incapable of acting in the dynamic physical world.
-                </p>
-                <p>
-                    The current consensus—OpenAI, Google, Meta—is based on the Scaling Law:
-                    <span class="highlight">More data + More GPUs = More intelligence</span>. This is a dead end.
-                </p>
-                <p>
-                    <strong>20n proposes a fundamental paradigm shift:</strong> moving from discrete, statistical intelligence
-                    (Transformers) to continuous, biological intelligence (Liquid Networks & Active Inference).
-                </p>
-                <p>
-                    We don't build an AI that predicts the next token. We build an AI that minimizes entropy to survive
-                    and act in the chaos of the real world.
-                </p>
+            <h2 class="fade-in">They build <em>monuments</em>.<br>We build <em>organisms</em>.</h2>
+            <p class="problem-lead fade-in">
+                Large Language Models rest on a false hypothesis: that intelligence is a static compression of past data.
+                This paradigm is energetically unsustainable and structurally incapable of acting in the physical world.
+            </p>
+
+            <div class="walls-grid">
+                <div class="wall-card fade-in">
+                    <div class="wall-number">01</div>
+                    <h3>Energy Wall</h3>
+                    <p>Scaling Transformers requires more energy than global production will allow by 2030. They're melting the grid for chatbots.</p>
+                </div>
+                <div class="wall-card fade-in">
+                    <div class="wall-number">02</div>
+                    <h3>Data Wall</h3>
+                    <p>They've consumed the entire internet. The well is dry. Quality data is exhausted, and synthetic data creates collapse.</p>
+                </div>
+                <div class="wall-card fade-in">
+                    <div class="wall-number">03</div>
+                    <h3>Latency Wall</h3>
+                    <p>A robot cannot wait 500ms for the Cloud. Intelligence must live at the edge. Real-time or death.</p>
+                </div>
+                <div class="wall-card fade-in">
+                    <div class="wall-number">04</div>
+                    <h3>Physics Wall</h3>
+                    <p>LLMs have no notion of causality. They hallucinate reality. Our models don't predict physics—they <em>are</em> physics.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <section class="walls">
-        <div class="walls-header">
-            <div class="section-header">
-                <span class="section-number">02</span>
-                <span class="section-title">The Walls</span>
-            </div>
-            <h2 class="reveal">Four fundamental limits of current AI.</h2>
-        </div>
-        <div class="walls-grid">
-            <div class="wall-card reveal">
-                <div class="wall-number">01</div>
-                <div class="wall-name">Energy Wall</div>
-                <p class="wall-desc">
-                    Scaling Transformers requires more energy than global production allows by 2030.
-                    They're melting the grid for chatbots.
-                </p>
-            </div>
-            <div class="wall-card reveal">
-                <div class="wall-number">02</div>
-                <div class="wall-name">Data Wall</div>
-                <p class="wall-desc">
-                    They've read the entire internet. There's nothing left.
-                    The well is dry. Quality data is exhausted.
-                </p>
-            </div>
-            <div class="wall-card reveal">
-                <div class="wall-number">03</div>
-                <div class="wall-name">Latency Wall</div>
-                <p class="wall-desc">
-                    A robot can't wait 500ms for the Cloud.
-                    Intelligence must live at the edge. Real-time or death.
-                </p>
-            </div>
-            <div class="wall-card reveal">
-                <div class="wall-number">04</div>
-                <div class="wall-name">Physics Wall</div>
-                <p class="wall-desc">
-                    LLMs have no notion of causality or Newtonian physics. They hallucinate reality.
-                    20n integrates ODEs as computational primitives. Our models don't predict physics—they <em>are</em> physics.
-                </p>
-            </div>
-        </div>
-    </section>
+    <!-- Decorative Organism Illustration -->
+    <div class="illustration-break">
+        <svg viewBox="0 0 1200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="organism-illustration">
+            <!-- Flowing organic lines representing neural pathways -->
+            <path d="M0 100 Q150 50 300 100 T600 100 T900 100 T1200 100" stroke="#1E7A4A" stroke-width="2" fill="none" opacity="0.3"/>
+            <path d="M0 100 Q150 150 300 100 T600 100 T900 100 T1200 100" stroke="#2A8B8B" stroke-width="1.5" fill="none" opacity="0.25"/>
+
+            <!-- Biological nodes -->
+            <circle cx="150" cy="80" r="15" fill="#1E7A4A" opacity="0.15"/>
+            <circle cx="150" cy="80" r="8" fill="#1E7A4A" opacity="0.4"/>
+            <circle cx="300" cy="100" r="20" fill="#1E7A4A" opacity="0.1"/>
+            <circle cx="300" cy="100" r="10" fill="#1E7A4A" opacity="0.3"/>
+            <circle cx="450" cy="70" r="12" fill="#2A8B8B" opacity="0.15"/>
+            <circle cx="450" cy="70" r="6" fill="#2A8B8B" opacity="0.4"/>
+            <circle cx="600" cy="100" r="25" fill="#1E7A4A" opacity="0.08"/>
+            <circle cx="600" cy="100" r="12" fill="#1E7A4A" opacity="0.25"/>
+            <circle cx="750" cy="130" r="15" fill="#2A8B8B" opacity="0.15"/>
+            <circle cx="750" cy="130" r="7" fill="#2A8B8B" opacity="0.4"/>
+            <circle cx="900" cy="100" r="18" fill="#1E7A4A" opacity="0.12"/>
+            <circle cx="900" cy="100" r="9" fill="#1E7A4A" opacity="0.35"/>
+            <circle cx="1050" cy="85" r="14" fill="#2A8B8B" opacity="0.15"/>
+            <circle cx="1050" cy="85" r="7" fill="#2A8B8B" opacity="0.4"/>
+
+            <!-- Connecting dendrites -->
+            <path d="M158 80 Q200 60 292 100" stroke="#1E7A4A" stroke-width="1" fill="none" opacity="0.3"/>
+            <path d="M310 100 Q380 80 444 70" stroke="#1E7A4A" stroke-width="1" fill="none" opacity="0.3"/>
+            <path d="M456 70 Q520 85 588 100" stroke="#2A8B8B" stroke-width="1" fill="none" opacity="0.3"/>
+            <path d="M612 100 Q680 115 743 130" stroke="#1E7A4A" stroke-width="1" fill="none" opacity="0.3"/>
+            <path d="M757 130 Q820 115 891 100" stroke="#2A8B8B" stroke-width="1" fill="none" opacity="0.3"/>
+            <path d="M909 100 Q970 90 1043 85" stroke="#1E7A4A" stroke-width="1" fill="none" opacity="0.3"/>
+        </svg>
+    </div>
 
     <section class="trinity" id="architecture">
-        <div class="trinity-header">
-            <div class="section-header" style="justify-content: center; margin-bottom: 32px;">
-                <span class="section-number">03</span>
-                <span class="section-title">The Trinity</span>
-            </div>
-            <h2 class="reveal">Neuro-Symbolic<br>Liquid Architecture</h2>
-            <p class="reveal">Three pillars that fundamentally diverge from the Transformer paradigm.</p>
+        <div class="section-label" style="justify-content: center;">
+            <span class="section-number">02</span>
+            <span class="section-tag">The Architecture</span>
         </div>
+        <h2 class="fade-in">The 20n Trinity</h2>
+        <p class="trinity-subtitle fade-in">Three pillars that fundamentally diverge from the Transformer paradigm.</p>
+
         <div class="pillars">
-            <div class="pillar reveal">
+            <div class="pillar fade-in">
                 <span class="pillar-number">01</span>
+                <svg class="pillar-icon" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M40 10 Q60 30 40 50 Q20 70 40 70 Q60 70 40 50 Q20 30 40 10" stroke="#1E7A4A" stroke-width="2.5" fill="none"/>
+                    <circle cx="40" cy="40" r="10" stroke="#1E7A4A" stroke-width="2" fill="#1E7A4A" fill-opacity="0.2"/>
+                    <path d="M32 40 L48 40 M40 32 L40 48" stroke="#1E7A4A" stroke-width="1.5"/>
+                </svg>
                 <h3>Liquid Neural Networks</h3>
-                <p>
-                    Instead of static neuron layers, we use differential equations. The network is "liquid"—
-                    its parameters change during inference, not just training. It adapts without retraining.
-                </p>
+                <p>Instead of static layers, we use differential equations. The network is "liquid"—its parameters change during inference, not just training. It adapts without retraining.</p>
                 <div class="pillar-equation">
-                    <div class="eq">dx/dt = -x/τ + f(x)·σ(Wx + b)</div>
-                    Neural ODE with time-varying dynamics
+                    dx/dt = -x/τ + f(x)·σ(Wx + b)
                 </div>
             </div>
-            <div class="pillar reveal">
+            <div class="pillar fade-in">
                 <span class="pillar-number">02</span>
+                <svg class="pillar-icon" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="40" cy="40" r="25" stroke="#1E7A4A" stroke-width="2" fill="none" stroke-dasharray="4,4"/>
+                    <path d="M25 40 Q40 20 55 40 Q40 60 25 40" stroke="#1E7A4A" stroke-width="2" fill="#1E7A4A" fill-opacity="0.15"/>
+                    <circle cx="40" cy="40" r="6" fill="#1E7A4A" opacity="0.5"/>
+                    <path d="M15 40 L25 40 M55 40 L65 40" stroke="#1E7A4A" stroke-width="1.5"/>
+                </svg>
                 <h3>Active Inference</h3>
-                <p>
-                    Reward functions are sparse and brittle. We minimize <strong>Free Energy (Surprise)</strong>.
-                    The agent has an internal world model and acts to make reality match predictions.
-                    This is how biological brains work—Friston's Free Energy Principle.
-                </p>
+                <p>We minimize Free Energy (Surprise) instead of maximizing reward. The agent has an internal world model and acts to make reality match predictions—like biological brains.</p>
                 <div class="pillar-equation">
-                    <div class="eq">F = D_KL[q(θ)||p(θ|y)] + log p(y)</div>
-                    Variational inference as action selection
+                    F = D_KL[q(θ)||p(θ|y)] + log p(y)
                 </div>
             </div>
-            <div class="pillar reveal">
+            <div class="pillar fade-in">
                 <span class="pillar-number">03</span>
+                <svg class="pillar-icon" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 60 L20 50 L35 40 L35 30 L50 20 L50 10" stroke="#1E7A4A" stroke-width="2.5" fill="none"/>
+                    <path d="M35 60 L35 45 L50 35 L50 25 L65 15" stroke="#2A8B8B" stroke-width="2" fill="none"/>
+                    <circle cx="20" cy="60" r="5" fill="#1E7A4A"/>
+                    <circle cx="35" cy="40" r="4" fill="#1E7A4A"/>
+                    <circle cx="50" cy="20" r="5" fill="#1E7A4A"/>
+                    <circle cx="65" cy="15" r="4" fill="#2A8B8B"/>
+                </svg>
                 <h3>Spiking Networks</h3>
-                <p>
-                    Information transmits only when necessary—via spikes, like electrical impulses in the brain.
-                    Event-driven computation. Result: 20W consumption vs 20,000W for GPU clusters.
-                </p>
+                <p>Information transmits only when necessary—via spikes, like electrical impulses in the brain. Event-driven computation: 20W vs 20,000W for GPU clusters.</p>
                 <div class="pillar-equation">
-                    <div class="eq">V(t) = V_rest + Σ w_i · δ(t - t_i)</div>
-                    Spike-timing dependent plasticity
+                    V(t) = V_rest + Σ w_i · δ(t - t_i)
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="diagram">
-        <div class="diagram-container">
+    <section class="diagram-section">
+        <div class="diagram-content">
             <div class="diagram-header">
-                <div class="section-header" style="justify-content: center; margin-bottom: 32px;">
-                    <span class="section-number">04</span>
-                    <span class="section-title">The Loop</span>
+                <div class="section-label" style="justify-content: center;">
+                    <span class="section-number">03</span>
+                    <span class="section-tag">The Loop</span>
                 </div>
-                <h2 class="reveal">Active Inference Control Loop</h2>
+                <h2 class="fade-in">Active Inference Control</h2>
             </div>
-            <div class="diagram-visual reveal">
-                <div class="diagram-label">Fig. 1 — Closed-loop perception-action cycle</div>
-                <svg class="diagram-svg" viewBox="0 0 700 400" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Grid background -->
+            <div class="diagram-wrapper fade-in">
+                <svg viewBox="0 0 600 350" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 100%;">
+                    <!-- Grid pattern -->
                     <defs>
-                        <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(0,229,255,0.05)" stroke-width="0.5"/>
+                        <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+                            <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#1E7A4A" stroke-width="0.5" opacity="0.2"/>
                         </pattern>
                     </defs>
                     <rect width="100%" height="100%" fill="url(#grid)"/>
 
-                    <!-- Main blocks - Control Theory style -->
-                    <!-- Generative Model -->
-                    <rect x="250" y="30" width="200" height="60" fill="none" stroke="#00e5ff" stroke-width="1"/>
-                    <text x="350" y="55" text-anchor="middle" fill="#00e5ff" font-family="Space Mono, monospace" font-size="10" letter-spacing="1">GENERATIVE MODEL</text>
-                    <text x="350" y="72" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="8">p(y, θ)</text>
+                    <!-- Generative Model Box -->
+                    <rect x="200" y="30" width="200" height="60" fill="#1E7A4A" fill-opacity="0.08" stroke="#1E7A4A" stroke-width="2"/>
+                    <text x="300" y="55" text-anchor="middle" fill="#1E7A4A" font-family="'JetBrains Mono', monospace" font-size="10" letter-spacing="0.1em" font-weight="600">GENERATIVE MODEL</text>
+                    <text x="300" y="75" text-anchor="middle" fill="#4A4A4A" font-family="'Cormorant Garamond', serif" font-style="italic" font-size="12">p(y, θ)</text>
 
-                    <!-- Free Energy Minimizer -->
-                    <rect x="250" y="170" width="200" height="60" fill="rgba(0,229,255,0.1)" stroke="#00e5ff" stroke-width="2"/>
-                    <text x="350" y="195" text-anchor="middle" fill="#e8e4dc" font-family="Space Mono, monospace" font-size="10" letter-spacing="1">FREE ENERGY</text>
-                    <text x="350" y="212" text-anchor="middle" fill="#00e5ff" font-family="Space Mono, monospace" font-size="9">argmin F(q, y)</text>
+                    <!-- Free Energy Box (center) -->
+                    <rect x="200" y="145" width="200" height="60" fill="#1E7A4A" fill-opacity="0.15" stroke="#1E7A4A" stroke-width="2.5"/>
+                    <text x="300" y="170" text-anchor="middle" fill="#1E7A4A" font-family="'Cormorant Garamond', serif" font-weight="600" font-size="15">FREE ENERGY</text>
+                    <text x="300" y="190" text-anchor="middle" fill="#1E7A4A" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="500">argmin F(q, y)</text>
 
-                    <!-- Environment -->
-                    <rect x="250" y="310" width="200" height="60" fill="none" stroke="#ff6b35" stroke-width="1"/>
-                    <text x="350" y="335" text-anchor="middle" fill="#ff6b35" font-family="Space Mono, monospace" font-size="10" letter-spacing="1">ENVIRONMENT</text>
-                    <text x="350" y="352" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="8">Physical World</text>
+                    <!-- Environment Box -->
+                    <rect x="200" y="260" width="200" height="60" fill="#2A8B8B" fill-opacity="0.08" stroke="#2A8B8B" stroke-width="2"/>
+                    <text x="300" y="285" text-anchor="middle" fill="#2A8B8B" font-family="'JetBrains Mono', monospace" font-size="10" letter-spacing="0.1em" font-weight="600">ENVIRONMENT</text>
+                    <text x="300" y="305" text-anchor="middle" fill="#4A4A4A" font-family="'Cormorant Garamond', serif" font-style="italic" font-size="12">Physical World</text>
 
                     <!-- Arrows -->
                     <defs>
-                        <marker id="arr1" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-                            <polygon points="0 0, 8 3, 0 6" fill="#00e5ff"/>
+                        <marker id="arrow-green" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+                            <polygon points="0 0, 10 4, 0 8" fill="#1E7A4A"/>
                         </marker>
-                        <marker id="arr2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-                            <polygon points="0 0, 8 3, 0 6" fill="#ff6b35"/>
+                        <marker id="arrow-cyan" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+                            <polygon points="0 0, 10 4, 0 8" fill="#2A8B8B"/>
                         </marker>
                     </defs>
 
-                    <!-- Vertical connections -->
-                    <line x1="350" y1="90" x2="350" y2="170" stroke="#00e5ff" stroke-width="1" marker-end="url(#arr1)"/>
-                    <line x1="350" y1="230" x2="350" y2="310" stroke="#00e5ff" stroke-width="1" marker-end="url(#arr1)"/>
+                    <!-- Vertical arrows -->
+                    <line x1="300" y1="90" x2="300" y2="145" stroke="#1E7A4A" stroke-width="2" marker-end="url(#arrow-green)"/>
+                    <line x1="300" y1="205" x2="300" y2="260" stroke="#1E7A4A" stroke-width="2" marker-end="url(#arrow-green)"/>
 
-                    <!-- Feedback loops -->
-                    <!-- Right side - Action -->
-                    <path d="M 450 200 L 550 200 L 550 340 L 450 340" fill="none" stroke="#00e5ff" stroke-width="1" marker-end="url(#arr1)"/>
-                    <text x="580" y="270" text-anchor="middle" fill="#00e5ff" font-family="Space Mono, monospace" font-size="9" letter-spacing="1">ACTION</text>
-                    <text x="580" y="285" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="8">a(t)</text>
+                    <!-- Action path (right side) -->
+                    <path d="M 400 175 L 480 175 L 480 290 L 400 290" fill="none" stroke="#1E7A4A" stroke-width="2" marker-end="url(#arrow-green)"/>
+                    <text x="520" y="230" text-anchor="middle" fill="#1E7A4A" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600">ACTION</text>
+                    <text x="520" y="245" text-anchor="middle" fill="#4A4A4A" font-family="'Cormorant Garamond', serif" font-style="italic" font-size="11">a(t)</text>
 
-                    <!-- Left side - Sensory -->
-                    <path d="M 250 340 L 150 340 L 150 200 L 250 200" fill="none" stroke="#ff6b35" stroke-width="1" marker-end="url(#arr2)"/>
-                    <text x="120" y="270" text-anchor="middle" fill="#ff6b35" font-family="Space Mono, monospace" font-size="9" letter-spacing="1">SENSORY</text>
-                    <text x="120" y="285" text-anchor="middle" fill="#6b7280" font-family="Space Mono, monospace" font-size="8">y(t)</text>
+                    <!-- Sensory path (left side) -->
+                    <path d="M 200 290 L 120 290 L 120 175 L 200 175" fill="none" stroke="#2A8B8B" stroke-width="2" marker-end="url(#arrow-cyan)"/>
+                    <text x="80" y="230" text-anchor="middle" fill="#2A8B8B" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600">SENSORY</text>
+                    <text x="80" y="245" text-anchor="middle" fill="#4A4A4A" font-family="'Cormorant Garamond', serif" font-style="italic" font-size="11">y(t)</text>
 
                     <!-- Labels -->
-                    <text x="380" y="135" text-anchor="start" fill="#6b7280" font-family="Space Mono, monospace" font-size="8">predictions</text>
-                    <text x="380" y="275" text-anchor="start" fill="#6b7280" font-family="Space Mono, monospace" font-size="8">commands</text>
-
+                    <text x="320" y="125" fill="#7A7A7A" font-family="'Cormorant Garamond', serif" font-style="italic" font-size="10">predictions</text>
+                    <text x="320" y="240" fill="#7A7A7A" font-family="'Cormorant Garamond', serif" font-style="italic" font-size="10">commands</text>
                 </svg>
+                <p class="diagram-caption">Fig. 1 — Closed-loop perception-action cycle. The organism acts to minimize surprise.</p>
             </div>
         </div>
     </section>
 
     <section class="roadmap" id="roadmap">
-        <div class="roadmap-container">
-            <div class="roadmap-header">
-                <div class="section-header">
-                    <span class="section-number">05</span>
-                    <span class="section-title">The Protocol</span>
+        <div class="section-label">
+            <span class="section-number">04</span>
+            <span class="section-tag">The Protocol</span>
+        </div>
+        <h2 class="fade-in">Research Roadmap</h2>
+        <p class="roadmap-subtitle fade-in">From mathematical foundations to embodied synthetic life.</p>
+
+        <div class="phases">
+            <div class="phase fade-in">
+                <div class="phase-meta">
+                    <div class="phase-label">Phase 01</div>
+                    <div class="phase-name">The Silica Worm</div>
+                    <div class="phase-specs">
+                        Platform: <span>MuJoCo</span><br>
+                        Parameters: <span>&lt; 10k</span><br>
+                        Training: <span>Zero-shot</span>
+                    </div>
                 </div>
-                <h2 class="reveal">Research Roadmap</h2>
-                <p class="reveal">From mathematical foundations to embodied synthetic life.</p>
+                <div class="phase-content">
+                    <p>A digital organism capable of learning to navigate complex environments with zero pre-training—only through curiosity and free energy minimization. Proof of architectural efficiency with 100x less data than traditional approaches.</p>
+                </div>
             </div>
-            <div class="roadmap-phases">
-                <div class="phase reveal">
-                    <div class="phase-meta">
-                        <div class="phase-number">Phase 01</div>
-                        <div class="phase-name">The Silica Worm</div>
-                        <div class="phase-specs">
-                            Platform: <span>MuJoCo</span><br>
-                            Parameters: <span>&lt; 10k</span><br>
-                            Training: <span>Zero-shot</span>
-                        </div>
-                    </div>
-                    <div class="phase-content">
-                        <p>
-                            Autonomous navigation in chaotic simulated environments. A simple digital organism
-                            capable of learning to move through wind, moving obstacles, and terrain changes
-                            with zero pre-training—only through curiosity and free energy minimization.
-                            Proof of architectural efficiency with 100x less data than traditional RL approaches.
-                        </p>
+            <div class="phase fade-in">
+                <div class="phase-meta">
+                    <div class="phase-label">Phase 02</div>
+                    <div class="phase-name">Ghost in the Shell</div>
+                    <div class="phase-specs">
+                        Hardware: <span>Unitree Go2</span><br>
+                        Latency: <span>&lt; 5ms</span><br>
+                        Transfer: <span>Sim2Real</span>
                     </div>
                 </div>
-                <div class="phase reveal">
-                    <div class="phase-meta">
-                        <div class="phase-number">Phase 02</div>
-                        <div class="phase-name">Ghost in the Shell</div>
-                        <div class="phase-specs">
-                            Hardware: <span>Unitree Go2</span><br>
-                            Latency: <span>&lt; 5ms</span><br>
-                            Transfer: <span>Sim2Real</span>
-                        </div>
-                    </div>
-                    <div class="phase-content">
-                        <p>
-                            Simulation to Reality transfer. Integration of the 20n liquid brain into physical
-                            robotic hardware. The robot learns to grasp unknown objects in under 10 seconds.
-                            Traditional approaches require hours of training. We require one demonstration.
-                        </p>
+                <div class="phase-content">
+                    <p>Simulation to Reality transfer. Integration of the liquid brain into physical robotic hardware. The robot learns to grasp unknown objects in under 10 seconds. Traditional approaches require hours—we require one demonstration.</p>
+                </div>
+            </div>
+            <div class="phase fade-in">
+                <div class="phase-meta">
+                    <div class="phase-label">Phase 03</div>
+                    <div class="phase-name">Apex Humanoid</div>
+                    <div class="phase-specs">
+                        Power: <span>20W</span><br>
+                        Learning: <span>Continuous</span><br>
+                        Environment: <span>Unstructured</span>
                     </div>
                 </div>
-                <div class="phase reveal">
-                    <div class="phase-meta">
-                        <div class="phase-number">Phase 03</div>
-                        <div class="phase-name">Apex Humanoid</div>
-                        <div class="phase-specs">
-                            Power: <span>20W</span><br>
-                            Learning: <span>Continuous</span><br>
-                            Environment: <span>Unstructured</span>
-                        </div>
-                    </div>
-                    <div class="phase-content">
-                        <p>
-                            Construction of proprietary embodied intelligence. The first synthetic life form
-                            capable of continuous learning in unstructured environments, operating entirely
-                            at the edge with 20W power consumption. No cloud. No latency. Pure autonomy.
-                        </p>
-                    </div>
+                <div class="phase-content">
+                    <p>The first synthetic life form capable of continuous learning in unstructured environments, operating entirely at the edge with 20W power consumption. No cloud. No latency. Pure autonomy.</p>
                 </div>
+            </div>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-card fade-in">
+                <div class="stat-value">100<span>x</span></div>
+                <div class="stat-label">Less Data Required</div>
+            </div>
+            <div class="stat-card fade-in">
+                <div class="stat-value">1000<span>x</span></div>
+                <div class="stat-label">More Efficient</div>
+            </div>
+            <div class="stat-card fade-in">
+                <div class="stat-value">&lt;10<span>k</span></div>
+                <div class="stat-label">Parameters</div>
             </div>
         </div>
     </section>
 
-    <section class="cta" id="join">
-        <div class="cta-container">
-            <h2 class="reveal">Build<br><em>With Us</em></h2>
-            <p class="cta-text janitor reveal">
-                Most AI researchers today have become data janitors, cleaning datasets to feed voracious monsters.
-                If you want to tune hyperparameters on LLMs, stay at Google.
+    <!-- Robot/Brain Illustration -->
+    <div class="illustration-break" style="padding: 3rem 0;">
+        <svg viewBox="0 0 800 250" fill="none" xmlns="http://www.w3.org/2000/svg" style="max-width: 800px; margin: 0 auto; display: block;">
+            <!-- Central Brain/Robot hybrid illustration -->
+            <!-- Left side: Brain -->
+            <g transform="translate(100, 25)">
+                <path d="M80 100 Q30 80 40 40 Q50 10 100 20 Q150 10 160 40 Q170 80 120 100" stroke="#1E7A4A" stroke-width="2" fill="#1E7A4A" fill-opacity="0.1"/>
+                <path d="M50 60 Q70 50 90 60" stroke="#1E7A4A" stroke-width="1.5" fill="none"/>
+                <path d="M110 60 Q130 50 150 60" stroke="#1E7A4A" stroke-width="1.5" fill="none"/>
+                <path d="M70 80 Q100 90 130 80" stroke="#1E7A4A" stroke-width="1.5" fill="none"/>
+                <circle cx="60" cy="50" r="4" fill="#1E7A4A" opacity="0.6"/>
+                <circle cx="100" cy="35" r="5" fill="#1E7A4A" opacity="0.5"/>
+                <circle cx="140" cy="50" r="4" fill="#1E7A4A" opacity="0.6"/>
+                <circle cx="80" cy="70" r="3" fill="#2A8B8B" opacity="0.6"/>
+                <circle cx="120" cy="70" r="3" fill="#2A8B8B" opacity="0.6"/>
+                <text x="100" y="140" text-anchor="middle" fill="#1E7A4A" font-family="'Cormorant Garamond', serif" font-style="italic" font-size="14" opacity="0.8">Biological</text>
+            </g>
+
+            <!-- Center: Connection/Bridge -->
+            <g transform="translate(300, 75)">
+                <line x1="0" y1="50" x2="200" y2="50" stroke="#1E7A4A" stroke-width="2" stroke-dasharray="8,4"/>
+                <circle cx="40" cy="50" r="6" fill="#1E7A4A" opacity="0.4"/>
+                <circle cx="100" cy="50" r="10" fill="#1E7A4A" opacity="0.3"/>
+                <circle cx="100" cy="50" r="5" fill="#1E7A4A" opacity="0.6"/>
+                <circle cx="160" cy="50" r="6" fill="#1E7A4A" opacity="0.4"/>
+                <text x="100" y="90" text-anchor="middle" fill="#8B6B4A" font-family="'Cormorant Garamond', serif" font-style="italic" font-size="12">20n Bridge</text>
+            </g>
+
+            <!-- Right side: Robot/Chip -->
+            <g transform="translate(500, 25)">
+                <rect x="50" y="20" width="100" height="80" stroke="#2A8B8B" stroke-width="2" fill="#2A8B8B" fill-opacity="0.08" rx="4"/>
+                <rect x="70" y="40" width="60" height="40" stroke="#1E7A4A" stroke-width="1.5" fill="none"/>
+                <line x1="50" y1="40" x2="40" y2="40" stroke="#2A8B8B" stroke-width="1.5"/>
+                <line x1="50" y1="60" x2="40" y2="60" stroke="#2A8B8B" stroke-width="1.5"/>
+                <line x1="50" y1="80" x2="40" y2="80" stroke="#2A8B8B" stroke-width="1.5"/>
+                <line x1="150" y1="40" x2="160" y2="40" stroke="#2A8B8B" stroke-width="1.5"/>
+                <line x1="150" y1="60" x2="160" y2="60" stroke="#2A8B8B" stroke-width="1.5"/>
+                <line x1="150" y1="80" x2="160" y2="80" stroke="#2A8B8B" stroke-width="1.5"/>
+                <circle cx="85" cy="55" r="3" fill="#1E7A4A"/>
+                <circle cx="100" cy="55" r="3" fill="#1E7A4A"/>
+                <circle cx="115" cy="55" r="3" fill="#1E7A4A"/>
+                <circle cx="85" cy="70" r="3" fill="#1E7A4A"/>
+                <circle cx="100" cy="70" r="3" fill="#1E7A4A"/>
+                <circle cx="115" cy="70" r="3" fill="#1E7A4A"/>
+                <text x="100" y="140" text-anchor="middle" fill="#2A8B8B" font-family="'Cormorant Garamond', serif" font-style="italic" font-size="14" opacity="0.8">Silicon</text>
+            </g>
+        </svg>
+    </div>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2 class="fade-in">Build <em>with us</em></h2>
+            <div class="cta-quote fade-in">
+                "Most AI researchers today have become data janitors, cleaning datasets to feed voracious monsters. If you want to tune hyperparameters on LLMs, stay at Google."
+            </div>
+            <p class="cta-text fade-in">
+                But if you want to solve intelligence, understand consciousness, and create synthetic life capable of looking us in the eyes and understanding us—
             </p>
-            <p class="cta-text reveal">
-                But if you want to solve intelligence, understand consciousness, and create synthetic life
-                capable of looking us in the eyes and understanding us—
-            </p>
-            <a href="/contact" class="cta-email reveal">
-                <span>Apply Now</span>
+            <a href="/contact" class="cta-btn fade-in">
+                <span>Join the Laboratory</span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>
             </a>
-            <p class="cta-quote reveal">"We don't have H100 GPUs. We have superior mathematics."</p>
-            <p class="cta-latin reveal">Ad Astra Per Aspera</p>
+            <p class="cta-latin fade-in">Ad Astra Per Aspera</p>
         </div>
     </section>
 
     <footer>
         <div class="footer-content">
-            <div class="footer-logo">20n_</div>
-            <div class="footer-text">Computational Biology on Silicon</div>
+            <div class="footer-logo">20n<span>.</span></div>
+            <div class="footer-text">Living Intelligence Laboratory</div>
         </div>
     </footer>
 
     <script>
-        // Scroll reveal
-        const reveals = document.querySelectorAll('.reveal');
+        // Scroll reveal animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                 }
             });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+        }, observerOptions);
 
-        reveals.forEach(el => observer.observe(el));
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
 
-        // Interactive liquid canvas with mouse reaction
-        const canvas = document.getElementById('liquid-canvas');
-        const ctx = canvas.getContext('2d');
-        let mouse = { x: null, y: null, radius: 150 };
-
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        resize();
-        window.addEventListener('resize', resize);
-
-        window.addEventListener('mousemove', (e) => {
-            mouse.x = e.x;
-            mouse.y = e.y;
-        });
-
-        window.addEventListener('mouseout', () => {
-            mouse.x = null;
-            mouse.y = null;
-        });
-
-        class Particle {
-            constructor() {
-                this.reset();
-            }
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.baseX = this.x;
-                this.baseY = this.y;
-                this.vx = (Math.random() - 0.5) * 0.3;
-                this.vy = (Math.random() - 0.5) * 0.3;
-                this.radius = Math.random() * 2 + 0.5;
-                this.alpha = Math.random() * 0.3 + 0.1;
-            }
-            update() {
-                // Mouse interaction
-                if (mouse.x !== null && mouse.y !== null) {
-                    const dx = mouse.x - this.x;
-                    const dy = mouse.y - this.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < mouse.radius) {
-                        const force = (mouse.radius - dist) / mouse.radius;
-                        this.vx -= (dx / dist) * force * 0.5;
-                        this.vy -= (dy / dist) * force * 0.5;
-                    }
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }
-
-                // Drift back to base position
-                this.vx += (this.baseX - this.x) * 0.001;
-                this.vy += (this.baseY - this.y) * 0.001;
-
-                // Damping
-                this.vx *= 0.98;
-                this.vy *= 0.98;
-
-                this.x += this.vx;
-                this.y += this.vy;
-
-                // Bounds
-                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = `rgba(0, 229, 255, ${this.alpha})`;
-                ctx.fill();
-            }
-        }
-
-        const particles = Array.from({ length: 100 }, () => new Particle());
-
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            particles.forEach(p => {
-                p.update();
-                p.draw();
             });
-
-            // Draw connections
-            particles.forEach((p1, i) => {
-                particles.slice(i + 1).forEach(p2 => {
-                    const dx = p1.x - p2.x;
-                    const dy = p1.y - p2.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist < 120) {
-                        ctx.beginPath();
-                        ctx.moveTo(p1.x, p1.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.strokeStyle = `rgba(0, 229, 255, ${0.15 * (1 - dist / 120)})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.stroke();
-                    }
-                });
-            });
-
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        // Animate watts counter
-        let currentWatts = 450;
-        setInterval(() => {
-            currentWatts += (Math.random() - 0.5) * 10;
-            currentWatts = Math.max(400, Math.min(500, currentWatts));
-            document.getElementById('global-watts').textContent = `~${Math.round(currentWatts)} MW`;
-        }, 2000);
+        });
     </script>
 </body>
 </html>
