@@ -6,149 +6,159 @@
     <title>20n | Contact</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Caveat:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bone: #F5F0E8;
-            --paper: #EDE8DD;
-            --paper-dark: #E5DFD2;
-            --ink: #1C1917;
-            --ink-light: #44403C;
-            --ink-faded: #78716C;
-            --green-deep: #2D4A3E;
-            --green-algae: #4A7C59;
-            --green-oxide: #6B8F71;
-            --amber: #B8860B;
-            --copper: #8B5A2B;
+            --bg: #FAFAF8;
+            --bg-warm: #F5F3EF;
+            --ink: #1a1a1a;
+            --ink-secondary: #4a4a4a;
+            --ink-tertiary: #7a7a7a;
+            --green: #1a4d2e;
+            --green-light: #2d6a4f;
+            --green-muted: #40916c;
+            --accent: #95d5b2;
+            --line: rgba(0,0,0,0.08);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'EB Garamond', Georgia, serif;
-            background: var(--bone);
+            font-family: 'Newsreader', Georgia, serif;
+            background: var(--bg);
             color: var(--ink);
+            font-size: 18px;
             line-height: 1.7;
-            font-size: 19px;
-            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
             min-height: 100vh;
         }
 
-        body::before {
+        body::after {
             content: '';
             position: fixed;
             inset: 0;
+            opacity: 0.03;
             pointer-events: none;
-            opacity: 0.4;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-            z-index: 9999;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
 
+        .mono { font-family: 'JetBrains Mono', monospace; font-size: 0.8em; }
+        .sans { font-family: 'Inter', sans-serif; }
+
+        /* Navigation */
         nav {
             position: fixed;
-            top: 2rem;
-            right: 3rem;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 4%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             z-index: 100;
+            mix-blend-mode: difference;
+        }
+
+        .logo {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: -0.02em;
         }
 
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 2.5rem;
             list-style: none;
         }
 
         .nav-links a {
+            font-family: 'Inter', sans-serif;
             font-size: 0.85rem;
-            color: var(--ink-faded);
+            color: #fff;
             text-decoration: none;
-            letter-spacing: 0.02em;
+            opacity: 0.7;
+            transition: opacity 0.2s;
         }
 
-        .nav-links a:hover { color: var(--ink); }
+        .nav-links a:hover { opacity: 1; }
 
-        .logo-corner {
-            position: fixed;
-            top: 2rem;
-            left: 3rem;
-            font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--ink);
-            text-decoration: none;
-            z-index: 100;
-        }
-
-        /* Main layout - asymmetric */
+        /* Main layout */
         .page-container {
             display: grid;
-            grid-template-columns: 1fr 45%;
+            grid-template-columns: 1fr 1fr;
             min-height: 100vh;
         }
 
-        /* Left side - organic background illustration */
+        /* Left side - illustration */
         .page-illustration {
-            background: var(--paper);
+            background: var(--bg-warm);
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .bg-organism {
-            position: absolute;
-            width: 130%;
-            height: 130%;
-            top: -15%;
-            left: -15%;
-            opacity: 0.7;
+        .illustration-svg {
+            width: 80%;
+            max-width: 450px;
+            opacity: 0.9;
         }
 
+        /* Right side - content */
         .page-content {
-            padding: 15vh 8% 8rem 6%;
+            padding: 12rem 8% 6rem 6%;
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
 
         .page-label {
-            font-family: 'Caveat', cursive;
-            font-size: 1.3rem;
-            color: var(--green-algae);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--green-muted);
+            letter-spacing: 0.1em;
             margin-bottom: 1.5rem;
-            transform: rotate(-1deg);
         }
 
         .page-title {
-            font-size: clamp(3rem, 6vw, 4.5rem);
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
             font-weight: 400;
             line-height: 1.1;
-            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
         }
 
         .page-title em {
             font-style: italic;
-            color: var(--green-deep);
+            color: var(--green);
         }
 
         .page-intro {
             font-size: 1.1rem;
-            color: var(--ink-light);
-            max-width: 450px;
-            margin-bottom: 4rem;
+            color: var(--ink-secondary);
+            max-width: 420px;
+            margin-bottom: 3rem;
         }
 
-        /* Form - organic, notebook feel */
+        /* Form */
         .contact-form {
-            max-width: 480px;
+            max-width: 450px;
         }
 
         .form-group {
             margin-bottom: 2rem;
-            position: relative;
         }
 
         .form-label {
             display: block;
-            font-family: 'Caveat', cursive;
-            font-size: 1.2rem;
-            color: var(--ink-light);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--ink-secondary);
             margin-bottom: 0.5rem;
         }
 
@@ -156,19 +166,19 @@
         .form-textarea {
             width: 100%;
             padding: 1rem 0;
-            font-family: 'EB Garamond', Georgia, serif;
+            font-family: 'Newsreader', Georgia, serif;
             font-size: 1.1rem;
             color: var(--ink);
             background: transparent;
             border: none;
-            border-bottom: 1px solid var(--ink-faded);
+            border-bottom: 1px solid var(--line);
             outline: none;
             transition: border-color 0.3s;
         }
 
         .form-input:focus,
         .form-textarea:focus {
-            border-bottom-color: var(--green-algae);
+            border-bottom-color: var(--green);
         }
 
         .form-textarea {
@@ -179,15 +189,14 @@
 
         .form-input::placeholder,
         .form-textarea::placeholder {
-            color: var(--ink-faded);
-            opacity: 0.6;
+            color: var(--ink-tertiary);
         }
 
-        /* Subject selection - organic checkboxes */
+        /* Subject selection */
         .subject-options {
             display: flex;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 0.75rem;
             margin-top: 0.5rem;
         }
 
@@ -206,11 +215,12 @@
             align-items: center;
             gap: 0.5rem;
             padding: 0.6rem 1rem;
-            font-size: 0.95rem;
-            color: var(--ink-light);
-            border: 1px solid var(--ink-faded);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: var(--ink-secondary);
+            border: 1px solid var(--line);
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
         .subject-option label::before {
@@ -219,18 +229,18 @@
             height: 8px;
             border-radius: 50%;
             background: transparent;
-            border: 1px solid var(--ink-faded);
-            transition: all 0.3s;
+            border: 1px solid var(--ink-tertiary);
+            transition: all 0.2s;
         }
 
         .subject-option input:checked + label {
-            border-color: var(--green-algae);
-            color: var(--green-deep);
+            border-color: var(--green);
+            color: var(--green);
         }
 
         .subject-option input:checked + label::before {
-            background: var(--green-algae);
-            border-color: var(--green-algae);
+            background: var(--green);
+            border-color: var(--green);
         }
 
         /* File upload */
@@ -251,25 +261,26 @@
             display: flex;
             align-items: center;
             gap: 1rem;
-            padding: 1.5rem;
-            border: 1px dashed var(--ink-faded);
+            padding: 1.25rem;
+            border: 1px dashed var(--line);
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
         .file-upload-label:hover {
-            border-color: var(--green-algae);
+            border-color: var(--green-muted);
         }
 
         .file-upload-icon {
-            width: 24px;
-            height: 24px;
-            stroke: var(--ink-faded);
+            width: 20px;
+            height: 20px;
+            stroke: var(--ink-tertiary);
         }
 
         .file-upload-text {
-            font-size: 0.95rem;
-            color: var(--ink-faded);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: var(--ink-tertiary);
         }
 
         /* Submit button */
@@ -278,113 +289,118 @@
             align-items: center;
             gap: 0.75rem;
             padding: 1rem 2rem;
-            font-family: 'EB Garamond', Georgia, serif;
-            font-size: 1.1rem;
-            color: var(--bone);
-            background: var(--green-deep);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--bg);
+            background: var(--green);
             border: none;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: background 0.2s;
             margin-top: 1rem;
         }
 
         .submit-btn:hover {
-            background: var(--green-algae);
+            background: var(--green-light);
         }
 
         .submit-btn svg {
-            width: 18px;
-            height: 18px;
-            transition: transform 0.3s;
+            width: 16px;
+            height: 16px;
+            transition: transform 0.2s;
         }
 
         .submit-btn:hover svg {
             transform: translateX(4px);
         }
 
-        /* Annotation */
-        .form-annotation {
-            font-family: 'Caveat', cursive;
-            font-size: 1.1rem;
-            color: var(--copper);
-            margin-top: 2rem;
-            transform: rotate(-1deg);
+        /* Form note */
+        .form-note {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--ink-tertiary);
+            margin-top: 1.5rem;
         }
 
         /* Alternative contacts */
         .alt-contacts {
             margin-top: 4rem;
             padding-top: 2rem;
-            border-top: 1px solid rgba(0,0,0,0.06);
+            border-top: 1px solid var(--line);
         }
 
         .alt-contacts h3 {
-            font-family: 'Caveat', cursive;
-            font-size: 1.3rem;
-            color: var(--ink-light);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--ink-secondary);
             margin-bottom: 1rem;
         }
 
         .alt-contact-item {
             display: flex;
             align-items: baseline;
-            gap: 1rem;
-            margin-bottom: 0.75rem;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
         }
 
         .alt-contact-item::before {
             content: '→';
-            color: var(--green-algae);
+            color: var(--green-muted);
+            font-size: 0.85rem;
         }
 
         .alt-contact-item a {
-            color: var(--ink-light);
+            color: var(--ink-secondary);
             text-decoration: none;
             border-bottom: 1px solid transparent;
-            transition: border-color 0.3s;
+            transition: border-color 0.2s;
         }
 
         .alt-contact-item a:hover {
-            border-bottom-color: var(--green-algae);
+            border-bottom-color: var(--green);
         }
 
         /* Footer */
         footer {
-            position: fixed;
-            bottom: 2rem;
-            right: 3rem;
+            padding: 3rem 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--line);
+        }
+
+        .footer-logo {
+            font-family: 'Inter', sans-serif;
+            font-weight: 500;
+        }
+
+        .footer-text {
             font-size: 0.85rem;
-            color: var(--ink-faded);
+            color: var(--ink-tertiary);
         }
 
         /* Responsive */
         @media (max-width: 1000px) {
             .page-container { grid-template-columns: 1fr; }
-            .page-illustration {
-                position: absolute;
-                inset: 0;
-                z-index: 0;
-            }
-            .bg-organism { opacity: 0.3; }
+            .page-illustration { display: none; }
             .page-content {
-                position: relative;
-                z-index: 1;
-                padding: 15vh 1.5rem 6rem;
+                padding: 10rem 5% 5rem;
             }
         }
 
         @media (max-width: 768px) {
-            nav { right: 1.5rem; top: 1.5rem; }
-            .logo-corner { left: 1.5rem; top: 1.5rem; }
+            nav { padding: 1rem 5%; }
             .nav-links { display: none; }
-            footer { position: static; padding: 2rem 1.5rem; text-align: center; }
+            .page-content { padding: 8rem 5% 4rem; }
+            footer { flex-direction: column; gap: 1rem; text-align: center; }
         }
     </style>
 </head>
 <body>
-    <a href="/" class="logo-corner">20n</a>
-
     <nav>
+        <a href="/" class="logo">20n</a>
         <ul class="nav-links">
             <li><a href="/manifesto">Manifesto</a></li>
             <li><a href="/contact">Contact</a></li>
@@ -393,61 +409,72 @@
 
     <div class="page-container">
         <div class="page-illustration">
-            <svg class="bg-organism" viewBox="0 0 600 800" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Large organic network illustration -->
-                <!-- Main membrane structures -->
-                <path d="M300 50 C450 30, 580 150, 560 300 C540 450, 480 600, 350 700 C220 800, 50 720, 40 550 C30 380, 80 200, 200 100 C280 40, 250 55, 300 50"
-                      stroke="#4A7C59" stroke-width="1" fill="rgba(74,124,89,0.02)" stroke-dasharray="10 5"/>
+            <svg class="illustration-svg" viewBox="0 0 400 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Communication/transmission diagram -->
+                <!-- Outer boundary -->
+                <ellipse cx="200" cy="250" rx="170" ry="200" stroke="#1a4d2e" stroke-width="1" fill="none" opacity="0.15"/>
+                <ellipse cx="200" cy="250" rx="130" ry="160" stroke="#1a4d2e" stroke-width="1" fill="none" opacity="0.08" stroke-dasharray="4 4"/>
 
-                <path d="M300 120 C400 100, 480 180, 470 300 C460 420, 400 520, 320 580 C240 640, 120 600, 100 480 C80 360, 120 240, 220 170 C280 130, 270 125, 300 120"
-                      stroke="#6B8F71" stroke-width="0.8" fill="rgba(107,143,113,0.02)"/>
+                <!-- Sender node -->
+                <circle cx="80" cy="180" r="35" stroke="#1a4d2e" stroke-width="1.5" fill="rgba(26,77,46,0.03)"/>
+                <circle cx="80" cy="180" r="15" stroke="#2d6a4f" stroke-width="1" fill="rgba(45,106,79,0.05)"/>
+                <circle cx="80" cy="180" r="5" fill="#1a4d2e" opacity="0.6"/>
 
-                <!-- Scattered nodes and connections -->
-                <circle cx="200" cy="200" r="35" stroke="#2D4A3E" stroke-width="1.5" fill="rgba(45,74,62,0.05)"/>
-                <circle cx="400" cy="250" r="28" stroke="#4A7C59" stroke-width="1" fill="rgba(74,124,89,0.04)"/>
-                <circle cx="280" cy="400" r="45" stroke="#2D4A3E" stroke-width="1.5" fill="rgba(45,74,62,0.06)"/>
-                <circle cx="150" cy="500" r="25" stroke="#6B8F71" stroke-width="1" fill="rgba(107,143,113,0.04)"/>
-                <circle cx="380" cy="550" r="30" stroke="#4A7C59" stroke-width="1" fill="rgba(74,124,89,0.04)"/>
+                <!-- Receiver node -->
+                <circle cx="320" cy="320" r="35" stroke="#1a4d2e" stroke-width="1.5" fill="rgba(26,77,46,0.03)"/>
+                <circle cx="320" cy="320" r="15" stroke="#2d6a4f" stroke-width="1" fill="rgba(45,106,79,0.05)"/>
+                <circle cx="320" cy="320" r="5" fill="#1a4d2e" opacity="0.6"/>
 
-                <!-- Flowing connections -->
-                <path d="M230 210 Q300 250, 375 260" stroke="#B8860B" stroke-width="0.8" stroke-dasharray="4 3" fill="none" opacity="0.5"/>
-                <path d="M400 275 Q350 340, 295 380" stroke="#B8860B" stroke-width="0.8" stroke-dasharray="4 3" fill="none" opacity="0.5"/>
-                <path d="M260 430 Q200 470, 165 490" stroke="#8B5A2B" stroke-width="0.8" stroke-dasharray="4 3" fill="none" opacity="0.5"/>
-                <path d="M300 435 Q340 490, 365 535" stroke="#B8860B" stroke-width="0.8" stroke-dasharray="4 3" fill="none" opacity="0.5"/>
+                <!-- Central processing -->
+                <circle cx="200" cy="250" r="50" stroke="#1a4d2e" stroke-width="1.5" fill="rgba(26,77,46,0.04)"/>
+                <circle cx="200" cy="250" r="25" stroke="#2d6a4f" stroke-width="1" fill="rgba(45,106,79,0.06)"/>
+                <circle cx="200" cy="250" r="8" fill="#1a4d2e" opacity="0.7"/>
 
-                <!-- Small floating particles -->
-                <circle cx="320" cy="150" r="6" fill="#4A7C59" opacity="0.4"/>
-                <circle cx="450" cy="350" r="5" fill="#6B8F71" opacity="0.3"/>
-                <circle cx="120" cy="350" r="7" fill="#4A7C59" opacity="0.35"/>
-                <circle cx="350" cy="450" r="4" fill="#2D4A3E" opacity="0.4"/>
-                <circle cx="220" cy="600" r="6" fill="#6B8F71" opacity="0.3"/>
-                <circle cx="480" cy="480" r="5" fill="#4A7C59" opacity="0.35"/>
+                <!-- Signal paths -->
+                <path d="M110 195 Q150 220 175 240" stroke="#1a4d2e" stroke-width="0.8" fill="none" opacity="0.5"/>
+                <path d="M225 260 Q270 290 295 305" stroke="#1a4d2e" stroke-width="0.8" fill="none" opacity="0.5"/>
 
-                <!-- Handwritten annotations -->
-                <text x="180" y="180" font-family="Caveat, cursive" font-size="14" fill="#78716C" transform="rotate(-5 180 180)">input</text>
-                <text x="250" y="420" font-family="Caveat, cursive" font-size="16" fill="#78716C">processing</text>
-                <text x="360" y="580" font-family="Caveat, cursive" font-size="14" fill="#78716C" transform="rotate(3 360 580)">output</text>
+                <!-- Signal pulses on paths -->
+                <circle cx="140" cy="215" r="4" fill="#2d6a4f" opacity="0.4"/>
+                <circle cx="260" cy="280" r="4" fill="#2d6a4f" opacity="0.4"/>
+
+                <!-- Auxiliary nodes -->
+                <circle cx="150" cy="350" r="20" stroke="#1a4d2e" stroke-width="0.8" fill="rgba(26,77,46,0.02)"/>
+                <circle cx="150" cy="350" r="6" fill="#1a4d2e" opacity="0.3"/>
+
+                <circle cx="280" cy="140" r="18" stroke="#1a4d2e" stroke-width="0.8" fill="rgba(26,77,46,0.02)"/>
+                <circle cx="280" cy="140" r="5" fill="#1a4d2e" opacity="0.3"/>
+
+                <!-- Secondary connections -->
+                <path d="M165 335 Q185 300 195 275" stroke="#2d6a4f" stroke-width="0.5" fill="none" opacity="0.3" stroke-dasharray="3 3"/>
+                <path d="M265 150 Q240 190 210 225" stroke="#2d6a4f" stroke-width="0.5" fill="none" opacity="0.3" stroke-dasharray="3 3"/>
+
+                <!-- Labels -->
+                <text x="80" y="230" font-family="JetBrains Mono, monospace" font-size="7" fill="#7a7a7a" text-anchor="middle">INPUT</text>
+                <text x="320" y="370" font-family="JetBrains Mono, monospace" font-size="7" fill="#7a7a7a" text-anchor="middle">OUTPUT</text>
+                <text x="200" y="310" font-family="JetBrains Mono, monospace" font-size="8" fill="#4a4a4a" text-anchor="middle">SIGNAL</text>
+                <text x="200" y="255" font-family="JetBrains Mono, monospace" font-size="9" fill="#1a4d2e" text-anchor="middle">↔</text>
             </svg>
         </div>
 
         <div class="page-content">
-            <div class="page-label">transmission / inquiry</div>
+            <div class="page-label">TRANSMISSION — INQUIRY</div>
             <h1 class="page-title">Get in <em>touch</em></h1>
             <p class="page-intro">We read everything. If you're working on something interesting—or want to—reach out.</p>
 
             <form class="contact-form" action="https://formspree.io/f/mqeqjyoy" method="POST">
                 <div class="form-group">
-                    <label class="form-label">your name</label>
+                    <label class="form-label">Name</label>
                     <input type="text" name="name" class="form-input" placeholder="How should we call you?" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">email</label>
+                    <label class="form-label">Email</label>
                     <input type="email" name="email" class="form-input" placeholder="Where can we reach you?" required>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">what's this about?</label>
+                    <label class="form-label">Subject</label>
                     <div class="subject-options">
                         <div class="subject-option">
                             <input type="radio" name="subject" value="research" id="research">
@@ -469,12 +496,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">your message</label>
+                    <label class="form-label">Message</label>
                     <textarea name="message" class="form-textarea" placeholder="What's on your mind?" required></textarea>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-label">attach something (optional)</label>
+                    <label class="form-label">Attachment (optional)</label>
                     <div class="file-upload">
                         <input type="file" name="attachment">
                         <div class="file-upload-label">
@@ -493,11 +520,11 @@
                     </svg>
                 </button>
 
-                <p class="form-annotation">→ we respond within 48h (usually faster)</p>
+                <p class="form-note">RESPONSE TIME: ~48H</p>
             </form>
 
             <div class="alt-contacts">
-                <h3>or reach us directly</h3>
+                <h3>Or reach us directly</h3>
                 <div class="alt-contact-item">
                     <a href="mailto:contact@20n.ai">contact@20n.ai</a>
                 </div>
@@ -509,7 +536,8 @@
     </div>
 
     <footer>
-        20n — Living Intelligence Laboratory
+        <span class="footer-logo">20n</span>
+        <span class="footer-text">Paris — Living Intelligence Laboratory</span>
     </footer>
 </body>
 </html>
