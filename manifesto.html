@@ -6,56 +6,78 @@
     <title>20n | Manifesto</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --paper: #FAF8F5;
-            --paper-warm: #F7F4EF;
-            --ink: #1A1A1A;
-            --ink-light: #3D3D3D;
-            --ink-faded: #6B6B6B;
-            --ink-ghost: #9A9A9A;
-            --accent: #2D5A3D;
-            --margin-note: #8B6914;
-            --correction: #8B3D3D;
+            --bg-deep: #0A0A0A;
+            --bg-surface: #111111;
+            --bg-elevated: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0A0A0;
+            --text-muted: #606060;
+            --accent-green: #00FF88;
+            --accent-cyan: #00D4FF;
+            --accent-dim: rgba(0, 255, 136, 0.15);
+            --grid-line: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Source Sans 3', sans-serif;
-            background: var(--paper);
-            color: var(--ink);
-            line-height: 1.9;
-            font-size: 17px;
-            font-weight: 300;
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.7;
+            font-size: 16px;
+            overflow-x: hidden;
         }
 
-        body::before {
-            content: '';
+        /* Grid background */
+        .grid-bg {
             position: fixed;
             inset: 0;
+            background-image:
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 60px 60px;
             pointer-events: none;
-            opacity: 0.025;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-            z-index: 9999;
+            z-index: 0;
         }
 
-        h1, h2, h3, h4 {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 400;
-            line-height: 1.3;
+        /* Gradient orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 0;
         }
 
-        h1 { font-size: clamp(2.5rem, 5vw, 3.8rem); letter-spacing: -0.03em; }
-        h2 { font-size: clamp(1.6rem, 2.5vw, 2.2rem); letter-spacing: -0.02em; margin-top: 5rem; margin-bottom: 2rem; }
-        h3 { font-size: 1.25rem; margin-top: 3rem; margin-bottom: 1rem; }
-        h4 { font-size: 1.1rem; margin-top: 2rem; margin-bottom: 0.75rem; font-weight: 500; }
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 255, 136, 0.12) 0%, transparent 70%);
+            top: -200px;
+            right: -100px;
+        }
 
-        p { color: var(--ink-light); margin-bottom: 1.5rem; max-width: 60ch; }
-        strong { color: var(--ink); font-weight: 500; }
-        em { font-style: italic; }
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.08) 0%, transparent 70%);
+            bottom: 20%;
+            left: -150px;
+        }
+
+        .orb-3 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 255, 136, 0.06) 0%, transparent 70%);
+            top: 60%;
+            right: -100px;
+        }
 
         /* Navigation */
         nav {
@@ -63,20 +85,36 @@
             top: 0;
             left: 0;
             right: 0;
-            padding: 2rem 3rem;
+            padding: 1.5rem 3rem;
             display: flex;
             justify-content: space-between;
-            align-items: baseline;
+            align-items: center;
             z-index: 1000;
-            background: linear-gradient(to bottom, var(--paper) 70%, transparent);
+            background: linear-gradient(to bottom, var(--bg-deep) 0%, transparent 100%);
         }
 
         .logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.6rem;
-            font-weight: 500;
-            color: var(--ink);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
             text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
         }
 
         .nav-links {
@@ -87,707 +125,1009 @@
 
         .nav-links a {
             font-size: 0.9rem;
-            color: var(--ink-faded);
+            font-weight: 400;
+            color: var(--text-secondary);
             text-decoration: none;
             transition: color 0.3s;
+            position: relative;
         }
 
-        .nav-links a:hover, .nav-links a.active { color: var(--ink); }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-green);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active { color: var(--text-primary); }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 
         /* Document container */
         .document {
-            max-width: 700px;
+            max-width: 900px;
             margin: 0 auto;
-            padding: 12rem 2rem 8rem;
-            padding-left: 15%;
+            padding: 10rem 2rem 6rem;
             position: relative;
+            z-index: 1;
         }
 
         /* Header */
         .doc-header {
             margin-bottom: 5rem;
             padding-bottom: 3rem;
-            border-bottom: 1px solid rgba(0,0,0,0.08);
-            position: relative;
+            border-bottom: 1px solid var(--border);
         }
 
-        .doc-label {
-            font-family: 'Special Elite', monospace;
-            font-size: 0.7rem;
-            color: var(--ink-ghost);
-            letter-spacing: 0.12em;
+        .doc-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-green);
+            letter-spacing: 0.1em;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        .doc-tag::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--accent-green);
+        }
+
+        .doc-header h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(3.5rem, 8vw, 6rem);
+            font-weight: 400;
+            line-height: 1;
             margin-bottom: 2rem;
         }
 
-        .doc-header h1 em {
+        .doc-header h1 .accent {
+            color: var(--accent-green);
             font-style: italic;
         }
 
         .doc-meta {
-            margin-top: 2.5rem;
             display: flex;
             gap: 3rem;
+            flex-wrap: wrap;
         }
 
         .doc-meta-item {
-            font-size: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
         }
 
         .doc-meta-label {
-            font-family: 'Special Elite', monospace;
-            font-size: 0.6rem;
-            color: var(--ink-ghost);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
             letter-spacing: 0.1em;
-            margin-bottom: 0.25rem;
         }
 
         .doc-meta-value {
-            color: var(--ink-faded);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
         }
 
         /* Epigraph */
         .epigraph {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.3rem;
-            font-style: italic;
-            color: var(--ink-light);
-            padding: 2.5rem 0 2.5rem 2rem;
-            border-left: 2px solid var(--ink-ghost);
-            margin: 4rem 0;
-            max-width: 50ch;
+            padding: 3rem;
+            margin-bottom: 5rem;
+            background: var(--bg-surface);
+            border-left: 3px solid var(--accent-green);
+            position: relative;
         }
 
-        .epigraph-source {
-            display: block;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-            font-style: normal;
-            color: var(--ink-ghost);
-        }
-
-        /* Section styling */
-        .section-num {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 3.5rem;
-            color: var(--ink);
-            opacity: 0.08;
-            line-height: 1;
-            margin-bottom: 0.5rem;
-        }
-
-        /* Lists */
-        ul, ol {
-            margin-bottom: 1.5rem;
-            padding-left: 1.25rem;
-        }
-
-        li {
-            color: var(--ink-light);
-            margin-bottom: 0.6rem;
-            line-height: 1.75;
-        }
-
-        /* Margin notes */
-        .margin-note {
+        .epigraph::before {
+            content: '"';
             position: absolute;
-            left: -180px;
-            width: 150px;
-            font-family: 'Special Elite', monospace;
-            font-size: 0.65rem;
-            color: var(--margin-note);
+            top: 1rem;
+            left: 1.5rem;
+            font-family: 'Instrument Serif', serif;
+            font-size: 5rem;
+            color: var(--accent-green);
+            opacity: 0.2;
+            line-height: 1;
+        }
+
+        .epigraph p {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.75rem;
+            font-style: italic;
+            color: var(--text-primary);
             line-height: 1.5;
-            text-align: right;
-            padding-right: 1rem;
-        }
-
-        .margin-right {
-            left: auto;
-            right: -200px;
-            text-align: left;
-            padding-right: 0;
-            padding-left: 1rem;
-        }
-
-        /* Inline annotation */
-        .aside {
-            font-family: 'Special Elite', monospace;
-            font-size: 0.75rem;
-            color: var(--ink-ghost);
-            display: block;
-            margin: 1.5rem 0;
-            padding-left: 1rem;
-            border-left: 1px solid var(--ink-ghost);
-        }
-
-        /* Crossed out / revision */
-        .struck {
-            text-decoration: line-through;
-            color: var(--ink-ghost);
-        }
-
-        .correction {
-            color: var(--correction);
-        }
-
-        /* Table */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 2.5rem 0;
-            font-size: 0.95rem;
-        }
-
-        th, td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid rgba(0,0,0,0.06);
-        }
-
-        th {
-            font-family: 'Special Elite', monospace;
-            font-size: 0.65rem;
-            letter-spacing: 0.08em;
-            color: var(--ink-ghost);
-            font-weight: normal;
-        }
-
-        td {
-            color: var(--ink-light);
-        }
-
-        /* Equation / code block */
-        .equation {
-            font-family: 'Special Elite', monospace;
-            font-size: 0.85rem;
-            background: var(--paper-warm);
-            padding: 1.25rem 1.5rem;
-            margin: 2rem 0;
-            border-left: 2px solid var(--ink-ghost);
-            color: var(--ink-light);
-        }
-
-        /* Comparison */
-        .comparison {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-
-        .comparison-col {
-            padding: 1.5rem;
-            background: var(--paper-warm);
-        }
-
-        .comparison-col.alt {
-            background: var(--paper);
-            border: 1px solid rgba(0,0,0,0.06);
-        }
-
-        .comparison-label {
-            font-family: 'Special Elite', monospace;
-            font-size: 0.6rem;
-            letter-spacing: 0.1em;
-            color: var(--ink-ghost);
             margin-bottom: 1rem;
         }
 
-        .comparison-col.alt .comparison-label {
-            color: var(--accent);
+        .epigraph-source {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+        }
+
+        /* Sections */
+        .manifesto-section {
+            margin-bottom: 5rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-green);
+            letter-spacing: 0.1em;
+        }
+
+        .section-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(2rem, 4vw, 2.75rem);
+            font-weight: 400;
+        }
+
+        .section-title .accent {
+            color: var(--accent-green);
+            font-style: italic;
+        }
+
+        .section-content p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            max-width: 70ch;
+            font-size: 1.05rem;
+        }
+
+        .section-content strong {
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        /* Power table */
+        .power-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2.5rem 0;
+            background: var(--bg-surface);
+        }
+
+        .power-table th,
+        .power-table td {
+            padding: 1.25rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .power-table th {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            font-weight: 400;
+        }
+
+        .power-table td {
+            color: var(--text-secondary);
+        }
+
+        .power-table td strong {
+            color: var(--accent-green);
+            font-weight: 600;
+        }
+
+        .power-table tr:last-child td {
+            border-bottom: none;
+            background: rgba(0, 255, 136, 0.05);
+        }
+
+        /* Code block / equation */
+        .equation {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            background: var(--bg-surface);
+            padding: 1.5rem 2rem;
+            margin: 2rem 0;
+            border-left: 3px solid var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        /* Aside note */
+        .aside {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            background: rgba(0, 255, 136, 0.03);
+            border: 1px solid var(--border);
+        }
+
+        .aside::before {
+            content: '→';
+            color: var(--accent-green);
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .aside p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+
+        /* Lists */
+        .manifesto-list {
+            list-style: none;
+            margin: 2rem 0;
+        }
+
+        .manifesto-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .manifesto-list li:last-child {
+            border-bottom: none;
+        }
+
+        .manifesto-list li::before {
+            content: '—';
+            color: var(--accent-green);
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+
+        .manifesto-list.alt li::before {
+            content: '+';
+        }
+
+        /* Comparison grid */
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            margin: 2.5rem 0;
+            border: 1px solid var(--border);
+        }
+
+        .comparison-col {
+            padding: 2rem;
+        }
+
+        .comparison-col:first-child {
+            background: var(--bg-surface);
+            border-right: 1px solid var(--border);
+        }
+
+        .comparison-col:last-child {
+            background: rgba(0, 255, 136, 0.02);
+        }
+
+        .comparison-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .comparison-col:first-child .comparison-label {
+            color: var(--text-muted);
+        }
+
+        .comparison-col:last-child .comparison-label {
+            color: var(--accent-green);
         }
 
         .comparison-item {
-            font-size: 0.9rem;
-            color: var(--ink-faded);
-            margin-bottom: 0.5rem;
-            padding-left: 1rem;
-            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.75rem;
         }
 
         .comparison-item::before {
-            content: '—';
-            position: absolute;
-            left: 0;
-            color: var(--ink-ghost);
+            font-size: 0.8rem;
         }
 
-        .comparison-col.alt .comparison-item::before {
-            content: '+';
-            color: var(--accent);
+        .comparison-col:first-child .comparison-item::before {
+            content: '×';
+            color: var(--text-muted);
         }
 
-        /* Phase cards */
-        .phase {
-            padding: 2rem;
-            margin: 2rem 0;
-            background: var(--paper-warm);
-            position: relative;
+        .comparison-col:last-child .comparison-item::before {
+            content: '✓';
+            color: var(--accent-green);
         }
 
-        .phase::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: var(--ink-ghost);
+        /* Walls table */
+        .walls-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2.5rem 0;
         }
 
-        .phase-label {
-            font-family: 'Special Elite', monospace;
-            font-size: 0.6rem;
+        .walls-table th,
+        .walls-table td {
+            padding: 1.25rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .walls-table th {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
             letter-spacing: 0.1em;
-            color: var(--ink-ghost);
-            margin-bottom: 0.5rem;
+            font-weight: 400;
+            background: var(--bg-surface);
         }
 
-        .phase-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.3rem;
-            margin-bottom: 0.75rem;
-            color: var(--ink);
+        .walls-table td {
+            color: var(--text-secondary);
+            vertical-align: top;
         }
 
-        .phase p {
-            font-size: 0.95rem;
-            margin-bottom: 0;
+        .walls-table td:first-child {
+            font-weight: 600;
+            color: var(--accent-green);
         }
 
-        /* Stack diagram */
+        /* Stack */
         .stack {
             margin: 3rem 0;
-            border: 1px solid rgba(0,0,0,0.08);
+            border: 1px solid var(--border);
+            overflow: hidden;
         }
 
         .stack-header {
-            background: var(--paper-warm);
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-cyan));
             padding: 1rem 1.5rem;
-            font-family: 'Special Elite', monospace;
+            font-family: 'JetBrains Mono', monospace;
             font-size: 0.7rem;
             letter-spacing: 0.1em;
-            color: var(--ink-faded);
+            color: var(--bg-deep);
             text-align: center;
-            border-bottom: 1px solid rgba(0,0,0,0.08);
+            font-weight: 500;
         }
 
         .stack-layer {
-            padding: 1.25rem 1.5rem;
-            border-bottom: 1px solid rgba(0,0,0,0.06);
+            display: flex;
+            gap: 2rem;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-surface);
+            transition: background 0.3s;
         }
 
         .stack-layer:last-child {
             border-bottom: none;
         }
 
+        .stack-layer:hover {
+            background: var(--bg-elevated);
+        }
+
+        .stack-layer-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--accent-green);
+            flex-shrink: 0;
+        }
+
         .stack-layer-title {
-            font-family: 'Special Elite', monospace;
-            font-size: 0.6rem;
-            letter-spacing: 0.08em;
-            color: var(--ink-ghost);
+            font-weight: 600;
+            color: var(--text-primary);
             margin-bottom: 0.25rem;
         }
 
-        .stack-layer-content {
+        .stack-layer-desc {
             font-size: 0.9rem;
-            color: var(--ink-light);
+            color: var(--text-secondary);
         }
 
-        /* Stats */
-        .stats {
+        /* Stats grid */
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
+            gap: 0;
             margin: 3rem 0;
+            border: 1px solid var(--border);
         }
 
-        .stat {
+        .stat-box {
+            padding: 2.5rem;
             text-align: center;
-            padding: 1.5rem;
-            background: var(--paper-warm);
+            border-right: 1px solid var(--border);
+            background: var(--bg-surface);
+            transition: all 0.3s;
+        }
+
+        .stat-box:last-child {
+            border-right: none;
+        }
+
+        .stat-box:hover {
+            background: var(--bg-elevated);
+        }
+
+        .stat-box:hover .stat-value {
+            color: var(--accent-green);
         }
 
         .stat-value {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2rem;
-            color: var(--ink);
+            font-family: 'Instrument Serif', serif;
+            font-size: 3rem;
+            color: var(--text-primary);
             line-height: 1;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
         }
 
         .stat-value span {
-            font-size: 1rem;
-            color: var(--ink-ghost);
+            font-size: 1.5rem;
+            color: var(--accent-green);
         }
 
         .stat-label {
-            font-family: 'Special Elite', monospace;
-            font-size: 0.55rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
             letter-spacing: 0.1em;
-            color: var(--ink-ghost);
-            margin-top: 0.5rem;
+        }
+
+        /* Phase cards */
+        .phases-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin: 2.5rem 0;
+        }
+
+        .phase-card {
+            padding: 2rem;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s;
+        }
+
+        .phase-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--text-muted);
+            transition: background 0.3s;
+        }
+
+        .phase-card:hover::before {
+            background: var(--accent-green);
+        }
+
+        .phase-card:hover {
+            background: var(--bg-elevated);
+            transform: translateX(4px);
+        }
+
+        .phase-card.active::before {
+            background: var(--accent-green);
+            box-shadow: 0 0 20px var(--accent-green);
+        }
+
+        .phase-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+        }
+
+        .phase-card.active .phase-label {
+            color: var(--accent-green);
+        }
+
+        .phase-card:not(.active) .phase-label {
+            color: var(--text-muted);
+        }
+
+        .phase-card h4 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .phase-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Culture items */
+        .culture-item {
+            margin-bottom: 2.5rem;
+            padding-left: 2rem;
+            border-left: 1px solid var(--border);
+            transition: border-color 0.3s;
+        }
+
+        .culture-item:hover {
+            border-left-color: var(--accent-green);
+        }
+
+        .culture-item h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .culture-item p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: var(--text-secondary);
         }
 
         /* Document footer */
         .doc-footer {
             margin-top: 6rem;
             padding-top: 4rem;
-            border-top: 1px solid rgba(0,0,0,0.08);
+            border-top: 1px solid var(--border);
             text-align: center;
         }
 
         .doc-footer-quote {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.1rem;
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem;
             font-style: italic;
-            color: var(--ink-faded);
-            max-width: 400px;
+            color: var(--text-secondary);
+            max-width: 500px;
             margin: 0 auto 2rem;
+            line-height: 1.5;
         }
 
         .doc-footer-latin {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-size: 0.9rem;
-            color: var(--ink-ghost);
-            letter-spacing: 0.05em;
+            font-family: 'Instrument Serif', serif;
+            font-size: 1rem;
+            color: var(--accent-green);
+            letter-spacing: 0.1em;
+            margin-bottom: 2rem;
         }
 
         .doc-footer-meta {
-            margin-top: 2rem;
-            font-size: 0.8rem;
-            color: var(--ink-ghost);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
         }
 
         /* Footer */
         footer {
-            padding: 4rem 8%;
+            padding: 4rem 6rem;
             display: flex;
             justify-content: space-between;
-            align-items: baseline;
-            border-top: 1px solid rgba(0,0,0,0.05);
-            max-width: 900px;
-            margin: 0 auto;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
         }
 
         .footer-logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.3rem;
-            color: var(--ink);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
         .footer-text {
-            font-size: 0.8rem;
-            color: var(--ink-ghost);
+            font-size: 0.85rem;
+            color: var(--text-muted);
         }
 
         /* Responsive */
-        @media (max-width: 1100px) {
-            .margin-note { display: none; }
-            .document { padding-left: 2rem; }
+        @media (max-width: 900px) {
+            .comparison { grid-template-columns: 1fr; }
+            .comparison-col:first-child { border-right: none; border-bottom: 1px solid var(--border); }
+            .stats-grid { grid-template-columns: 1fr; }
+            .stat-box { border-right: none; border-bottom: 1px solid var(--border); }
+            .stat-box:last-child { border-bottom: none; }
+            .phases-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 768px) {
-            nav { padding: 1.5rem; }
-            .nav-links { display: none; }
-            .document { padding: 9rem 1.5rem 5rem; }
+            nav, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .document { padding: 8rem 1.5rem 4rem; }
             .doc-meta { flex-direction: column; gap: 1rem; }
-            .comparison, .stats { grid-template-columns: 1fr; }
-            footer { flex-direction: column; gap: 1rem; padding: 2rem; }
+            .walls-table { font-size: 0.9rem; }
+            .walls-table th, .walls-table td { padding: 1rem 0.75rem; }
+            .nav-links { display: none; }
+            footer { flex-direction: column; gap: 1rem; text-align: center; }
         }
     </style>
 </head>
 <body>
+    <div class="grid-bg"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
     <nav>
-        <a href="/" class="logo">20n</a>
+        <a href="/" class="logo">
+            20n <span class="logo-dot"></span>
+        </a>
         <ul class="nav-links">
             <li><a href="/manifesto" class="active">Manifesto</a></li>
             <li><a href="/#approach">Approach</a></li>
+            <li><a href="/#roadmap">Roadmap</a></li>
             <li><a href="/contact">Contact</a></li>
         </ul>
     </nav>
 
     <article class="document">
         <header class="doc-header">
-            <div class="doc-label">RESEARCH PROTOCOL / V1.0</div>
-            <h1>The 20n <em>Manifesto</em></h1>
+            <div class="doc-tag">Research Protocol / V1.0</div>
+            <h1>The 20n <span class="accent">Manifesto</span></h1>
             <div class="doc-meta">
                 <div class="doc-meta-item">
-                    <div class="doc-meta-label">STATUS</div>
-                    <div class="doc-meta-value">Living document</div>
+                    <span class="doc-meta-label">STATUS</span>
+                    <span class="doc-meta-value">Living document</span>
                 </div>
                 <div class="doc-meta-item">
-                    <div class="doc-meta-label">LOCATION</div>
-                    <div class="doc-meta-value">Paris, France</div>
+                    <span class="doc-meta-label">LOCATION</span>
+                    <span class="doc-meta-value">Paris, France</span>
                 </div>
                 <div class="doc-meta-item">
-                    <div class="doc-meta-label">CLASSIFICATION</div>
-                    <div class="doc-meta-value">Open Research</div>
+                    <span class="doc-meta-label">CLASSIFICATION</span>
+                    <span class="doc-meta-value">Open Research</span>
                 </div>
             </div>
         </header>
 
         <div class="epigraph">
-            "We don't build AI that reads. We build AI that lives."
+            <p>We don't build AI that reads. We build AI that lives.</p>
             <span class="epigraph-source">— 20n Research Laboratory</span>
         </div>
 
-        <section>
-            <div class="section-num">01</div>
-            <h2>Identity</h2>
+        <section class="manifesto-section">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2 class="section-title"><span class="accent">Identity</span></h2>
+            </div>
 
-            <p><strong>20n</strong> is not a SaaS startup. It is a fundamental research laboratory in Artificial Intelligence and Robotics.</p>
+            <div class="section-content">
+                <p><strong>20n</strong> is not a SaaS startup. It is a fundamental research laboratory in Artificial Intelligence and Robotics.</p>
 
-            <p>The name derives from a physical constant:</p>
+                <p>The name derives from a physical constant:</p>
 
-            <table>
-                <thead>
-                    <tr><th>ENTITY</th><th>POWER</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td>Human brain</td><td><strong>20 Watts</strong></td></tr>
-                    <tr><td>GPT-4 inference cluster</td><td>~20 Megawatts</td></tr>
-                    <tr><td><em>Gap</em></td><td><strong>1,000,000×</strong></td></tr>
-                </tbody>
-            </table>
+                <table class="power-table">
+                    <thead>
+                        <tr><th>ENTITY</th><th>POWER</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Human brain</td><td><strong>20 Watts</strong></td></tr>
+                        <tr><td>GPT-4 inference cluster</td><td>~20 Megawatts</td></tr>
+                        <tr><td><em>Gap</em></td><td><strong>1,000,000×</strong></td></tr>
+                    </tbody>
+                </table>
 
-            <p>The "<strong>n</strong>" represents the exponent we must eliminate.</p>
+                <p>The "<strong>n</strong>" represents the exponent we must eliminate.</p>
 
-            <span class="aside">→ this is not a metaphor. it's an engineering target.</span>
-
-            <h3>What we are not</h3>
-            <ul>
-                <li>We are not building chatbots</li>
-                <li>We are not fine-tuning foundation models</li>
-                <li>We are not a "wrapper" startup</li>
-                <li>We are not chasing RLHF benchmarks</li>
-            </ul>
-
-            <h3>What we are</h3>
-            <ul>
-                <li>A physics-first AI research lab</li>
-                <li>Building continuous-time neural architectures</li>
-                <li>Targeting embodied autonomy</li>
-                <li>Operating on first principles, not scaling laws</li>
-            </ul>
-        </section>
-
-        <section>
-            <div class="section-num">02</div>
-            <h2>The Thesis</h2>
-
-            <p>The current AI market is accelerating toward a wall. The "Scaling Laws" hypothesis has four terminal asymptotes.</p>
-
-            <table>
-                <thead>
-                    <tr><th>WALL</th><th>PROBLEM</th><th>IMPLICATION</th></tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><strong>Energy</strong></td>
-                        <td>Global AI power consumption growing exponentially</td>
-                        <td>Thermodynamically unsustainable</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Data</strong></td>
-                        <td>The internet is finite. Quality text exhausted.</td>
-                        <td>Synthetic data creates collapse</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Latency</strong></td>
-                        <td>Cloud inference: 200-500ms round-trip</td>
-                        <td>Incompatible with real-time robotics</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Physics</strong></td>
-                        <td>LLMs have no causal model of reality</td>
-                        <td>They hallucinate physics</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <p class="margin-note" style="margin-top: -8rem;">everyone sees this coming. few are building alternatives.</p>
-
-            <h3>The contrarian bet</h3>
-
-            <p>The future belongs to <strong>fluid, compact, dynamic</strong> models capable of <strong>real-time adaptation</strong>.</p>
-
-            <div class="comparison">
-                <div class="comparison-col">
-                    <div class="comparison-label">LEGACY AI</div>
-                    <div class="comparison-item">Static weights W</div>
-                    <div class="comparison-item">Discrete timesteps</div>
-                    <div class="comparison-item">Train → Deploy → Freeze</div>
-                    <div class="comparison-item">Megawatts in the cloud</div>
+                <div class="aside">
+                    <p>This is not a metaphor. It's an engineering target.</p>
                 </div>
-                <div class="comparison-col alt">
-                    <div class="comparison-label">20N PROTOCOL</div>
-                    <div class="comparison-item">Dynamic time constants</div>
-                    <div class="comparison-item">Continuous-time ODEs</div>
-                    <div class="comparison-item">Deploy → Keep Adapting</div>
-                    <div class="comparison-item">20 Watts on device</div>
+
+                <div class="comparison">
+                    <div class="comparison-col">
+                        <div class="comparison-label">WHAT WE ARE NOT</div>
+                        <div class="comparison-item">Building chatbots</div>
+                        <div class="comparison-item">Fine-tuning foundation models</div>
+                        <div class="comparison-item">A "wrapper" startup</div>
+                        <div class="comparison-item">Chasing RLHF benchmarks</div>
+                    </div>
+                    <div class="comparison-col">
+                        <div class="comparison-label">WHAT WE ARE</div>
+                        <div class="comparison-item">Physics-first AI research lab</div>
+                        <div class="comparison-item">Continuous-time neural architectures</div>
+                        <div class="comparison-item">Targeting embodied autonomy</div>
+                        <div class="comparison-item">First principles, not scaling laws</div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section>
-            <div class="section-num">03</div>
-            <h2>The Vision</h2>
-
-            <p>Our objective is to create <strong>the first synthetic autonomous life form</strong>.</p>
-
-            <span class="aside">→ not science fiction. engineering with a deadline.</span>
-
-            <h3>Definition of success</h3>
-
-            <p>An autonomous unit that:</p>
-            <ol>
-                <li>Operates on <strong>&lt; 50 Watts</strong> continuous</li>
-                <li>Learns new tasks in <strong>&lt; 10 attempts</strong> without cloud connectivity</li>
-                <li>Navigates unstructured environments <strong>never seen in training</strong></li>
-                <li>Costs <strong>&lt; $20,000</strong> to manufacture at scale</li>
-            </ol>
-        </section>
-
-        <section>
-            <div class="section-num">04</div>
-            <h2>The Technology</h2>
-
-            <p>We implement what we call the <strong>20n Trinity</strong>.</p>
-
-            <h3>A. Liquid Neural Networks</h3>
-
-            <div class="equation">dx/dt = (−x + f(Wx + b)) / τ(x, input)</div>
-
-            <p>The key innovation: <strong>τ adapts in real-time</strong> based on sensory input. The network remains plastic after deployment.</p>
-
-            <h3>B. Active Inference</h3>
-
-            <p><strong>Traditional RL:</strong> Maximize reward<br>
-            <strong>Active Inference:</strong> Minimize surprise (Bayesian self-modeling)</p>
-
-            <ul>
-                <li><strong>Curiosity</strong> — seek information that reduces uncertainty</li>
-                <li><strong>Survival</strong> — avoid states incompatible with continued existence</li>
-                <li><strong>Planning</strong> — simulate futures before acting</li>
-            </ul>
-
-            <h3>C. Spiking Networks</h3>
-
-            <table>
-                <thead>
-                    <tr><th>METRIC</th><th>GPU (DENSE)</th><th>NEUROMORPHIC (SPARSE)</th></tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Operations</td>
-                        <td>Every neuron, every timestep</td>
-                        <td>Only when spike occurs</td>
-                    </tr>
-                    <tr>
-                        <td>Power</td>
-                        <td>~300W per chip</td>
-                        <td>~0.5W per chip</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h3>The stack</h3>
-
-            <div class="stack">
-                <div class="stack-header">20N COGNITIVE ARCHITECTURE</div>
-                <div class="stack-layer">
-                    <div class="stack-layer-title">LAYER 3</div>
-                    <div class="stack-layer-content">Active Inference — World model, belief updating, action selection</div>
-                </div>
-                <div class="stack-layer">
-                    <div class="stack-layer-title">LAYER 2</div>
-                    <div class="stack-layer-content">Liquid Neural Networks — Continuous-time dynamics, adaptive time constants</div>
-                </div>
-                <div class="stack-layer">
-                    <div class="stack-layer-title">LAYER 1</div>
-                    <div class="stack-layer-content">Neuromorphic Substrate — Event-driven computation, sparse activations</div>
-                </div>
+        <section class="manifesto-section">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2 class="section-title">The <span class="accent">Thesis</span></h2>
             </div>
 
-            <div class="stats">
-                <div class="stat">
-                    <div class="stat-value">6.7<span>×</span></div>
-                    <div class="stat-label">SMALLER</div>
+            <div class="section-content">
+                <p>The current AI market is accelerating toward a wall. The "Scaling Laws" hypothesis has four terminal asymptotes.</p>
+
+                <table class="walls-table">
+                    <thead>
+                        <tr><th>WALL</th><th>PROBLEM</th><th>IMPLICATION</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Energy</td>
+                            <td>Global AI power consumption growing exponentially</td>
+                            <td>Thermodynamically unsustainable</td>
+                        </tr>
+                        <tr>
+                            <td>Data</td>
+                            <td>The internet is finite. Quality text exhausted.</td>
+                            <td>Synthetic data creates collapse</td>
+                        </tr>
+                        <tr>
+                            <td>Latency</td>
+                            <td>Cloud inference: 200-500ms round-trip</td>
+                            <td>Incompatible with real-time robotics</td>
+                        </tr>
+                        <tr>
+                            <td>Physics</td>
+                            <td>LLMs have no causal model of reality</td>
+                            <td>They hallucinate physics</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="aside">
+                    <p>Everyone sees this coming. Few are building alternatives.</p>
                 </div>
-                <div class="stat">
-                    <div class="stat-value">22<span>×</span></div>
-                    <div class="stat-label">FEWER OPS</div>
+
+                <h3 style="font-family: 'Instrument Serif', serif; font-size: 1.5rem; margin: 3rem 0 1.5rem; color: var(--text-primary);">The contrarian bet</h3>
+
+                <p>The future belongs to <strong>fluid, compact, dynamic</strong> models capable of <strong>real-time adaptation</strong>.</p>
+
+                <div class="comparison">
+                    <div class="comparison-col">
+                        <div class="comparison-label">LEGACY AI</div>
+                        <div class="comparison-item">Static weights W</div>
+                        <div class="comparison-item">Discrete timesteps</div>
+                        <div class="comparison-item">Train → Deploy → Freeze</div>
+                        <div class="comparison-item">Megawatts in the cloud</div>
+                    </div>
+                    <div class="comparison-col">
+                        <div class="comparison-label">20N PROTOCOL</div>
+                        <div class="comparison-item">Dynamic time constants</div>
+                        <div class="comparison-item">Continuous-time ODEs</div>
+                        <div class="comparison-item">Deploy → Keep Adapting</div>
+                        <div class="comparison-item">20 Watts on device</div>
+                    </div>
                 </div>
-                <div class="stat">
-                    <div class="stat-value">35<span>×</span></div>
-                    <div class="stat-label">MORE EFFICIENT</div>
-                </div>
-            </div>
-
-            <span class="aside">→ benchmarks from internal evaluation. paper forthcoming.</span>
-        </section>
-
-        <section>
-            <div class="section-num">05</div>
-            <h2>The Master Plan</h2>
-
-            <p>Four phases. Subject to revision.</p>
-
-            <div class="phase">
-                <div class="phase-label">PHASE I / CURRENT</div>
-                <div class="phase-title">The Silica Worm</div>
-                <p>Digital organism (&lt; 1,000 neurons) outperforming Deep RL on navigation through curiosity and free energy minimization.</p>
-            </div>
-
-            <div class="phase">
-                <div class="phase-label">PHASE II</div>
-                <div class="phase-title">Ghost in the Shell</div>
-                <p>Sim-to-Real transfer. Robot learns to open doors in &lt; 5 attempts. Zero fine-tuning required.</p>
-            </div>
-
-            <div class="phase">
-                <div class="phase-label">PHASE III</div>
-                <div class="phase-title">Apex Humanoid</div>
-                <p>Full anthropomorphic agent. Dexterous manipulation. &lt; 50W continuous. Learning from &lt; 3 demonstrations.</p>
-            </div>
-
-            <div class="phase">
-                <div class="phase-label">PHASE IV / SPECULATIVE</div>
-                <div class="phase-title">Post-Human</div>
-                <p>Brain-Computer Interfaces. Synthetic biological tissues. Consciousness extension to silicon. <em>This phase is speculative.</em></p>
             </div>
         </section>
 
-        <section>
-            <div class="section-num">06</div>
-            <h2>Culture</h2>
+        <section class="manifesto-section">
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2 class="section-title">The <span class="accent">Vision</span></h2>
+            </div>
 
-            <p>We recruit intellectual mercenaries, not office employees.</p>
+            <div class="section-content">
+                <p>Our objective is to create <strong>the first synthetic autonomous life form</strong>.</p>
 
-            <h4>1. No Data Janitors</h4>
-            <p>We do not clean datasets. We write equations.</p>
+                <div class="aside">
+                    <p>Not science fiction. Engineering with a deadline.</p>
+                </div>
 
-            <h4>2. Physics is Law</h4>
-            <p>If the model violates thermodynamics, it is wrong.</p>
+                <h3 style="font-family: 'Instrument Serif', serif; font-size: 1.5rem; margin: 3rem 0 1.5rem; color: var(--text-primary);">Definition of success</h3>
 
-            <h4>3. Ship or Die</h4>
-            <p>A theory without implementation is a hallucination. Code is truth.</p>
+                <p>An autonomous unit that:</p>
 
-            <h4>4. Anti-Hype</h4>
-            <p>No buzzword soup. Hard science only.</p>
+                <ul class="manifesto-list alt">
+                    <li>Operates on <strong>&lt; 50 Watts</strong> continuous</li>
+                    <li>Learns new tasks in <strong>&lt; 10 attempts</strong> without cloud connectivity</li>
+                    <li>Navigates unstructured environments <strong>never seen in training</strong></li>
+                    <li>Costs <strong>&lt; $20,000</strong> to manufacture at scale</li>
+                </ul>
+            </div>
+        </section>
 
-            <h4>5. Radical Transparency</h4>
-            <p>Our research is open. Our benchmarks are reproducible.</p>
+        <section class="manifesto-section">
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <h2 class="section-title">The <span class="accent">Technology</span></h2>
+            </div>
 
-            <h3>Who we want</h3>
-            <ul>
-                <li>Physicists who can code</li>
-                <li>Neuroscientists who understand math</li>
-                <li>Roboticists tired of hand-tuning PID controllers</li>
-                <li>Anyone who has read Friston and didn't run away</li>
-            </ul>
+            <div class="section-content">
+                <p>We implement what we call the <strong>20n Trinity</strong>.</p>
 
-            <span class="aside">→ if you got this far, you might be one of us.</span>
+                <h3 style="font-family: 'Instrument Serif', serif; font-size: 1.5rem; margin: 3rem 0 1.5rem; color: var(--text-primary);">A. Liquid Neural Networks</h3>
+
+                <div class="equation">dx/dt = (−x + f(Wx + b)) / τ(x, input)</div>
+
+                <p>The key innovation: <strong>τ adapts in real-time</strong> based on sensory input. The network remains plastic after deployment.</p>
+
+                <h3 style="font-family: 'Instrument Serif', serif; font-size: 1.5rem; margin: 3rem 0 1.5rem; color: var(--text-primary);">B. Active Inference</h3>
+
+                <p><strong>Traditional RL:</strong> Maximize reward<br>
+                <strong>Active Inference:</strong> Minimize surprise (Bayesian self-modeling)</p>
+
+                <ul class="manifesto-list">
+                    <li><strong>Curiosity</strong> — seek information that reduces uncertainty</li>
+                    <li><strong>Survival</strong> — avoid states incompatible with continued existence</li>
+                    <li><strong>Planning</strong> — simulate futures before acting</li>
+                </ul>
+
+                <h3 style="font-family: 'Instrument Serif', serif; font-size: 1.5rem; margin: 3rem 0 1.5rem; color: var(--text-primary);">C. Spiking Networks</h3>
+
+                <table class="walls-table">
+                    <thead>
+                        <tr><th>METRIC</th><th>GPU (DENSE)</th><th>NEUROMORPHIC (SPARSE)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Operations</td>
+                            <td>Every neuron, every timestep</td>
+                            <td>Only when spike occurs</td>
+                        </tr>
+                        <tr>
+                            <td>Power</td>
+                            <td>~300W per chip</td>
+                            <td>~0.5W per chip</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-family: 'Instrument Serif', serif; font-size: 1.5rem; margin: 3rem 0 1.5rem; color: var(--text-primary);">The stack</h3>
+
+                <div class="stack">
+                    <div class="stack-header">20N COGNITIVE ARCHITECTURE</div>
+                    <div class="stack-layer">
+                        <span class="stack-layer-num">L3</span>
+                        <div>
+                            <div class="stack-layer-title">Active Inference</div>
+                            <div class="stack-layer-desc">World model, belief updating, action selection</div>
+                        </div>
+                    </div>
+                    <div class="stack-layer">
+                        <span class="stack-layer-num">L2</span>
+                        <div>
+                            <div class="stack-layer-title">Liquid Neural Networks</div>
+                            <div class="stack-layer-desc">Continuous-time dynamics, adaptive time constants</div>
+                        </div>
+                    </div>
+                    <div class="stack-layer">
+                        <span class="stack-layer-num">L1</span>
+                        <div>
+                            <div class="stack-layer-title">Neuromorphic Substrate</div>
+                            <div class="stack-layer-desc">Event-driven computation, sparse activations</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="stat-value">6.7<span>×</span></div>
+                        <div class="stat-label">SMALLER</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">22<span>×</span></div>
+                        <div class="stat-label">FEWER OPS</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">35<span>×</span></div>
+                        <div class="stat-label">MORE EFFICIENT</div>
+                    </div>
+                </div>
+
+                <div class="aside">
+                    <p>Benchmarks from internal evaluation. Paper forthcoming.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="manifesto-section">
+            <div class="section-header">
+                <span class="section-number">05</span>
+                <h2 class="section-title">The Master <span class="accent">Plan</span></h2>
+            </div>
+
+            <div class="section-content">
+                <p>Four phases. Subject to revision.</p>
+
+                <div class="phases-grid">
+                    <div class="phase-card active">
+                        <div class="phase-label">PHASE I / CURRENT</div>
+                        <h4>The Silica Worm</h4>
+                        <p>Digital organism (&lt; 1,000 neurons) outperforming Deep RL on navigation through curiosity and free energy minimization.</p>
+                    </div>
+                    <div class="phase-card">
+                        <div class="phase-label">PHASE II</div>
+                        <h4>Ghost in the Shell</h4>
+                        <p>Sim-to-Real transfer. Robot learns to open doors in &lt; 5 attempts. Zero fine-tuning required.</p>
+                    </div>
+                    <div class="phase-card">
+                        <div class="phase-label">PHASE III</div>
+                        <h4>Apex Humanoid</h4>
+                        <p>Full anthropomorphic agent. Dexterous manipulation. &lt; 50W continuous. Learning from &lt; 3 demonstrations.</p>
+                    </div>
+                    <div class="phase-card">
+                        <div class="phase-label">PHASE IV / SPECULATIVE</div>
+                        <h4>Post-Human</h4>
+                        <p>Brain-Computer Interfaces. Synthetic biological tissues. Consciousness extension to silicon.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="manifesto-section">
+            <div class="section-header">
+                <span class="section-number">06</span>
+                <h2 class="section-title"><span class="accent">Culture</span></h2>
+            </div>
+
+            <div class="section-content">
+                <p>We recruit intellectual mercenaries, not office employees.</p>
+
+                <div class="culture-item">
+                    <h4>1. No Data Janitors</h4>
+                    <p>We do not clean datasets. We write equations.</p>
+                </div>
+
+                <div class="culture-item">
+                    <h4>2. Physics is Law</h4>
+                    <p>If the model violates thermodynamics, it is wrong.</p>
+                </div>
+
+                <div class="culture-item">
+                    <h4>3. Ship or Die</h4>
+                    <p>A theory without implementation is a hallucination. Code is truth.</p>
+                </div>
+
+                <div class="culture-item">
+                    <h4>4. Anti-Hype</h4>
+                    <p>No buzzword soup. Hard science only.</p>
+                </div>
+
+                <div class="culture-item">
+                    <h4>5. Radical Transparency</h4>
+                    <p>Our research is open. Our benchmarks are reproducible.</p>
+                </div>
+
+                <h3 style="font-family: 'Instrument Serif', serif; font-size: 1.5rem; margin: 3rem 0 1.5rem; color: var(--text-primary);">Who we want</h3>
+
+                <ul class="manifesto-list">
+                    <li>Physicists who can code</li>
+                    <li>Neuroscientists who understand math</li>
+                    <li>Roboticists tired of hand-tuning PID controllers</li>
+                    <li>Anyone who has read Friston and didn't run away</li>
+                </ul>
+
+                <div class="aside">
+                    <p>If you got this far, you might be one of us.</p>
+                </div>
+            </div>
         </section>
 
         <div class="doc-footer">
@@ -805,7 +1145,7 @@
 
     <footer>
         <div class="footer-logo">20n</div>
-        <div class="footer-text">Paris — research laboratory</div>
+        <div class="footer-text">Paris — Living Intelligence Laboratory</div>
     </footer>
 </body>
 </html>

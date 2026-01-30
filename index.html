@@ -6,113 +6,107 @@
     <title>20n | Living Intelligence Laboratory</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Source+Sans+3:ital,wght@0,300;0,400;0,500;1,400&family=Special+Elite&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --paper: #FAF8F5;
-            --paper-warm: #F7F4EF;
-            --ink: #1A1A1A;
-            --ink-light: #3D3D3D;
-            --ink-faded: #6B6B6B;
-            --ink-ghost: #9A9A9A;
-            --accent: #2D5A3D;
-            --accent-faded: rgba(45, 90, 61, 0.15);
-            --margin-note: #8B6914;
-            --correction: #8B3D3D;
+            --bg-deep: #0A0A0A;
+            --bg-surface: #111111;
+            --bg-elevated: #1A1A1A;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A0A0A0;
+            --text-muted: #606060;
+            --accent-green: #00FF88;
+            --accent-cyan: #00D4FF;
+            --accent-dim: rgba(0, 255, 136, 0.15);
+            --grid-line: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-
         html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Source Sans 3', sans-serif;
-            background: var(--paper);
-            color: var(--ink);
-            line-height: 1.85;
-            font-size: 17px;
-            font-weight: 300;
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.6;
+            font-size: 16px;
+            overflow-x: hidden;
         }
 
-        /* Subtle paper grain */
-        body::before {
-            content: '';
+        /* Grid background */
+        .grid-bg {
             position: fixed;
             inset: 0;
+            background-image:
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 60px 60px;
             pointer-events: none;
-            opacity: 0.025;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-            z-index: 9999;
+            z-index: 0;
         }
 
-        /* Typography - editorial, breathing */
-        h1, h2, h3 {
-            font-family: 'Cormorant Garamond', serif;
-            font-weight: 400;
-            line-height: 1.25;
+        /* Gradient orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 0;
         }
 
-        h1 { font-size: clamp(2.8rem, 5.5vw, 4.2rem); letter-spacing: -0.03em; }
-        h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); letter-spacing: -0.02em; }
-        h3 { font-size: 1.35rem; }
-
-        p { color: var(--ink-light); max-width: 58ch; }
-
-        /* Typewriter annotations */
-        .typewriter {
-            font-family: 'Special Elite', monospace;
-            font-size: 0.8rem;
-            letter-spacing: 0.03em;
+        .orb-1 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 255, 136, 0.12) 0%, transparent 70%);
+            top: -200px;
+            right: -100px;
         }
 
-        /* Hand-drawn underline effect */
-        .hand-underline {
-            position: relative;
-            display: inline;
-        }
-        .hand-underline::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: -2px;
-            right: -2px;
-            height: 8px;
-            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8'%3E%3Cpath d='M0 5 Q10 2 20 5 T40 5 T60 5 T80 5 T100 5' stroke='%232D5A3D' stroke-width='1.5' fill='none' opacity='0.4'/%3E%3C/svg%3E") repeat-x;
-            background-size: 100px 8px;
+        .orb-2 {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.08) 0%, transparent 70%);
+            bottom: 20%;
+            left: -150px;
         }
 
-        /* Navigation - minimal, offset */
+        /* Navigation */
         nav {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            padding: 2rem 3rem;
+            padding: 1.5rem 3rem;
             display: flex;
             justify-content: space-between;
-            align-items: baseline;
+            align-items: center;
             z-index: 1000;
-            background: linear-gradient(to bottom, var(--paper) 70%, transparent);
+            background: linear-gradient(to bottom, var(--bg-deep) 0%, transparent 100%);
         }
 
         .logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.6rem;
-            font-weight: 500;
-            color: var(--ink);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
             text-decoration: none;
-            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
-        .logo-note {
-            position: absolute;
-            top: -12px;
-            right: -60px;
-            font-family: 'Special Elite', monospace;
-            font-size: 0.6rem;
-            color: var(--margin-note);
-            transform: rotate(-2deg);
-            white-space: nowrap;
+        .logo-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
         }
 
         .nav-links {
@@ -123,661 +117,861 @@
 
         .nav-links a {
             font-size: 0.9rem;
-            color: var(--ink-faded);
+            font-weight: 400;
+            color: var(--text-secondary);
             text-decoration: none;
             transition: color 0.3s;
-        }
-
-        .nav-links a:hover { color: var(--ink); }
-
-        /* Hero - asymmetric, breathing */
-        .hero {
-            min-height: 100vh;
-            padding: 12rem 8% 8rem 12%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
             position: relative;
         }
 
-        .hero-label {
-            font-family: 'Special Elite', monospace;
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-green);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--text-primary); }
+        .nav-links a:hover::after { width: 100%; }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 8rem 6rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
             font-size: 0.75rem;
-            color: var(--ink-ghost);
+            color: var(--accent-green);
             letter-spacing: 0.1em;
             margin-bottom: 2rem;
-            margin-left: -0.5rem;
+            text-transform: uppercase;
+        }
+
+        .hero-tag::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--accent-green);
         }
 
         .hero h1 {
-            margin-bottom: 2.5rem;
-            max-width: 14ch;
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(4rem, 10vw, 8rem);
+            font-weight: 400;
+            line-height: 0.95;
+            margin-bottom: 3rem;
+            max-width: 900px;
         }
 
-        .hero h1 em {
+        .hero h1 .highlight {
+            color: var(--accent-green);
             font-style: italic;
         }
 
         .hero-text {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.4rem;
-            color: var(--ink-light);
-            max-width: 42ch;
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 550px;
             line-height: 1.7;
+            margin-bottom: 3rem;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            background: transparent;
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .hero-cta:hover {
+            background: var(--accent-green);
+            color: var(--bg-deep);
+        }
+
+        .hero-cta svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.3s;
+        }
+
+        .hero-cta:hover svg {
+            transform: translateX(4px);
+        }
+
+        /* Hero visual */
+        .hero-visual {
+            position: absolute;
+            right: 6rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 450px;
+            height: 450px;
+        }
+
+        .hero-diagram {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Stats bar */
+        .stats-bar {
+            position: absolute;
+            bottom: 4rem;
+            left: 6rem;
+            right: 6rem;
+            display: flex;
+            gap: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .stat-value {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2.5rem;
+            color: var(--text-primary);
+        }
+
+        .stat-value span {
+            color: var(--accent-green);
+        }
+
+        .stat-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* Section styling */
+        section {
+            position: relative;
+            z-index: 1;
+            padding: 8rem 6rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: baseline;
+            gap: 2rem;
             margin-bottom: 4rem;
         }
 
-        /* Margin annotation */
-        .margin-note {
-            position: absolute;
-            font-family: 'Special Elite', monospace;
-            font-size: 0.7rem;
-            color: var(--margin-note);
-            line-height: 1.6;
-            max-width: 140px;
-            transform: rotate(-1deg);
+        .section-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-green);
+            letter-spacing: 0.1em;
         }
 
-        .margin-note::before {
-            content: '→ ';
-            opacity: 0.6;
+        .section-title {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 400;
         }
 
-        .hero .margin-note {
-            right: 8%;
-            top: 40%;
-        }
-
-        /* Hand-drawn sketch in hero */
-        .hero-sketch {
-            position: absolute;
-            right: 10%;
-            bottom: 15%;
-            width: 280px;
-            opacity: 0.5;
-        }
-
-        /* Links */
-        .text-link {
-            color: var(--ink);
-            text-decoration: none;
-            border-bottom: 1px solid var(--ink-ghost);
-            transition: border-color 0.3s;
-        }
-
-        .text-link:hover {
-            border-color: var(--ink);
-        }
-
-        /* Section styling - asymmetric margins */
-        section {
-            padding: 10rem 12% 10rem 15%;
-            position: relative;
-        }
-
-        .section-marker {
-            position: absolute;
-            left: 5%;
-            top: 10rem;
-            font-family: 'Special Elite', monospace;
-            font-size: 0.65rem;
-            color: var(--ink-ghost);
-            writing-mode: vertical-rl;
-            text-orientation: mixed;
-            letter-spacing: 0.15em;
+        .section-title .accent {
+            color: var(--accent-green);
+            font-style: italic;
         }
 
         /* Problem section */
         .problem-section {
-            background: var(--paper-warm);
+            background: var(--bg-surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
         }
 
-        .problem-section h2 {
-            margin-bottom: 3rem;
-        }
-
-        .problem-lead {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.3rem;
-            color: var(--ink-light);
-            max-width: 55ch;
+        .problem-intro {
+            font-size: 1.35rem;
+            color: var(--text-secondary);
+            max-width: 700px;
             margin-bottom: 5rem;
-            line-height: 1.75;
+            line-height: 1.7;
         }
 
-        /* Walls - irregular grid */
-        .walls {
+        .walls-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem 4rem;
-            max-width: 800px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
         }
 
         .wall {
+            padding: 2.5rem;
+            border-right: 1px solid var(--border);
             position: relative;
-            padding-left: 1.5rem;
+            transition: all 0.4s;
         }
 
-        .wall::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0.3rem;
-            bottom: 0.3rem;
-            width: 2px;
-            background: var(--accent-faded);
+        .wall:last-child {
+            border-right: none;
         }
 
-        .wall:nth-child(2) { transform: translateY(1.5rem); }
-        .wall:nth-child(3) { transform: translateY(-0.5rem); }
+        .wall:hover {
+            background: var(--bg-elevated);
+        }
 
-        .wall-label {
-            font-family: 'Special Elite', monospace;
-            font-size: 0.65rem;
-            color: var(--ink-ghost);
-            margin-bottom: 0.5rem;
-            letter-spacing: 0.08em;
+        .wall:hover .wall-number {
+            color: var(--accent-green);
+        }
+
+        .wall-number {
+            font-family: 'Instrument Serif', serif;
+            font-size: 4rem;
+            color: var(--text-muted);
+            opacity: 0.3;
+            line-height: 1;
+            margin-bottom: 1.5rem;
+            transition: color 0.4s;
         }
 
         .wall h3 {
-            margin-bottom: 0.75rem;
-            font-weight: 500;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
         }
 
         .wall p {
             font-size: 0.95rem;
-            color: var(--ink-faded);
-            line-height: 1.7;
+            color: var(--text-secondary);
+            line-height: 1.6;
         }
 
-        /* Hand annotation on walls section */
-        .walls-annotation {
-            position: absolute;
-            right: 8%;
-            top: 50%;
-            transform: rotate(2deg);
-            font-family: 'Special Elite', monospace;
-            font-size: 0.7rem;
-            color: var(--correction);
-            max-width: 120px;
-            line-height: 1.5;
+        /* Trinity section */
+        .trinity-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
         }
 
-        /* Approach section */
-        .approach-section h2 {
-            margin-bottom: 1.5rem;
-        }
-
-        .approach-subtitle {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            font-size: 1.1rem;
-            color: var(--ink-faded);
-            margin-bottom: 5rem;
-        }
-
-        /* Three pillars - offset, imperfect */
-        .pillars {
-            display: flex;
-            flex-direction: column;
-            gap: 5rem;
-            max-width: 650px;
-        }
-
-        .pillar {
+        .trinity-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            padding: 3rem;
             position: relative;
-            padding: 2.5rem;
-            background: var(--paper);
-            border: 1px solid rgba(0,0,0,0.06);
+            overflow: hidden;
+            transition: all 0.4s;
         }
 
-        .pillar:nth-child(1) { margin-left: 0; }
-        .pillar:nth-child(2) { margin-left: 4rem; }
-        .pillar:nth-child(3) { margin-left: 1.5rem; }
-
-        .pillar-number {
-            position: absolute;
-            top: -1.2rem;
-            left: 2rem;
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 2.5rem;
-            color: var(--accent);
-            opacity: 0.25;
-        }
-
-        .pillar h3 {
-            margin-bottom: 1rem;
-            font-size: 1.25rem;
-        }
-
-        .pillar p {
-            font-size: 0.95rem;
-            color: var(--ink-faded);
-            margin-bottom: 1.5rem;
-        }
-
-        .pillar-note {
-            font-family: 'Special Elite', monospace;
-            font-size: 0.7rem;
-            color: var(--ink-ghost);
-            border-top: 1px dashed var(--ink-ghost);
-            padding-top: 1rem;
-            margin-top: 1rem;
-        }
-
-        /* Sketch diagram - rough, exploratory */
-        .diagram-section {
-            background: var(--paper-warm);
-            padding: 8rem 10%;
-        }
-
-        .diagram-header {
-            margin-bottom: 4rem;
-        }
-
-        .diagram-header h2 {
-            margin-bottom: 0.75rem;
-        }
-
-        .diagram-subtitle {
-            font-family: 'Special Elite', monospace;
-            font-size: 0.75rem;
-            color: var(--ink-ghost);
-        }
-
-        .diagram-container {
-            max-width: 700px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .diagram-note {
-            position: absolute;
-            font-family: 'Special Elite', monospace;
-            font-size: 0.65rem;
-            color: var(--margin-note);
-            line-height: 1.4;
-        }
-
-        .diagram-note.top-right {
-            top: -2rem;
-            right: 0;
-            transform: rotate(1deg);
-        }
-
-        .diagram-note.bottom-left {
-            bottom: -2.5rem;
-            left: 2rem;
-            transform: rotate(-1deg);
-        }
-
-        /* Roadmap section */
-        .roadmap-section h2 {
-            margin-bottom: 1.5rem;
-        }
-
-        .roadmap-note {
-            font-family: 'Cormorant Garamond', serif;
-            font-style: italic;
-            color: var(--ink-faded);
-            margin-bottom: 5rem;
-            font-size: 1.05rem;
-        }
-
-        .phases {
-            display: flex;
-            flex-direction: column;
-            gap: 4rem;
-            max-width: 600px;
-        }
-
-        .phase {
-            position: relative;
-            padding-left: 3rem;
-        }
-
-        .phase::before {
+        .trinity-card::before {
             content: '';
             position: absolute;
-            left: 0;
             top: 0;
-            bottom: -4rem;
-            width: 1px;
-            background: linear-gradient(to bottom, var(--ink-ghost) 0%, transparent 100%);
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-cyan));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s;
         }
 
-        .phase:last-child::before {
-            bottom: 0;
+        .trinity-card:hover::before {
+            transform: scaleX(1);
         }
 
-        .phase-marker {
-            position: absolute;
-            left: -4px;
-            top: 0.3rem;
-            width: 9px;
-            height: 9px;
-            background: var(--paper);
-            border: 1.5px solid var(--ink-ghost);
-            border-radius: 50%;
+        .trinity-card:hover {
+            background: var(--bg-elevated);
+            transform: translateY(-4px);
         }
 
-        .phase:first-child .phase-marker {
-            background: var(--accent);
-            border-color: var(--accent);
-        }
-
-        .phase-label {
-            font-family: 'Special Elite', monospace;
-            font-size: 0.65rem;
-            color: var(--ink-ghost);
-            margin-bottom: 0.5rem;
-            letter-spacing: 0.08em;
-        }
-
-        .phase h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.75rem;
-            font-weight: 500;
-        }
-
-        .phase p {
-            font-size: 0.95rem;
-            color: var(--ink-faded);
-        }
-
-        .phase-aside {
-            margin-top: 1rem;
-            font-family: 'Special Elite', monospace;
-            font-size: 0.7rem;
-            color: var(--margin-note);
-        }
-
-        /* CTA section - quiet, inviting */
-        .cta-section {
-            text-align: left;
-            padding: 12rem 15% 10rem 18%;
-            background: var(--paper-warm);
-        }
-
-        .cta-section h2 {
+        .trinity-icon {
+            width: 60px;
+            height: 60px;
             margin-bottom: 2rem;
         }
 
-        .cta-text {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.25rem;
-            color: var(--ink-light);
-            max-width: 45ch;
-            margin-bottom: 3rem;
+        .trinity-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--accent-green);
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+        }
+
+        .trinity-card h3 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .trinity-card p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .trinity-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            display: inline-block;
+        }
+
+        /* Diagram section */
+        .diagram-section {
+            background: var(--bg-surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .diagram-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .diagram-text h3 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .diagram-text p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
             line-height: 1.7;
         }
 
-        .cta-link {
-            display: inline-block;
-            font-size: 0.95rem;
-            color: var(--ink);
-            text-decoration: none;
+        .diagram-list {
+            list-style: none;
+        }
+
+        .diagram-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
             padding: 1rem 0;
-            border-bottom: 1px solid var(--ink);
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .diagram-list li::before {
+            content: '→';
+            color: var(--accent-green);
+            font-weight: 500;
+        }
+
+        .diagram-visual {
+            position: relative;
+        }
+
+        .diagram-svg {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Roadmap section */
+        .roadmap-intro {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 4rem;
+        }
+
+        .phases {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+            border: 1px solid var(--border);
+        }
+
+        .phase {
+            padding: 2.5rem;
+            border-right: 1px solid var(--border);
+            position: relative;
+            transition: all 0.4s;
+        }
+
+        .phase:last-child {
+            border-right: none;
+        }
+
+        .phase:hover {
+            background: var(--bg-surface);
+        }
+
+        .phase-status {
+            position: absolute;
+            top: 2.5rem;
+            right: 2.5rem;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--text-muted);
+        }
+
+        .phase:first-child .phase-status {
+            background: var(--accent-green);
+            box-shadow: 0 0 20px var(--accent-green);
+        }
+
+        .phase-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .phase:first-child .phase-label {
+            color: var(--accent-green);
+        }
+
+        .phase h3 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 1rem;
+        }
+
+        .phase p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* CTA section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-deep) 100%);
+            border-top: 1px solid var(--border);
+            text-align: center;
+            padding: 10rem 6rem;
+        }
+
+        .cta-section h2 {
+            font-family: 'Instrument Serif', serif;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-section h2 .accent {
+            color: var(--accent-green);
+            font-style: italic;
+        }
+
+        .cta-text {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 550px;
+            margin: 0 auto 3rem;
+            line-height: 1.7;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            padding: 1.25rem 2.5rem;
+            background: var(--accent-green);
+            color: var(--bg-deep);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
             transition: all 0.3s;
         }
 
-        .cta-link:hover {
-            padding-left: 1rem;
+        .btn-primary:hover {
+            background: #00cc6a;
+            transform: translateY(-2px);
         }
 
-        .cta-aside {
-            margin-top: 5rem;
-            font-family: 'Special Elite', monospace;
-            font-size: 0.7rem;
-            color: var(--ink-ghost);
-            transform: rotate(-0.5deg);
+        .btn-secondary {
+            padding: 1.25rem 2.5rem;
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-secondary);
+            background: var(--bg-elevated);
         }
 
         /* Footer */
         footer {
-            padding: 4rem 8%;
+            padding: 4rem 6rem;
             display: flex;
             justify-content: space-between;
-            align-items: baseline;
-            border-top: 1px solid rgba(0,0,0,0.05);
+            align-items: center;
+            border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
         }
 
         .footer-logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.3rem;
-            color: var(--ink);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
         }
 
         .footer-text {
-            font-size: 0.8rem;
-            color: var(--ink-ghost);
+            font-size: 0.85rem;
+            color: var(--text-muted);
         }
 
         /* Responsive */
-        @media (max-width: 900px) {
-            section { padding: 6rem 8%; }
-            .hero { padding: 10rem 6% 6rem; }
-            .margin-note, .walls-annotation, .diagram-note { display: none; }
-            .walls { grid-template-columns: 1fr; }
-            .wall:nth-child(n) { transform: none; }
-            .pillar:nth-child(n) { margin-left: 0; }
-            .cta-section { padding: 8rem 8%; }
-            .section-marker { display: none; }
+        @media (max-width: 1200px) {
+            .hero-visual { display: none; }
+            .walls-grid, .trinity-grid, .phases { grid-template-columns: repeat(2, 1fr); }
+            .wall:nth-child(2), .phase:nth-child(2) { border-right: none; }
+            .wall:nth-child(3), .wall:nth-child(4),
+            .phase:nth-child(3), .phase:nth-child(4) { border-top: 1px solid var(--border); }
         }
 
-        @media (max-width: 600px) {
-            nav { padding: 1.5rem; }
-            .nav-links { gap: 1.5rem; }
-            .hero h1 { font-size: 2.2rem; }
-            footer { flex-direction: column; gap: 1rem; }
+        @media (max-width: 768px) {
+            nav, section, .hero, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .walls-grid, .trinity-grid, .phases { grid-template-columns: 1fr; }
+            .wall, .phase { border-right: none; border-bottom: 1px solid var(--border); }
+            .wall:last-child, .phase:last-child { border-bottom: none; }
+            .diagram-container { grid-template-columns: 1fr; }
+            .stats-bar { flex-direction: column; gap: 2rem; }
+            .cta-buttons { flex-direction: column; }
+            .nav-links { display: none; }
+            footer { flex-direction: column; gap: 1rem; text-align: center; }
         }
     </style>
 </head>
 <body>
+    <div class="grid-bg"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
     <nav>
         <a href="/" class="logo">
-            20n
-            <span class="logo-note">twenty neurons</span>
+            20n <span class="logo-dot"></span>
         </a>
         <ul class="nav-links">
             <li><a href="/manifesto">Manifesto</a></li>
             <li><a href="#approach">Approach</a></li>
+            <li><a href="#roadmap">Roadmap</a></li>
             <li><a href="/contact">Contact</a></li>
         </ul>
     </nav>
 
     <section class="hero">
-        <div class="hero-label">RESEARCH LABORATORY / PARIS</div>
-        <h1>We build intelligence that <em>lives</em>.</h1>
+        <div class="hero-tag">Research Laboratory / Paris</div>
+        <h1>We build<br>intelligence that<br><span class="highlight">lives.</span></h1>
         <p class="hero-text">
-            Not chatbots. Not prediction machines. Something closer to organisms—systems that adapt, learn, and act in continuous time. We're solving a problem the industry is ignoring.
+            Not chatbots. Not prediction machines. Organisms that adapt, learn, and act in continuous time. We're solving the problem the industry is ignoring.
         </p>
-        <p>
-            <a href="/manifesto" class="text-link">Read why this matters</a>
-        </p>
+        <a href="/manifesto" class="hero-cta">
+            Read the manifesto
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 8h10M9 4l4 4-4 4"/>
+            </svg>
+        </a>
 
-        <div class="margin-note" style="top: 35%;">
-            the human brain runs on 20 watts. current AI requires megawatts. we're closing that gap.
+        <div class="hero-visual">
+            <svg class="hero-diagram" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Outer ring -->
+                <circle cx="200" cy="200" r="180" stroke="url(#grad1)" stroke-width="1" fill="none" opacity="0.3"/>
+                <circle cx="200" cy="200" r="140" stroke="#00FF88" stroke-width="1" fill="none" opacity="0.2" stroke-dasharray="8 4"/>
+                <circle cx="200" cy="200" r="100" stroke="#00D4FF" stroke-width="1" fill="none" opacity="0.15"/>
+
+                <!-- Center pulsing core -->
+                <circle cx="200" cy="200" r="40" fill="url(#grad2)" opacity="0.6">
+                    <animate attributeName="r" values="35;45;35" dur="3s" repeatCount="indefinite"/>
+                    <animate attributeName="opacity" values="0.6;0.3;0.6" dur="3s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="200" cy="200" r="20" fill="#00FF88" opacity="0.8"/>
+
+                <!-- Orbiting nodes -->
+                <g>
+                    <circle cx="200" cy="60" r="8" fill="#00FF88"/>
+                    <animateTransform attributeName="transform" type="rotate" from="0 200 200" to="360 200 200" dur="20s" repeatCount="indefinite"/>
+                </g>
+                <g>
+                    <circle cx="60" cy="200" r="6" fill="#00D4FF"/>
+                    <animateTransform attributeName="transform" type="rotate" from="120 200 200" to="480 200 200" dur="25s" repeatCount="indefinite"/>
+                </g>
+                <g>
+                    <circle cx="340" cy="200" r="6" fill="#00FF88" opacity="0.7"/>
+                    <animateTransform attributeName="transform" type="rotate" from="240 200 200" to="600 200 200" dur="18s" repeatCount="indefinite"/>
+                </g>
+
+                <!-- Connection lines -->
+                <line x1="200" y1="200" x2="200" y2="60" stroke="#00FF88" stroke-width="1" opacity="0.3"/>
+                <line x1="200" y1="200" x2="60" y2="200" stroke="#00D4FF" stroke-width="1" opacity="0.2"/>
+                <line x1="200" y1="200" x2="340" y2="200" stroke="#00FF88" stroke-width="1" opacity="0.2"/>
+
+                <!-- Labels -->
+                <text x="200" y="30" text-anchor="middle" fill="#A0A0A0" font-family="JetBrains Mono" font-size="9">SENSING</text>
+                <text x="380" y="205" text-anchor="middle" fill="#A0A0A0" font-family="JetBrains Mono" font-size="9">ACTION</text>
+                <text x="20" y="205" text-anchor="start" fill="#A0A0A0" font-family="JetBrains Mono" font-size="9">WORLD</text>
+
+                <defs>
+                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#00FF88"/>
+                        <stop offset="100%" stop-color="#00D4FF"/>
+                    </linearGradient>
+                    <radialGradient id="grad2" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#00FF88"/>
+                        <stop offset="100%" stop-color="transparent"/>
+                    </radialGradient>
+                </defs>
+            </svg>
         </div>
 
-        <!-- Abstract sketch - not depicting anything specific -->
-        <svg class="hero-sketch" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Irregular, exploratory lines -->
-            <path d="M30 150 Q50 120 45 80 Q42 50 70 45" stroke="#2D5A3D" stroke-width="1" fill="none" opacity="0.4"/>
-            <path d="M70 45 Q100 40 120 55 Q145 72 140 100" stroke="#2D5A3D" stroke-width="1" fill="none" opacity="0.35"/>
-            <path d="M140 100 Q138 130 160 145" stroke="#2D5A3D" stroke-width="1" fill="none" opacity="0.3"/>
-
-            <!-- Small marks, like thinking marks -->
-            <circle cx="70" cy="45" r="3" fill="#2D5A3D" opacity="0.25"/>
-            <circle cx="140" cy="100" r="2" fill="#2D5A3D" opacity="0.2"/>
-            <circle cx="45" cy="80" r="2" fill="#2D5A3D" opacity="0.2"/>
-
-            <!-- A crossed-out area - showing revision -->
-            <line x1="85" y1="130" x2="115" y2="125" stroke="#8B3D3D" stroke-width="0.5" opacity="0.3"/>
-            <line x1="85" y1="125" x2="115" y2="130" stroke="#8B3D3D" stroke-width="0.5" opacity="0.3"/>
-
-            <!-- Question mark annotation -->
-            <text x="165" y="150" font-family="'Special Elite', monospace" font-size="8" fill="#6B6B6B" opacity="0.5">?</text>
-        </svg>
+        <div class="stats-bar">
+            <div class="stat">
+                <div class="stat-value">20<span>W</span></div>
+                <div class="stat-label">Target power</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">&lt;1K</div>
+                <div class="stat-label">Parameters</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">100<span>×</span></div>
+                <div class="stat-label">More efficient</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">∞</div>
+                <div class="stat-label">Adaptation</div>
+            </div>
+        </div>
     </section>
 
     <section class="problem-section">
-        <div class="section-marker">THE PROBLEM</div>
+        <div class="section-header">
+            <span class="section-number">01</span>
+            <h2 class="section-title">The <span class="accent">wall</span></h2>
+        </div>
 
-        <h2>The current path leads nowhere.</h2>
-        <p class="problem-lead">
-            The AI industry is building monuments—massive, static, power-hungry systems trained on the entire internet. They're impressive. They're also fundamentally limited. They cannot act. They cannot adapt. They cannot exist in the physical world.
+        <p class="problem-intro">
+            The AI industry is racing toward four terminal asymptotes. Everyone sees them coming. Few are building alternatives.
         </p>
 
-        <div class="walls">
+        <div class="walls-grid">
             <div class="wall">
-                <div class="wall-label">WALL 01</div>
+                <div class="wall-number">01</div>
                 <h3>Energy</h3>
-                <p>Scaling transformers requires exponentially more power. By 2030, AI could consume more electricity than small countries. This is thermodynamically untenable.</p>
+                <p>Scaling transformers requires exponentially more power. By 2030, AI could consume more electricity than small countries.</p>
             </div>
             <div class="wall">
-                <div class="wall-label">WALL 02</div>
+                <div class="wall-number">02</div>
                 <h3>Data</h3>
                 <p>The internet is finite. Quality text is exhausted. Synthetic data leads to model collapse. The well is running dry.</p>
             </div>
             <div class="wall">
-                <div class="wall-label">WALL 03</div>
+                <div class="wall-number">03</div>
                 <h3>Latency</h3>
-                <p>Cloud inference takes hundreds of milliseconds. A robot cannot wait. Real-time autonomy requires edge intelligence.</p>
+                <p>Cloud inference takes 200-500ms. A robot cannot wait. Real-time autonomy requires edge intelligence.</p>
             </div>
             <div class="wall">
-                <div class="wall-label">WALL 04</div>
+                <div class="wall-number">04</div>
                 <h3>Reality</h3>
-                <p>Language models have no causal understanding. They predict text, not physics. They hallucinate the world instead of modeling it.</p>
+                <p>Language models have no causal understanding. They predict text, not physics. They hallucinate the world.</p>
             </div>
-        </div>
-
-        <div class="walls-annotation">
-            everyone knows this. few are building alternatives.
         </div>
     </section>
 
-    <section class="approach-section" id="approach">
-        <div class="section-marker">THE APPROACH</div>
+    <section id="approach">
+        <div class="section-header">
+            <span class="section-number">02</span>
+            <h2 class="section-title">The <span class="accent">trinity</span></h2>
+        </div>
 
-        <h2>A different architecture.</h2>
-        <p class="approach-subtitle">Three principles that diverge from the dominant paradigm.</p>
-
-        <div class="pillars">
-            <div class="pillar">
-                <span class="pillar-number">1</span>
-                <h3>Liquid computation</h3>
-                <p>Networks where time constants adapt during inference. Not frozen weights—flowing dynamics. The system keeps learning after deployment.</p>
-                <div class="pillar-note">→ based on differential equations, not matrix multiplications</div>
+        <div class="trinity-grid">
+            <div class="trinity-card">
+                <svg class="trinity-icon" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="30" cy="30" r="25" stroke="#00FF88" stroke-width="1.5" fill="none" opacity="0.3"/>
+                    <path d="M15 30 Q22 15 30 30 T45 30" stroke="#00FF88" stroke-width="2" fill="none"/>
+                    <circle cx="22" cy="22" r="4" fill="#00FF88" opacity="0.6"/>
+                    <circle cx="38" cy="38" r="3" fill="#00D4FF" opacity="0.6"/>
+                </svg>
+                <div class="trinity-label">ARCHITECTURE</div>
+                <h3>Liquid Networks</h3>
+                <p>Networks where time constants adapt during inference. Not frozen weights—flowing dynamics that keep learning after deployment.</p>
+                <span class="trinity-tag">dx/dt = f(x, τ(input))</span>
             </div>
 
-            <div class="pillar">
-                <span class="pillar-number">2</span>
-                <h3>Active inference</h3>
+            <div class="trinity-card">
+                <svg class="trinity-icon" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="10" y="10" width="40" height="40" stroke="#00FF88" stroke-width="1.5" fill="none" opacity="0.3" rx="4"/>
+                    <circle cx="30" cy="30" r="12" stroke="#00FF88" stroke-width="2" fill="none"/>
+                    <path d="M30 22 L30 38 M22 30 L38 30" stroke="#00D4FF" stroke-width="1.5"/>
+                    <circle cx="30" cy="30" r="4" fill="#00FF88"/>
+                </svg>
+                <div class="trinity-label">OBJECTIVE</div>
+                <h3>Active Inference</h3>
                 <p>Agents that minimize surprise rather than maximize reward. They build world models and act to reduce uncertainty. Curiosity is built in.</p>
-                <div class="pillar-note">→ derived from Friston's free energy principle</div>
+                <span class="trinity-tag">argmin F(q, y)</span>
             </div>
 
-            <div class="pillar">
-                <span class="pillar-number">3</span>
-                <h3>Sparse signaling</h3>
+            <div class="trinity-card">
+                <svg class="trinity-icon" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 45 L20 25 L30 35 L40 15 L50 30" stroke="#00FF88" stroke-width="2" fill="none"/>
+                    <circle cx="20" cy="25" r="3" fill="#00FF88"/>
+                    <circle cx="30" cy="35" r="3" fill="#00D4FF"/>
+                    <circle cx="40" cy="15" r="3" fill="#00FF88"/>
+                    <line x1="10" y1="50" x2="50" y2="50" stroke="#00FF88" stroke-width="1" opacity="0.3"/>
+                </svg>
+                <div class="trinity-label">SUBSTRATE</div>
+                <h3>Sparse Signaling</h3>
                 <p>Information transmitted only when needed—through events, not continuous streams. Orders of magnitude more efficient than dense computation.</p>
-                <div class="pillar-note">→ neuromorphic substrates, event-driven processing</div>
+                <span class="trinity-tag">~0.5W / chip</span>
             </div>
         </div>
     </section>
 
     <section class="diagram-section">
-        <div class="diagram-header">
-            <h2>The loop</h2>
-            <p class="diagram-subtitle">A SKETCH, NOT A SPECIFICATION</p>
-        </div>
-
         <div class="diagram-container">
-            <div class="diagram-note top-right">this is simplified—<br/>the real thing is messier</div>
+            <div class="diagram-text">
+                <h3>The perception-action loop</h3>
+                <p>Traditional AI is a one-way street: input → process → output. Living systems work differently. They continuously predict, act, and update.</p>
+                <ul class="diagram-list">
+                    <li>World model predicts sensory input</li>
+                    <li>Prediction errors drive learning</li>
+                    <li>Actions are chosen to minimize surprise</li>
+                    <li>The loop never stops—even after deployment</li>
+                </ul>
+            </div>
+            <div class="diagram-visual">
+                <svg class="diagram-svg" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Background grid -->
+                    <defs>
+                        <pattern id="smallGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+                            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.05"/>
+                        </pattern>
+                    </defs>
+                    <rect width="400" height="300" fill="url(#smallGrid)"/>
 
-            <svg viewBox="0 0 500 280" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 100%;">
-                <!-- Hand-drawn style boxes -->
-                <path d="M150 30 L350 32 L348 80 L152 78 Z" stroke="#1A1A1A" stroke-width="1" fill="none" opacity="0.6"/>
-                <text x="250" y="58" text-anchor="middle" font-family="'Source Sans 3', sans-serif" font-size="11" fill="#3D3D3D">world model</text>
+                    <!-- Top box - World Model -->
+                    <rect x="120" y="30" width="160" height="50" stroke="#00FF88" stroke-width="1.5" fill="#00FF88" fill-opacity="0.05" rx="4"/>
+                    <text x="200" y="58" text-anchor="middle" fill="#00FF88" font-family="Space Grotesk" font-size="12" font-weight="500">WORLD MODEL</text>
+                    <text x="200" y="72" text-anchor="middle" fill="#606060" font-family="JetBrains Mono" font-size="8">p(y, θ)</text>
 
-                <!-- Central element - sketchy circle -->
-                <ellipse cx="250" cy="150" rx="55" ry="35" stroke="#1A1A1A" stroke-width="1" fill="none" opacity="0.5" stroke-dasharray="3,2"/>
-                <text x="250" y="145" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-size="13" fill="#1A1A1A">minimize</text>
-                <text x="250" y="162" text-anchor="middle" font-family="'Cormorant Garamond', serif" font-style="italic" font-size="13" fill="#1A1A1A">surprise</text>
+                    <!-- Center box - Free Energy -->
+                    <rect x="120" y="120" width="160" height="60" stroke="#00FF88" stroke-width="2" fill="#00FF88" fill-opacity="0.1" rx="4"/>
+                    <text x="200" y="148" text-anchor="middle" fill="#ffffff" font-family="Space Grotesk" font-size="13" font-weight="600">MINIMIZE</text>
+                    <text x="200" y="165" text-anchor="middle" fill="#00FF88" font-family="JetBrains Mono" font-size="11">surprise</text>
 
-                <!-- Bottom box -->
-                <path d="M152 220 L348 218 L350 268 L150 270 Z" stroke="#1A1A1A" stroke-width="1" fill="none" opacity="0.6"/>
-                <text x="250" y="248" text-anchor="middle" font-family="'Source Sans 3', sans-serif" font-size="11" fill="#3D3D3D">environment</text>
+                    <!-- Bottom box - Environment -->
+                    <rect x="120" y="220" width="160" height="50" stroke="#00D4FF" stroke-width="1.5" fill="#00D4FF" fill-opacity="0.05" rx="4"/>
+                    <text x="200" y="248" text-anchor="middle" fill="#00D4FF" font-family="Space Grotesk" font-size="12" font-weight="500">ENVIRONMENT</text>
 
-                <!-- Connecting lines - imperfect -->
-                <path d="M250 80 L250 115" stroke="#1A1A1A" stroke-width="0.8" fill="none" opacity="0.5"/>
-                <path d="M250 185 L250 218" stroke="#1A1A1A" stroke-width="0.8" fill="none" opacity="0.5"/>
+                    <!-- Arrows -->
+                    <path d="M200 80 L200 120" stroke="#00FF88" stroke-width="1.5" marker-end="url(#arrow)"/>
+                    <path d="M200 180 L200 220" stroke="#00FF88" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-                <!-- Side paths -->
-                <path d="M305 150 Q380 150 380 200 Q380 244 350 244" stroke="#1A1A1A" stroke-width="0.8" fill="none" opacity="0.4"/>
-                <path d="M195 150 Q120 150 120 200 Q120 244 150 244" stroke="#1A1A1A" stroke-width="0.8" fill="none" opacity="0.4"/>
+                    <!-- Side loops -->
+                    <path d="M280 150 Q340 150 340 200 Q340 245 280 245" stroke="#00FF88" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
+                    <path d="M120 245 Q60 245 60 200 Q60 150 120 150" stroke="#00D4FF" stroke-width="1.5" fill="none" marker-end="url(#arrowCyan)"/>
 
-                <!-- Labels - handwritten style -->
-                <text x="400" y="195" font-family="'Special Elite', monospace" font-size="8" fill="#6B6B6B">action</text>
-                <text x="70" y="195" font-family="'Special Elite', monospace" font-size="8" fill="#6B6B6B">sensing</text>
+                    <!-- Labels -->
+                    <text x="355" y="200" text-anchor="start" fill="#00FF88" font-family="JetBrains Mono" font-size="9">ACTION</text>
+                    <text x="20" y="200" text-anchor="start" fill="#00D4FF" font-family="JetBrains Mono" font-size="9">SENSE</text>
 
-                <!-- Small annotation -->
-                <text x="320" y="140" font-family="'Special Elite', monospace" font-size="7" fill="#8B6914" transform="rotate(5, 320, 140)">continuous</text>
-            </svg>
-
-            <div class="diagram-note bottom-left">cf. Friston 2010, but adapted for embodiment</div>
+                    <defs>
+                        <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#00FF88"/>
+                        </marker>
+                        <marker id="arrowCyan" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#00D4FF"/>
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
         </div>
     </section>
 
-    <section class="roadmap-section">
-        <div class="section-marker">THE PATH</div>
+    <section id="roadmap">
+        <div class="section-header">
+            <span class="section-number">03</span>
+            <h2 class="section-title">The <span class="accent">path</span></h2>
+        </div>
 
-        <h2>Research phases</h2>
-        <p class="roadmap-note">What we're building, roughly in order. Subject to revision.</p>
+        <p class="roadmap-intro">Four phases. Subject to revision. The first is already underway.</p>
 
         <div class="phases">
             <div class="phase">
-                <div class="phase-marker"></div>
-                <div class="phase-label">CURRENT PHASE</div>
+                <div class="phase-status"></div>
+                <div class="phase-label">PHASE I — CURRENT</div>
                 <h3>Silica Worm</h3>
-                <p>A minimal digital organism. Under 1,000 parameters. Learns to navigate through curiosity alone, no reward signal. Proof that the architecture works.</p>
-                <div class="phase-aside">→ outperforming deep RL baselines with 100x less compute</div>
+                <p>Digital organism with &lt;1,000 parameters. Learns to navigate through curiosity alone. No reward signal. Outperforming deep RL baselines.</p>
             </div>
-
             <div class="phase">
-                <div class="phase-marker"></div>
-                <div class="phase-label">NEXT</div>
+                <div class="phase-status"></div>
+                <div class="phase-label">PHASE II — NEXT</div>
                 <h3>Embodiment</h3>
-                <p>Simulation to reality transfer. Physical robots that learn new tasks from single demonstrations. No fine-tuning. No cloud connection.</p>
+                <p>Sim-to-real transfer. Physical robots that learn new tasks from single demonstrations. No fine-tuning. No cloud.</p>
             </div>
-
             <div class="phase">
-                <div class="phase-marker"></div>
-                <div class="phase-label">HORIZON</div>
-                <h3>Autonomy</h3>
-                <p>Full agents operating in unstructured environments. Continuous learning. Edge-only inference. The target: useful synthetic life.</p>
+                <div class="phase-status"></div>
+                <div class="phase-label">PHASE III — HORIZON</div>
+                <h3>Apex</h3>
+                <p>Full anthropomorphic agents. Dexterous manipulation. &lt;50W continuous. Learning from &lt;3 demonstrations.</p>
+            </div>
+            <div class="phase">
+                <div class="phase-status"></div>
+                <div class="phase-label">PHASE IV — SPECULATIVE</div>
+                <h3>Post-Human</h3>
+                <p>Brain-computer interfaces. Synthetic biological tissues. Consciousness extension. This phase is speculative.</p>
             </div>
         </div>
     </section>
 
     <section class="cta-section">
-        <h2>This requires a different kind of team.</h2>
+        <h2>Build <span class="accent">with us</span></h2>
         <p class="cta-text">
             We're looking for researchers who find the current paradigm unsatisfying. Physicists who code. Neuroscientists who question. Anyone who has read Friston and didn't run away.
         </p>
-        <a href="/contact" class="cta-link">Get in touch →</a>
-
-        <p class="cta-aside">
-            "We don't have 10,000 GPUs. We have better mathematics."<br/>
-            — internal memo, 2024
-        </p>
+        <div class="cta-buttons">
+            <a href="/contact" class="btn-primary">Join the lab</a>
+            <a href="/manifesto" class="btn-secondary">Read the manifesto</a>
+        </div>
     </section>
 
     <footer>
         <div class="footer-logo">20n</div>
-        <div class="footer-text">Paris — research laboratory</div>
+        <div class="footer-text">Paris — Living Intelligence Laboratory</div>
     </footer>
 </body>
 </html>
