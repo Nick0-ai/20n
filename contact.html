@@ -6,789 +6,510 @@
     <title>20n | Contact</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Caveat:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #0A0A0A;
-            --bg-surface: #111111;
-            --bg-elevated: #1A1A1A;
-            --text-primary: #FFFFFF;
-            --text-secondary: #A0A0A0;
-            --text-muted: #606060;
-            --accent-green: #00FF88;
-            --accent-cyan: #00D4FF;
-            --grid-line: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.08);
+            --bone: #F5F0E8;
+            --paper: #EDE8DD;
+            --paper-dark: #E5DFD2;
+            --ink: #1C1917;
+            --ink-light: #44403C;
+            --ink-faded: #78716C;
+            --green-deep: #2D4A3E;
+            --green-algae: #4A7C59;
+            --green-oxide: #6B8F71;
+            --amber: #B8860B;
+            --copper: #8B5A2B;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Space Grotesk', sans-serif;
-            background: var(--bg-deep);
-            color: var(--text-primary);
-            line-height: 1.6;
-            font-size: 16px;
+            font-family: 'EB Garamond', Georgia, serif;
+            background: var(--bone);
+            color: var(--ink);
+            line-height: 1.7;
+            font-size: 19px;
+            overflow-x: hidden;
             min-height: 100vh;
         }
 
-        .grid-bg {
+        body::before {
+            content: '';
             position: fixed;
             inset: 0;
-            background-image:
-                linear-gradient(var(--grid-line) 1px, transparent 1px),
-                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-            background-size: 60px 60px;
             pointer-events: none;
-            z-index: 0;
+            opacity: 0.4;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            z-index: 9999;
         }
 
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(120px);
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .orb-1 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(0, 255, 136, 0.1) 0%, transparent 70%);
-            top: 10%;
-            right: -100px;
-        }
-
-        /* Navigation */
         nav {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 1.5rem 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            background: linear-gradient(to bottom, var(--bg-deep) 0%, transparent 100%);
-        }
-
-        .logo {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .logo-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent-green);
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            top: 2rem;
+            right: 3rem;
+            z-index: 100;
         }
 
         .nav-links {
             display: flex;
-            gap: 2.5rem;
+            gap: 2rem;
             list-style: none;
         }
 
         .nav-links a {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
+            font-size: 0.85rem;
+            color: var(--ink-faded);
             text-decoration: none;
-            transition: color 0.3s;
+            letter-spacing: 0.02em;
         }
 
-        .nav-links a:hover, .nav-links a.active { color: var(--text-primary); }
+        .nav-links a:hover { color: var(--ink); }
 
-        /* Main content */
-        .contact-page {
-            min-height: 100vh;
-            padding: 10rem 6rem 6rem;
-            position: relative;
-            z-index: 1;
+        .logo-corner {
+            position: fixed;
+            top: 2rem;
+            left: 3rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--ink);
+            text-decoration: none;
+            z-index: 100;
         }
 
-        .contact-header {
-            margin-bottom: 5rem;
-        }
-
-        .contact-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--accent-green);
-            letter-spacing: 0.1em;
-            margin-bottom: 2rem;
-            text-transform: uppercase;
-        }
-
-        .contact-tag::before {
-            content: '';
-            width: 40px;
-            height: 1px;
-            background: var(--accent-green);
-        }
-
-        .contact-header h1 {
-            font-family: 'Instrument Serif', serif;
-            font-size: clamp(3rem, 6vw, 5rem);
-            font-weight: 400;
-            margin-bottom: 1.5rem;
-        }
-
-        .contact-header h1 .highlight {
-            color: var(--accent-green);
-            font-style: italic;
-        }
-
-        .contact-intro {
-            font-size: 1.2rem;
-            color: var(--text-secondary);
-            max-width: 500px;
-        }
-
-        /* Layout */
-        .contact-content {
+        /* Main layout - asymmetric */
+        .page-container {
             display: grid;
-            grid-template-columns: 350px 1fr;
-            gap: 6rem;
+            grid-template-columns: 1fr 45%;
+            min-height: 100vh;
         }
 
-        /* Options */
-        .contact-options {
+        /* Left side - organic background illustration */
+        .page-illustration {
+            background: var(--paper);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bg-organism {
+            position: absolute;
+            width: 130%;
+            height: 130%;
+            top: -15%;
+            left: -15%;
+            opacity: 0.7;
+        }
+
+        .page-content {
+            padding: 15vh 8% 8rem 6%;
             display: flex;
             flex-direction: column;
-            gap: 0;
-            border: 1px solid var(--border);
+            justify-content: center;
         }
 
-        .option {
-            padding: 2rem;
-            border-bottom: 1px solid var(--border);
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
+        .page-label {
+            font-family: 'Caveat', cursive;
+            font-size: 1.3rem;
+            color: var(--green-algae);
+            margin-bottom: 1.5rem;
+            transform: rotate(-1deg);
         }
 
-        .option:last-child {
-            border-bottom: none;
-        }
-
-        .option::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
-            background: var(--accent-green);
-            transform: scaleY(0);
-            transition: transform 0.3s;
-        }
-
-        .option:hover, .option.active {
-            background: var(--bg-surface);
-        }
-
-        .option.active::before {
-            transform: scaleY(1);
-        }
-
-        .option-label {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            letter-spacing: 0.1em;
-            margin-bottom: 0.5rem;
-            transition: color 0.3s;
-        }
-
-        .option.active .option-label {
-            color: var(--accent-green);
-        }
-
-        .option h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .option p {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-        }
-
-        /* Form area */
-        .form-area {
-            padding: 3rem;
-            background: var(--bg-surface);
-            border: 1px solid var(--border);
-        }
-
-        .form-container {
-            display: none;
-        }
-
-        .form-container.active {
-            display: block;
-            animation: fadeIn 0.4s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .form-header {
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .form-header h2 {
-            font-family: 'Instrument Serif', serif;
-            font-size: 1.75rem;
+        .page-title {
+            font-size: clamp(3rem, 6vw, 4.5rem);
             font-weight: 400;
-            margin-bottom: 0.5rem;
+            line-height: 1.1;
+            margin-bottom: 2rem;
         }
 
-        .form-header p {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
+        .page-title em {
+            font-style: italic;
+            color: var(--green-deep);
         }
 
-        /* Form elements */
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
+        .page-intro {
+            font-size: 1.1rem;
+            color: var(--ink-light);
+            max-width: 450px;
+            margin-bottom: 4rem;
+        }
+
+        /* Form - organic, notebook feel */
+        .contact-form {
+            max-width: 480px;
         }
 
         .form-group {
-            margin-bottom: 0;
-        }
-
-        .form-group.full {
-            grid-column: 1 / -1;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            margin-bottom: 0.75rem;
-        }
-
-        .form-group label .req {
-            color: var(--accent-green);
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            background: var(--bg-elevated);
-            border: 1px solid var(--border);
-            padding: 1rem;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.95rem;
-            color: var(--text-primary);
-            transition: all 0.3s;
-            outline: none;
-        }
-
-        .form-group input:focus,
-        .form-group textarea:focus,
-        .form-group select:focus {
-            border-color: var(--accent-green);
-            box-shadow: 0 0 0 2px rgba(0, 255, 136, 0.1);
-        }
-
-        .form-group input::placeholder,
-        .form-group textarea::placeholder {
-            color: var(--text-muted);
-        }
-
-        .form-group textarea {
-            min-height: 140px;
-            resize: vertical;
-            line-height: 1.6;
-        }
-
-        .form-group select {
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 6 5-6' fill='none' stroke='%2300FF88' stroke-width='1.5'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 1rem center;
-        }
-
-        /* File upload */
-        .file-upload {
-            border: 2px dashed var(--border);
-            padding: 2.5rem;
-            text-align: center;
-            transition: all 0.3s;
-            cursor: pointer;
+            margin-bottom: 2rem;
             position: relative;
         }
 
-        .file-upload:hover {
-            border-color: var(--accent-green);
-            background: rgba(0, 255, 136, 0.02);
+        .form-label {
+            display: block;
+            font-family: 'Caveat', cursive;
+            font-size: 1.2rem;
+            color: var(--ink-light);
+            margin-bottom: 0.5rem;
         }
 
-        .file-upload input {
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 1rem 0;
+            font-family: 'EB Garamond', Georgia, serif;
+            font-size: 1.1rem;
+            color: var(--ink);
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--ink-faded);
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            border-bottom-color: var(--green-algae);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+            line-height: 1.6;
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: var(--ink-faded);
+            opacity: 0.6;
+        }
+
+        /* Subject selection - organic checkboxes */
+        .subject-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .subject-option {
+            position: relative;
+        }
+
+        .subject-option input {
             position: absolute;
-            inset: 0;
             opacity: 0;
             cursor: pointer;
         }
 
-        .file-upload-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: var(--accent-green);
-        }
-
-        .file-upload-text {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-
-        .file-upload-text span {
-            color: var(--accent-green);
-        }
-
-        .file-name {
-            margin-top: 1rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            color: var(--accent-green);
-        }
-
-        /* Submit */
-        .form-actions {
-            margin-top: 2.5rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .submit-btn {
-            padding: 1.25rem 2.5rem;
-            background: var(--accent-green);
-            color: var(--bg-deep);
-            font-family: 'Space Grotesk', sans-serif;
+        .subject-option label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1rem;
             font-size: 0.95rem;
-            font-weight: 600;
-            border: none;
+            color: var(--ink-light);
+            border: 1px solid var(--ink-faded);
             cursor: pointer;
             transition: all 0.3s;
         }
 
-        .submit-btn:hover {
-            background: #00cc6a;
-            transform: translateY(-2px);
-        }
-
-        .submit-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* Success */
-        .success-message {
-            display: none;
-            text-align: center;
-            padding: 4rem 2rem;
-        }
-
-        .success-message.active {
-            display: block;
-            animation: fadeIn 0.4s ease;
-        }
-
-        .success-icon {
-            width: 60px;
-            height: 60px;
-            margin: 0 auto 2rem;
-            border: 2px solid var(--accent-green);
+        .subject-option label::before {
+            content: '';
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
+            background: transparent;
+            border: 1px solid var(--ink-faded);
+            transition: all 0.3s;
+        }
+
+        .subject-option input:checked + label {
+            border-color: var(--green-algae);
+            color: var(--green-deep);
+        }
+
+        .subject-option input:checked + label::before {
+            background: var(--green-algae);
+            border-color: var(--green-algae);
+        }
+
+        /* File upload */
+        .file-upload {
+            position: relative;
+            margin-top: 0.5rem;
+        }
+
+        .file-upload input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-upload-label {
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            border: 1px dashed var(--ink-faded);
+            cursor: pointer;
+            transition: all 0.3s;
         }
 
-        .success-icon svg {
-            width: 30px;
-            height: 30px;
-            stroke: var(--accent-green);
+        .file-upload-label:hover {
+            border-color: var(--green-algae);
         }
 
-        .success-message h3 {
-            font-family: 'Instrument Serif', serif;
-            font-size: 1.75rem;
+        .file-upload-icon {
+            width: 24px;
+            height: 24px;
+            stroke: var(--ink-faded);
+        }
+
+        .file-upload-text {
+            font-size: 0.95rem;
+            color: var(--ink-faded);
+        }
+
+        /* Submit button */
+        .submit-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            font-family: 'EB Garamond', Georgia, serif;
+            font-size: 1.1rem;
+            color: var(--bone);
+            background: var(--green-deep);
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background: var(--green-algae);
+        }
+
+        .submit-btn svg {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.3s;
+        }
+
+        .submit-btn:hover svg {
+            transform: translateX(4px);
+        }
+
+        /* Annotation */
+        .form-annotation {
+            font-family: 'Caveat', cursive;
+            font-size: 1.1rem;
+            color: var(--copper);
+            margin-top: 2rem;
+            transform: rotate(-1deg);
+        }
+
+        /* Alternative contacts */
+        .alt-contacts {
+            margin-top: 4rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .alt-contacts h3 {
+            font-family: 'Caveat', cursive;
+            font-size: 1.3rem;
+            color: var(--ink-light);
             margin-bottom: 1rem;
         }
 
-        .success-message p {
-            color: var(--text-secondary);
+        .alt-contact-item {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .alt-contact-item::before {
+            content: '→';
+            color: var(--green-algae);
+        }
+
+        .alt-contact-item a {
+            color: var(--ink-light);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s;
+        }
+
+        .alt-contact-item a:hover {
+            border-bottom-color: var(--green-algae);
         }
 
         /* Footer */
         footer {
-            padding: 4rem 6rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid var(--border);
-            position: relative;
-            z-index: 1;
-        }
-
-        .footer-logo {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.25rem;
-            font-weight: 600;
-        }
-
-        .footer-text {
+            position: fixed;
+            bottom: 2rem;
+            right: 3rem;
             font-size: 0.85rem;
-            color: var(--text-muted);
+            color: var(--ink-faded);
         }
 
         /* Responsive */
-        @media (max-width: 1024px) {
-            .contact-content {
-                grid-template-columns: 1fr;
-                gap: 3rem;
+        @media (max-width: 1000px) {
+            .page-container { grid-template-columns: 1fr; }
+            .page-illustration {
+                position: absolute;
+                inset: 0;
+                z-index: 0;
             }
-            .contact-options {
-                flex-direction: row;
-            }
-            .option {
-                flex: 1;
-                border-bottom: none;
-                border-right: 1px solid var(--border);
-            }
-            .option:last-child {
-                border-right: none;
-            }
-            .option::before {
-                top: 0;
-                bottom: auto;
-                left: 0;
-                right: 0;
-                width: 100%;
-                height: 3px;
-                transform: scaleX(0);
-            }
-            .option.active::before {
-                transform: scaleX(1);
+            .bg-organism { opacity: 0.3; }
+            .page-content {
+                position: relative;
+                z-index: 1;
+                padding: 15vh 1.5rem 6rem;
             }
         }
 
         @media (max-width: 768px) {
-            .contact-page, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
-            nav { padding: 1.5rem; }
+            nav { right: 1.5rem; top: 1.5rem; }
+            .logo-corner { left: 1.5rem; top: 1.5rem; }
             .nav-links { display: none; }
-            .contact-options { flex-direction: column; }
-            .option { border-right: none; border-bottom: 1px solid var(--border); }
-            .form-grid { grid-template-columns: 1fr; }
-            .form-area { padding: 2rem 1.5rem; }
-            footer { flex-direction: column; gap: 1rem; text-align: center; }
+            footer { position: static; padding: 2rem 1.5rem; text-align: center; }
         }
     </style>
 </head>
 <body>
-    <div class="grid-bg"></div>
-    <div class="orb orb-1"></div>
+    <a href="/" class="logo-corner">20n</a>
 
     <nav>
-        <a href="/" class="logo">20n <span class="logo-dot"></span></a>
         <ul class="nav-links">
             <li><a href="/manifesto">Manifesto</a></li>
-            <li><a href="/#approach">Approach</a></li>
-            <li><a href="/contact" class="active">Contact</a></li>
+            <li><a href="/contact">Contact</a></li>
         </ul>
     </nav>
 
-    <main class="contact-page">
-        <header class="contact-header">
-            <div class="contact-tag">Initiate contact</div>
-            <h1>Let's <span class="highlight">talk.</span></h1>
-            <p class="contact-intro">Questions, collaboration proposals, or you want to join. Select what applies.</p>
-        </header>
+    <div class="page-container">
+        <div class="page-illustration">
+            <svg class="bg-organism" viewBox="0 0 600 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Large organic network illustration -->
+                <!-- Main membrane structures -->
+                <path d="M300 50 C450 30, 580 150, 560 300 C540 450, 480 600, 350 700 C220 800, 50 720, 40 550 C30 380, 80 200, 200 100 C280 40, 250 55, 300 50"
+                      stroke="#4A7C59" stroke-width="1" fill="rgba(74,124,89,0.02)" stroke-dasharray="10 5"/>
 
-        <div class="contact-content">
-            <div class="contact-options">
-                <div class="option active" data-form="general">
-                    <div class="option-label">OPTION A</div>
-                    <h3>General inquiry</h3>
-                    <p>Questions about research or methodology</p>
-                </div>
-                <div class="option" data-form="collab">
-                    <div class="option-label">OPTION B</div>
-                    <h3>Collaboration</h3>
-                    <p>Joint research proposals</p>
-                </div>
-                <div class="option" data-form="apply">
-                    <div class="option-label">OPTION C</div>
-                    <h3>Join the lab</h3>
-                    <p>Work with us</p>
-                </div>
-            </div>
+                <path d="M300 120 C400 100, 480 180, 470 300 C460 420, 400 520, 320 580 C240 640, 120 600, 100 480 C80 360, 120 240, 220 170 C280 130, 270 125, 300 120"
+                      stroke="#6B8F71" stroke-width="0.8" fill="rgba(107,143,113,0.02)"/>
 
-            <div class="form-area">
-                <!-- General Form -->
-                <div class="form-container active" id="form-general">
-                    <div class="form-header">
-                        <h2>General inquiry</h2>
-                        <p>Ask us anything. We respond within 48 hours.</p>
+                <!-- Scattered nodes and connections -->
+                <circle cx="200" cy="200" r="35" stroke="#2D4A3E" stroke-width="1.5" fill="rgba(45,74,62,0.05)"/>
+                <circle cx="400" cy="250" r="28" stroke="#4A7C59" stroke-width="1" fill="rgba(74,124,89,0.04)"/>
+                <circle cx="280" cy="400" r="45" stroke="#2D4A3E" stroke-width="1.5" fill="rgba(45,74,62,0.06)"/>
+                <circle cx="150" cy="500" r="25" stroke="#6B8F71" stroke-width="1" fill="rgba(107,143,113,0.04)"/>
+                <circle cx="380" cy="550" r="30" stroke="#4A7C59" stroke-width="1" fill="rgba(74,124,89,0.04)"/>
+
+                <!-- Flowing connections -->
+                <path d="M230 210 Q300 250, 375 260" stroke="#B8860B" stroke-width="0.8" stroke-dasharray="4 3" fill="none" opacity="0.5"/>
+                <path d="M400 275 Q350 340, 295 380" stroke="#B8860B" stroke-width="0.8" stroke-dasharray="4 3" fill="none" opacity="0.5"/>
+                <path d="M260 430 Q200 470, 165 490" stroke="#8B5A2B" stroke-width="0.8" stroke-dasharray="4 3" fill="none" opacity="0.5"/>
+                <path d="M300 435 Q340 490, 365 535" stroke="#B8860B" stroke-width="0.8" stroke-dasharray="4 3" fill="none" opacity="0.5"/>
+
+                <!-- Small floating particles -->
+                <circle cx="320" cy="150" r="6" fill="#4A7C59" opacity="0.4"/>
+                <circle cx="450" cy="350" r="5" fill="#6B8F71" opacity="0.3"/>
+                <circle cx="120" cy="350" r="7" fill="#4A7C59" opacity="0.35"/>
+                <circle cx="350" cy="450" r="4" fill="#2D4A3E" opacity="0.4"/>
+                <circle cx="220" cy="600" r="6" fill="#6B8F71" opacity="0.3"/>
+                <circle cx="480" cy="480" r="5" fill="#4A7C59" opacity="0.35"/>
+
+                <!-- Handwritten annotations -->
+                <text x="180" y="180" font-family="Caveat, cursive" font-size="14" fill="#78716C" transform="rotate(-5 180 180)">input</text>
+                <text x="250" y="420" font-family="Caveat, cursive" font-size="16" fill="#78716C">processing</text>
+                <text x="360" y="580" font-family="Caveat, cursive" font-size="14" fill="#78716C" transform="rotate(3 360 580)">output</text>
+            </svg>
+        </div>
+
+        <div class="page-content">
+            <div class="page-label">transmission / inquiry</div>
+            <h1 class="page-title">Get in <em>touch</em></h1>
+            <p class="page-intro">We read everything. If you're working on something interesting—or want to—reach out.</p>
+
+            <form class="contact-form" action="https://formspree.io/f/mqeqjyoy" method="POST">
+                <div class="form-group">
+                    <label class="form-label">your name</label>
+                    <input type="text" name="name" class="form-input" placeholder="How should we call you?" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">email</label>
+                    <input type="email" name="email" class="form-input" placeholder="Where can we reach you?" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">what's this about?</label>
+                    <div class="subject-options">
+                        <div class="subject-option">
+                            <input type="radio" name="subject" value="research" id="research">
+                            <label for="research">Research</label>
+                        </div>
+                        <div class="subject-option">
+                            <input type="radio" name="subject" value="collaboration" id="collaboration">
+                            <label for="collaboration">Collaboration</label>
+                        </div>
+                        <div class="subject-option">
+                            <input type="radio" name="subject" value="join" id="join">
+                            <label for="join">Join us</label>
+                        </div>
+                        <div class="subject-option">
+                            <input type="radio" name="subject" value="other" id="other">
+                            <label for="other">Other</label>
+                        </div>
                     </div>
-                    <form action="https://formspree.io/f/mqeqjyoy" method="POST">
-                        <input type="hidden" name="_subject" value="[20n] General Inquiry">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>Name <span class="req">*</span></label>
-                                <input type="text" name="name" required placeholder="Your name">
-                            </div>
-                            <div class="form-group">
-                                <label>Email <span class="req">*</span></label>
-                                <input type="email" name="email" required placeholder="you@example.com">
-                            </div>
-                            <div class="form-group full">
-                                <label>Subject</label>
-                                <input type="text" name="subject" placeholder="What's this about?">
-                            </div>
-                            <div class="form-group full">
-                                <label>Message <span class="req">*</span></label>
-                                <textarea name="message" required placeholder="Your question or message..."></textarea>
-                            </div>
-                        </div>
-                        <div class="form-actions">
-                            <button type="submit" class="submit-btn">Send message →</button>
-                        </div>
-                    </form>
-                    <div class="success-message">
-                        <div class="success-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-                                <path d="M5 13l4 4L19 7"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">your message</label>
+                    <textarea name="message" class="form-textarea" placeholder="What's on your mind?" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">attach something (optional)</label>
+                    <div class="file-upload">
+                        <input type="file" name="attachment">
+                        <div class="file-upload-label">
+                            <svg class="file-upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/>
                             </svg>
+                            <span class="file-upload-text">CV, paper, portfolio...</span>
                         </div>
-                        <h3>Message received</h3>
-                        <p>We'll get back to you soon.</p>
                     </div>
                 </div>
 
-                <!-- Collaboration Form -->
-                <div class="form-container" id="form-collab">
-                    <div class="form-header">
-                        <h2>Research collaboration</h2>
-                        <p>Tell us about your work and what you envision.</p>
-                    </div>
-                    <form action="https://formspree.io/f/mqeqjyoy" method="POST">
-                        <input type="hidden" name="_subject" value="[20n] Collaboration">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>Name <span class="req">*</span></label>
-                                <input type="text" name="name" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Email <span class="req">*</span></label>
-                                <input type="email" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Institution <span class="req">*</span></label>
-                                <input type="text" name="institution" required placeholder="Where you work">
-                            </div>
-                            <div class="form-group">
-                                <label>Role</label>
-                                <input type="text" name="role" placeholder="Your position">
-                            </div>
-                            <div class="form-group full">
-                                <label>Research area <span class="req">*</span></label>
-                                <select name="area" required>
-                                    <option value="">Select area</option>
-                                    <option value="neural">Neural Dynamics / Liquid Networks</option>
-                                    <option value="inference">Active Inference</option>
-                                    <option value="neuromorphic">Neuromorphic Computing</option>
-                                    <option value="robotics">Embodied AI / Robotics</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                            <div class="form-group full">
-                                <label>Proposal <span class="req">*</span></label>
-                                <textarea name="proposal" required placeholder="What collaboration do you envision?"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-actions">
-                            <button type="submit" class="submit-btn">Submit proposal →</button>
-                        </div>
-                    </form>
-                    <div class="success-message">
-                        <div class="success-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-                                <path d="M5 13l4 4L19 7"/>
-                            </svg>
-                        </div>
-                        <h3>Proposal received</h3>
-                        <p>We'll review and reach out if there's alignment.</p>
-                    </div>
-                </div>
+                <button type="submit" class="submit-btn">
+                    Send message
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </button>
 
-                <!-- Application Form -->
-                <div class="form-container" id="form-apply">
-                    <div class="form-header">
-                        <h2>Join the laboratory</h2>
-                        <p>We hire for people, not positions. Show us who you are.</p>
-                    </div>
-                    <form action="https://formspree.io/f/mqeqjyoy" method="POST" enctype="multipart/form-data">
-                        <input type="hidden" name="_subject" value="[20n] Application">
-                        <div class="form-grid">
-                            <div class="form-group">
-                                <label>First name <span class="req">*</span></label>
-                                <input type="text" name="firstName" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Last name <span class="req">*</span></label>
-                                <input type="text" name="lastName" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Email <span class="req">*</span></label>
-                                <input type="email" name="email" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Location</label>
-                                <input type="text" name="location" placeholder="City, Country">
-                            </div>
-                            <div class="form-group full">
-                                <label>Primary expertise <span class="req">*</span></label>
-                                <select name="expertise" required>
-                                    <option value="">Select area</option>
-                                    <option value="ml">ML Research</option>
-                                    <option value="neuro">Computational Neuroscience</option>
-                                    <option value="robotics">Robotics</option>
-                                    <option value="physics">Physics / Mathematics</option>
-                                    <option value="systems">Systems Engineering</option>
-                                    <option value="software">Software Engineering</option>
-                                </select>
-                            </div>
-                            <div class="form-group full">
-                                <label>Background <span class="req">*</span></label>
-                                <textarea name="background" required placeholder="Education, experience, projects..."></textarea>
-                            </div>
-                            <div class="form-group full">
-                                <label>CV / Resume <span class="req">*</span></label>
-                                <div class="file-upload">
-                                    <input type="file" name="cv" accept=".pdf,.doc,.docx" required>
-                                    <div class="file-upload-icon">+</div>
-                                    <div class="file-upload-text">
-                                        <span>Click to upload</span> or drag file<br>
-                                        PDF or DOC, max 10MB
-                                    </div>
-                                    <div class="file-name" id="cv-filename"></div>
-                                </div>
-                            </div>
-                            <div class="form-group full">
-                                <label>Why 20n? <span class="req">*</span></label>
-                                <textarea name="why" required placeholder="What excites you about our approach?"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-actions">
-                            <button type="submit" class="submit-btn">Submit application →</button>
-                        </div>
-                    </form>
-                    <div class="success-message">
-                        <div class="success-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
-                                <path d="M5 13l4 4L19 7"/>
-                            </svg>
-                        </div>
-                        <h3>Application received</h3>
-                        <p>We review every application. If there's a fit, we'll reach out.</p>
-                    </div>
+                <p class="form-annotation">→ we respond within 48h (usually faster)</p>
+            </form>
+
+            <div class="alt-contacts">
+                <h3>or reach us directly</h3>
+                <div class="alt-contact-item">
+                    <a href="mailto:contact@20n.ai">contact@20n.ai</a>
+                </div>
+                <div class="alt-contact-item">
+                    <span>Paris, France</span>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 
     <footer>
-        <div class="footer-logo">20n</div>
-        <div class="footer-text">Paris — Living Intelligence Laboratory</div>
+        20n — Living Intelligence Laboratory
     </footer>
-
-    <script>
-        const options = document.querySelectorAll('.option');
-        const forms = document.querySelectorAll('.form-container');
-
-        options.forEach(option => {
-            option.addEventListener('click', () => {
-                const formId = option.dataset.form;
-                options.forEach(o => o.classList.remove('active'));
-                option.classList.add('active');
-                forms.forEach(f => {
-                    f.classList.remove('active');
-                    f.querySelector('.success-message')?.classList.remove('active');
-                    const form = f.querySelector('form');
-                    if (form) form.style.display = '';
-                });
-                document.getElementById(`form-${formId}`).classList.add('active');
-            });
-        });
-
-        const fileInput = document.querySelector('input[type="file"]');
-        const fileName = document.getElementById('cv-filename');
-        if (fileInput) {
-            fileInput.addEventListener('change', (e) => {
-                if (e.target.files.length > 0) {
-                    fileName.textContent = e.target.files[0].name;
-                }
-            });
-        }
-
-        document.querySelectorAll('form').forEach(form => {
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const btn = form.querySelector('.submit-btn');
-                btn.disabled = true;
-                btn.textContent = 'Sending...';
-                try {
-                    const response = await fetch(form.action, {
-                        method: 'POST',
-                        body: new FormData(form),
-                        headers: { 'Accept': 'application/json' }
-                    });
-                    if (response.ok) {
-                        form.style.display = 'none';
-                        form.parentElement.querySelector('.success-message').classList.add('active');
-                    } else {
-                        throw new Error();
-                    }
-                } catch {
-                    alert('Error sending. Please try again.');
-                    btn.disabled = false;
-                    btn.textContent = 'Try again →';
-                }
-            });
-        });
-    </script>
 </body>
 </html>

@@ -6,972 +6,939 @@
     <title>20n | Living Intelligence Laboratory</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Caveat:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #0A0A0A;
-            --bg-surface: #111111;
-            --bg-elevated: #1A1A1A;
-            --text-primary: #FFFFFF;
-            --text-secondary: #A0A0A0;
-            --text-muted: #606060;
-            --accent-green: #00FF88;
-            --accent-cyan: #00D4FF;
-            --accent-dim: rgba(0, 255, 136, 0.15);
-            --grid-line: rgba(255, 255, 255, 0.03);
-            --border: rgba(255, 255, 255, 0.08);
+            --bone: #F5F0E8;
+            --paper: #EDE8DD;
+            --paper-dark: #E5DFD2;
+            --ink: #1C1917;
+            --ink-light: #44403C;
+            --ink-faded: #78716C;
+            --green-deep: #2D4A3E;
+            --green-algae: #4A7C59;
+            --green-oxide: #6B8F71;
+            --amber: #B8860B;
+            --copper: #8B5A2B;
+            --membrane: rgba(74, 124, 89, 0.08);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
 
         body {
-            font-family: 'Space Grotesk', sans-serif;
-            background: var(--bg-deep);
-            color: var(--text-primary);
-            line-height: 1.6;
-            font-size: 16px;
+            font-family: 'EB Garamond', Georgia, serif;
+            background: var(--bone);
+            color: var(--ink);
+            line-height: 1.7;
+            font-size: 19px;
             overflow-x: hidden;
         }
 
-        /* Grid background */
-        .grid-bg {
+        /* Paper texture overlay */
+        body::before {
+            content: '';
             position: fixed;
             inset: 0;
-            background-image:
-                linear-gradient(var(--grid-line) 1px, transparent 1px),
-                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-            background-size: 60px 60px;
             pointer-events: none;
-            z-index: 0;
+            opacity: 0.4;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            z-index: 9999;
         }
 
-        /* Gradient orbs */
-        .orb {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(120px);
-            pointer-events: none;
-            z-index: 0;
-        }
+        /* Handwritten font */
+        .hand { font-family: 'Caveat', cursive; }
+        .mono { font-family: 'IBM Plex Mono', monospace; }
 
-        .orb-1 {
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, rgba(0, 255, 136, 0.12) 0%, transparent 70%);
-            top: -200px;
-            right: -100px;
-        }
-
-        .orb-2 {
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(0, 212, 255, 0.08) 0%, transparent 70%);
-            bottom: 20%;
-            left: -150px;
-        }
-
-        /* Navigation */
+        /* Navigation - pushed to corner, minimal */
         nav {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 1.5rem 3rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            background: linear-gradient(to bottom, var(--bg-deep) 0%, transparent 100%);
-        }
-
-        .logo {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--text-primary);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .logo-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent-green);
-            border-radius: 50%;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.2); }
+            top: 2rem;
+            right: 3rem;
+            z-index: 100;
         }
 
         .nav-links {
             display: flex;
-            gap: 2.5rem;
+            gap: 2rem;
             list-style: none;
         }
 
         .nav-links a {
-            font-size: 0.9rem;
-            font-weight: 400;
-            color: var(--text-secondary);
+            font-size: 0.85rem;
+            color: var(--ink-faded);
             text-decoration: none;
-            transition: color 0.3s;
-            position: relative;
+            letter-spacing: 0.02em;
         }
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -4px;
-            left: 0;
-            width: 0;
-            height: 1px;
-            background: var(--accent-green);
-            transition: width 0.3s;
+        .nav-links a:hover { color: var(--ink); }
+
+        .logo-corner {
+            position: fixed;
+            top: 2rem;
+            left: 3rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--ink);
+            text-decoration: none;
+            z-index: 100;
         }
 
-        .nav-links a:hover { color: var(--text-primary); }
-        .nav-links a:hover::after { width: 100%; }
-
-        /* Hero */
+        /* ============================================
+           HERO - Asymmetric, illustration-dominant
+           ============================================ */
         .hero {
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 8rem 6rem;
+            display: grid;
+            grid-template-columns: 1fr 55%;
             position: relative;
-            z-index: 1;
-        }
-
-        .hero-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.75rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--accent-green);
-            letter-spacing: 0.1em;
-            margin-bottom: 2rem;
-            text-transform: uppercase;
-        }
-
-        .hero-tag::before {
-            content: '';
-            width: 40px;
-            height: 1px;
-            background: var(--accent-green);
-        }
-
-        .hero h1 {
-            font-family: 'Instrument Serif', serif;
-            font-size: clamp(4rem, 10vw, 8rem);
-            font-weight: 400;
-            line-height: 0.95;
-            margin-bottom: 3rem;
-            max-width: 900px;
-        }
-
-        .hero h1 .highlight {
-            color: var(--accent-green);
-            font-style: italic;
+            overflow: hidden;
         }
 
         .hero-text {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            max-width: 550px;
-            line-height: 1.7;
-            margin-bottom: 3rem;
-        }
-
-        .hero-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem 2rem;
-            background: transparent;
-            border: 1px solid var(--accent-green);
-            color: var(--accent-green);
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .hero-cta:hover {
-            background: var(--accent-green);
-            color: var(--bg-deep);
-        }
-
-        .hero-cta svg {
-            width: 16px;
-            height: 16px;
-            transition: transform 0.3s;
-        }
-
-        .hero-cta:hover svg {
-            transform: translateX(4px);
-        }
-
-        /* Hero visual */
-        .hero-visual {
-            position: absolute;
-            right: 6rem;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 450px;
-            height: 450px;
-        }
-
-        .hero-diagram {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Stats bar */
-        .stats-bar {
-            position: absolute;
-            bottom: 4rem;
-            left: 6rem;
-            right: 6rem;
-            display: flex;
-            gap: 4rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .stat {
+            padding: 18vh 4rem 8rem 8%;
             display: flex;
             flex-direction: column;
-            gap: 0.25rem;
-        }
-
-        .stat-value {
-            font-family: 'Instrument Serif', serif;
-            font-size: 2.5rem;
-            color: var(--text-primary);
-        }
-
-        .stat-value span {
-            color: var(--accent-green);
-        }
-
-        .stat-label {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-
-        /* Section styling */
-        section {
-            position: relative;
-            z-index: 1;
-            padding: 8rem 6rem;
-        }
-
-        .section-header {
-            display: flex;
-            align-items: baseline;
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-
-        .section-number {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            color: var(--accent-green);
-            letter-spacing: 0.1em;
-        }
-
-        .section-title {
-            font-family: 'Instrument Serif', serif;
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            font-weight: 400;
-        }
-
-        .section-title .accent {
-            color: var(--accent-green);
-            font-style: italic;
-        }
-
-        /* Problem section */
-        .problem-section {
-            background: var(--bg-surface);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .problem-intro {
-            font-size: 1.35rem;
-            color: var(--text-secondary);
-            max-width: 700px;
-            margin-bottom: 5rem;
-            line-height: 1.7;
-        }
-
-        .walls-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0;
-        }
-
-        .wall {
-            padding: 2.5rem;
-            border-right: 1px solid var(--border);
-            position: relative;
-            transition: all 0.4s;
-        }
-
-        .wall:last-child {
-            border-right: none;
-        }
-
-        .wall:hover {
-            background: var(--bg-elevated);
-        }
-
-        .wall:hover .wall-number {
-            color: var(--accent-green);
-        }
-
-        .wall-number {
-            font-family: 'Instrument Serif', serif;
-            font-size: 4rem;
-            color: var(--text-muted);
-            opacity: 0.3;
-            line-height: 1;
-            margin-bottom: 1.5rem;
-            transition: color 0.4s;
-        }
-
-        .wall h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            color: var(--text-primary);
-        }
-
-        .wall p {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        /* Trinity section */
-        .trinity-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .trinity-card {
-            background: var(--bg-surface);
-            border: 1px solid var(--border);
-            padding: 3rem;
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s;
-        }
-
-        .trinity-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent-green), var(--accent-cyan));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.4s;
-        }
-
-        .trinity-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .trinity-card:hover {
-            background: var(--bg-elevated);
-            transform: translateY(-4px);
-        }
-
-        .trinity-icon {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 2rem;
-        }
-
-        .trinity-label {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--accent-green);
-            letter-spacing: 0.1em;
-            margin-bottom: 0.75rem;
-        }
-
-        .trinity-card h3 {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-        }
-
-        .trinity-card p {
-            font-size: 0.95rem;
-            color: var(--text-secondary);
-            line-height: 1.7;
-            margin-bottom: 1.5rem;
-        }
-
-        .trinity-tag {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--text-muted);
-            padding: 0.5rem 1rem;
-            background: rgba(255, 255, 255, 0.03);
-            display: inline-block;
-        }
-
-        /* Diagram section */
-        .diagram-section {
-            background: var(--bg-surface);
-            border-top: 1px solid var(--border);
-            border-bottom: 1px solid var(--border);
-        }
-
-        .diagram-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6rem;
-            align-items: center;
-        }
-
-        .diagram-text h3 {
-            font-family: 'Instrument Serif', serif;
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .diagram-text p {
-            color: var(--text-secondary);
-            margin-bottom: 1.5rem;
-            line-height: 1.7;
-        }
-
-        .diagram-list {
-            list-style: none;
-        }
-
-        .diagram-list li {
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-            padding: 1rem 0;
-            border-bottom: 1px solid var(--border);
-            color: var(--text-secondary);
-        }
-
-        .diagram-list li::before {
-            content: '→';
-            color: var(--accent-green);
-            font-weight: 500;
-        }
-
-        .diagram-visual {
-            position: relative;
-        }
-
-        .diagram-svg {
-            width: 100%;
-            height: auto;
-        }
-
-        /* Roadmap section */
-        .roadmap-intro {
-            font-size: 1.25rem;
-            color: var(--text-secondary);
-            max-width: 600px;
-            margin-bottom: 4rem;
-        }
-
-        .phases {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0;
-            border: 1px solid var(--border);
-        }
-
-        .phase {
-            padding: 2.5rem;
-            border-right: 1px solid var(--border);
-            position: relative;
-            transition: all 0.4s;
-        }
-
-        .phase:last-child {
-            border-right: none;
-        }
-
-        .phase:hover {
-            background: var(--bg-surface);
-        }
-
-        .phase-status {
-            position: absolute;
-            top: 2.5rem;
-            right: 2.5rem;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: var(--text-muted);
-        }
-
-        .phase:first-child .phase-status {
-            background: var(--accent-green);
-            box-shadow: 0 0 20px var(--accent-green);
-        }
-
-        .phase-label {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            letter-spacing: 0.1em;
-            margin-bottom: 1rem;
-        }
-
-        .phase:first-child .phase-label {
-            color: var(--accent-green);
-        }
-
-        .phase h3 {
-            font-family: 'Instrument Serif', serif;
-            font-size: 1.5rem;
-            font-style: italic;
-            margin-bottom: 1rem;
-        }
-
-        .phase p {
-            font-size: 0.9rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
-        }
-
-        /* CTA section */
-        .cta-section {
-            background: linear-gradient(135deg, var(--bg-surface) 0%, var(--bg-deep) 100%);
-            border-top: 1px solid var(--border);
-            text-align: center;
-            padding: 10rem 6rem;
-        }
-
-        .cta-section h2 {
-            font-family: 'Instrument Serif', serif;
-            font-size: clamp(2.5rem, 5vw, 4rem);
-            margin-bottom: 1.5rem;
-        }
-
-        .cta-section h2 .accent {
-            color: var(--accent-green);
-            font-style: italic;
-        }
-
-        .cta-text {
-            font-size: 1.15rem;
-            color: var(--text-secondary);
-            max-width: 550px;
-            margin: 0 auto 3rem;
-            line-height: 1.7;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1.5rem;
             justify-content: center;
         }
 
-        .btn-primary {
-            padding: 1.25rem 2.5rem;
-            background: var(--accent-green);
-            color: var(--bg-deep);
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.3s;
+        .hero-label {
+            font-family: 'Caveat', cursive;
+            font-size: 1.4rem;
+            color: var(--green-algae);
+            margin-bottom: 1.5rem;
+            transform: rotate(-2deg);
+            margin-left: -0.5rem;
         }
 
-        .btn-primary:hover {
-            background: #00cc6a;
-            transform: translateY(-2px);
+        .hero h1 {
+            font-size: clamp(3.5rem, 7vw, 5.5rem);
+            font-weight: 400;
+            line-height: 1.05;
+            margin-bottom: 2.5rem;
+            max-width: 500px;
         }
 
-        .btn-secondary {
-            padding: 1.25rem 2.5rem;
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 0.95rem;
+        .hero h1 em {
+            font-style: italic;
+            color: var(--green-deep);
+        }
+
+        .hero-subtitle {
+            font-size: 1.15rem;
+            color: var(--ink-light);
+            max-width: 380px;
+            margin-bottom: 3rem;
+        }
+
+        .hero-note {
+            font-family: 'Caveat', cursive;
+            font-size: 1.2rem;
+            color: var(--copper);
+            transform: rotate(-1deg);
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .hero-note::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+        }
+
+        /* HERO ILLUSTRATION - Large, organic, hand-drawn style */
+        .hero-illustration {
+            position: relative;
+            background: var(--paper);
+        }
+
+        .hero-organism {
+            position: absolute;
+            width: 140%;
+            height: 120%;
+            top: -10%;
+            left: -20%;
+        }
+
+        /* ============================================
+           THE WALL SECTION - Raw, notebook style
+           ============================================ */
+        .wall-section {
+            padding: 8rem 8% 6rem;
+            position: relative;
+            background: var(--paper);
+        }
+
+        .wall-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 12%;
+            right: 20%;
+            height: 1px;
+            background: var(--ink);
+            opacity: 0.1;
+        }
+
+        .section-marker {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--ink-faded);
+            letter-spacing: 0.15em;
+            margin-bottom: 3rem;
+        }
+
+        .wall-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 400;
+            margin-bottom: 1rem;
+            max-width: 700px;
+        }
+
+        .wall-title em {
+            font-style: italic;
+            color: var(--green-deep);
+        }
+
+        .wall-annotation {
+            font-family: 'Caveat', cursive;
+            font-size: 1.5rem;
+            color: var(--amber);
+            transform: rotate(-2deg);
+            margin-left: 2rem;
+            margin-bottom: 4rem;
+            display: inline-block;
+        }
+
+        /* The four walls - NOT cards, notebook entries */
+        .walls-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        .wall-entry {
+            padding: 2.5rem 3rem;
+            position: relative;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .wall-entry:nth-child(odd) {
+            border-right: 1px solid rgba(0,0,0,0.06);
+        }
+
+        .wall-entry:nth-child(1) { padding-left: 0; }
+        .wall-entry:nth-child(2) { padding-right: 0; padding-left: 4rem; }
+        .wall-entry:nth-child(3) { padding-left: 0; border-bottom: none; }
+        .wall-entry:nth-child(4) { padding-right: 0; padding-left: 4rem; border-bottom: none; }
+
+        .wall-number {
+            font-family: 'Caveat', cursive;
+            font-size: 3.5rem;
+            color: var(--green-oxide);
+            opacity: 0.3;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .wall-entry h3 {
+            font-size: 1.4rem;
             font-weight: 500;
-            text-decoration: none;
-            transition: all 0.3s;
+            margin-bottom: 0.75rem;
         }
 
-        .btn-secondary:hover {
-            border-color: var(--text-secondary);
-            background: var(--bg-elevated);
+        .wall-entry p {
+            font-size: 1rem;
+            color: var(--ink-light);
+            line-height: 1.6;
+        }
+
+        .wall-margin-note {
+            position: absolute;
+            right: -180px;
+            top: 50%;
+            transform: translateY(-50%) rotate(2deg);
+            font-family: 'Caveat', cursive;
+            font-size: 1rem;
+            color: var(--copper);
+            width: 150px;
+            text-align: left;
+        }
+
+        /* ============================================
+           TRINITY - Biological diagram, not cards
+           ============================================ */
+        .trinity-section {
+            padding: 10rem 0;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .trinity-bg-drawing {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0.5;
+        }
+
+        .trinity-content {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 40% 1fr;
+            gap: 6rem;
+            padding: 0 8%;
+            align-items: center;
+        }
+
+        .trinity-text h2 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+
+        .trinity-text h2 em {
+            font-style: italic;
+            color: var(--green-deep);
+        }
+
+        .trinity-text > p {
+            color: var(--ink-light);
+            margin-bottom: 2rem;
+            max-width: 400px;
+        }
+
+        .trinity-list {
+            list-style: none;
+            margin-top: 3rem;
+        }
+
+        .trinity-list li {
+            padding: 1.25rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+            display: flex;
+            gap: 1rem;
+            align-items: baseline;
+        }
+
+        .trinity-list li:last-child { border-bottom: none; }
+
+        .trinity-list .marker {
+            font-family: 'Caveat', cursive;
+            font-size: 1.5rem;
+            color: var(--green-algae);
+            flex-shrink: 0;
+        }
+
+        .trinity-list .label {
+            font-weight: 500;
+        }
+
+        .trinity-list .desc {
+            font-size: 0.95rem;
+            color: var(--ink-faded);
+            margin-left: 0.5rem;
+        }
+
+        /* Large organism illustration */
+        .trinity-organism {
+            width: 100%;
+            height: auto;
+            min-height: 500px;
+        }
+
+        /* ============================================
+           WOW SECTION - Full chaos, notebook wall
+           ============================================ */
+        .wow-section {
+            min-height: 100vh;
+            background: var(--paper-dark);
+            position: relative;
+            overflow: hidden;
+            padding: 6rem 0;
+        }
+
+        .wow-bg {
+            position: absolute;
+            inset: 0;
+            opacity: 0.6;
+        }
+
+        .wow-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .wow-title {
+            font-family: 'Caveat', cursive;
+            font-size: clamp(4rem, 12vw, 10rem);
+            color: var(--green-deep);
+            text-align: center;
+            line-height: 0.9;
+            margin-bottom: 4rem;
+            transform: rotate(-1deg);
+        }
+
+        .wow-diagram {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .floating-annotations {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .float-note {
+            position: absolute;
+            font-family: 'Caveat', cursive;
+            font-size: 1.2rem;
+            color: var(--copper);
+            transform: rotate(var(--rotation, 0deg));
+        }
+
+        .float-note:nth-child(1) { top: 15%; left: 8%; --rotation: -3deg; }
+        .float-note:nth-child(2) { top: 25%; right: 12%; --rotation: 2deg; }
+        .float-note:nth-child(3) { bottom: 30%; left: 5%; --rotation: -1deg; }
+        .float-note:nth-child(4) { bottom: 20%; right: 8%; --rotation: 3deg; }
+        .float-note:nth-child(5) { top: 60%; left: 15%; --rotation: -2deg; }
+
+        /* ============================================
+           PHASES - Vertical timeline, not cards
+           ============================================ */
+        .phases-section {
+            padding: 10rem 8%;
+            position: relative;
+        }
+
+        .phases-header {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 6rem;
+        }
+
+        .phases-header h2 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 400;
+        }
+
+        .phases-header h2 em {
+            font-style: italic;
+            color: var(--green-deep);
+        }
+
+        .phases-header p {
+            color: var(--ink-light);
+            padding-top: 1rem;
+        }
+
+        .phases-timeline {
+            position: relative;
+            padding-left: 4rem;
+        }
+
+        .phases-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--green-algae) 25%, var(--ink-faded) 25%);
+        }
+
+        .phase-item {
+            position: relative;
+            padding: 2rem 0 4rem 3rem;
+        }
+
+        .phase-item::before {
+            content: '';
+            position: absolute;
+            left: -4rem;
+            top: 2.5rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--bone);
+            border: 2px solid var(--ink-faded);
+        }
+
+        .phase-item:first-child::before {
+            background: var(--green-algae);
+            border-color: var(--green-algae);
+            box-shadow: 0 0 0 4px var(--membrane);
+        }
+
+        .phase-label {
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            color: var(--ink-faded);
+            margin-bottom: 0.5rem;
+        }
+
+        .phase-item:first-child .phase-label {
+            color: var(--green-algae);
+        }
+
+        .phase-item h3 {
+            font-size: 1.8rem;
+            font-weight: 400;
+            font-style: italic;
+            margin-bottom: 0.75rem;
+        }
+
+        .phase-item p {
+            color: var(--ink-light);
+            max-width: 500px;
+        }
+
+        .phase-sketch {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 200px;
+            opacity: 0.6;
+        }
+
+        /* ============================================
+           CTA - Simple, offset
+           ============================================ */
+        .cta-section {
+            padding: 8rem 8% 10rem;
+            background: var(--paper);
+            position: relative;
+        }
+
+        .cta-content {
+            max-width: 600px;
+            margin-left: 15%;
+        }
+
+        .cta-content h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-content h2 em {
+            font-style: italic;
+            color: var(--green-deep);
+        }
+
+        .cta-content p {
+            color: var(--ink-light);
+            margin-bottom: 2.5rem;
+        }
+
+        .cta-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--green-deep);
+            text-decoration: none;
+            font-size: 1.1rem;
+            border-bottom: 1px solid currentColor;
+            padding-bottom: 0.25rem;
+            transition: gap 0.3s;
+        }
+
+        .cta-link:hover { gap: 1.25rem; }
+
+        .cta-annotation {
+            font-family: 'Caveat', cursive;
+            font-size: 1.4rem;
+            color: var(--amber);
+            position: absolute;
+            right: 15%;
+            top: 50%;
+            transform: rotate(3deg);
         }
 
         /* Footer */
         footer {
-            padding: 4rem 6rem;
+            padding: 4rem 8%;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            border-top: 1px solid var(--border);
-            position: relative;
-            z-index: 1;
+            align-items: baseline;
+            border-top: 1px solid rgba(0,0,0,0.06);
         }
 
         .footer-logo {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             font-weight: 600;
-            color: var(--text-primary);
         }
 
         .footer-text {
             font-size: 0.85rem;
-            color: var(--text-muted);
+            color: var(--ink-faded);
         }
 
         /* Responsive */
-        @media (max-width: 1200px) {
-            .hero-visual { display: none; }
-            .walls-grid, .trinity-grid, .phases { grid-template-columns: repeat(2, 1fr); }
-            .wall:nth-child(2), .phase:nth-child(2) { border-right: none; }
-            .wall:nth-child(3), .wall:nth-child(4),
-            .phase:nth-child(3), .phase:nth-child(4) { border-top: 1px solid var(--border); }
+        @media (max-width: 1100px) {
+            .hero { grid-template-columns: 1fr; }
+            .hero-illustration { height: 60vh; }
+            .hero-organism { width: 100%; left: 0; }
+            .trinity-content { grid-template-columns: 1fr; }
+            .wall-margin-note { display: none; }
+            .phases-header { grid-template-columns: 1fr; }
+            .phase-sketch { display: none; }
         }
 
         @media (max-width: 768px) {
-            nav, section, .hero, footer { padding-left: 1.5rem; padding-right: 1.5rem; }
-            .walls-grid, .trinity-grid, .phases { grid-template-columns: 1fr; }
-            .wall, .phase { border-right: none; border-bottom: 1px solid var(--border); }
-            .wall:last-child, .phase:last-child { border-bottom: none; }
-            .diagram-container { grid-template-columns: 1fr; }
-            .stats-bar { flex-direction: column; gap: 2rem; }
-            .cta-buttons { flex-direction: column; }
+            nav { right: 1.5rem; top: 1.5rem; }
+            .logo-corner { left: 1.5rem; top: 1.5rem; }
+            .hero-text { padding: 15vh 1.5rem 4rem; }
+            .wall-section, .phases-section, .cta-section { padding-left: 1.5rem; padding-right: 1.5rem; }
+            .walls-container { grid-template-columns: 1fr; }
+            .wall-entry { padding: 2rem 0 !important; border-right: none !important; }
+            .cta-content { margin-left: 0; }
+            .cta-annotation { display: none; }
+            footer { flex-direction: column; gap: 1rem; }
             .nav-links { display: none; }
-            footer { flex-direction: column; gap: 1rem; text-align: center; }
         }
     </style>
 </head>
 <body>
-    <div class="grid-bg"></div>
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
+    <a href="/" class="logo-corner">20n</a>
 
     <nav>
-        <a href="/" class="logo">
-            20n <span class="logo-dot"></span>
-        </a>
         <ul class="nav-links">
             <li><a href="/manifesto">Manifesto</a></li>
-            <li><a href="#approach">Approach</a></li>
-            <li><a href="#roadmap">Roadmap</a></li>
             <li><a href="/contact">Contact</a></li>
         </ul>
     </nav>
 
+    <!-- HERO: Asymmetric, illustration-dominant -->
     <section class="hero">
-        <div class="hero-tag">Research Laboratory / Paris</div>
-        <h1>We build<br>intelligence that<br><span class="highlight">lives.</span></h1>
-        <p class="hero-text">
-            Not chatbots. Not prediction machines. Organisms that adapt, learn, and act in continuous time. We're solving the problem the industry is ignoring.
-        </p>
-        <a href="/manifesto" class="hero-cta">
-            Read the manifesto
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M3 8h10M9 4l4 4-4 4"/>
+        <div class="hero-text">
+            <div class="hero-label">research laboratory / paris</div>
+            <h1>We build intelligence that <em>lives</em></h1>
+            <p class="hero-subtitle">Not prediction machines. Not chatbots. Organisms that adapt in continuous time, learn from single encounters, run on 20 watts.</p>
+            <p class="hero-note">the problem everyone ignores</p>
+        </div>
+        <div class="hero-illustration">
+            <svg class="hero-organism" viewBox="0 0 800 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Organic, hand-drawn style illustration -->
+                <!-- Main membrane - irregular, breathing -->
+                <path d="M400 80 C520 70, 680 150, 700 280 C720 410, 650 550, 500 600 C350 650, 150 580, 100 450 C50 320, 120 150, 250 100 C320 70, 350 85, 400 80"
+                      stroke="#4A7C59" stroke-width="1.5" fill="rgba(74,124,89,0.03)" stroke-dasharray="8 4"/>
+
+                <!-- Inner membrane -->
+                <path d="M400 140 C490 130, 600 190, 620 290 C640 390, 580 480, 470 520 C360 560, 200 510, 170 400 C140 290, 200 200, 300 160 C350 140, 370 145, 400 140"
+                      stroke="#6B8F71" stroke-width="1" fill="rgba(107,143,113,0.04)"/>
+
+                <!-- Core cluster - irregular circles -->
+                <circle cx="380" cy="320" r="45" stroke="#2D4A3E" stroke-width="2" fill="rgba(45,74,62,0.08)"/>
+                <circle cx="420" cy="340" r="35" stroke="#4A7C59" stroke-width="1.5" fill="rgba(74,124,89,0.06)"/>
+                <circle cx="360" cy="360" r="28" stroke="#6B8F71" stroke-width="1" fill="rgba(107,143,113,0.05)"/>
+
+                <!-- Flowing connections - hand-drawn curves -->
+                <path d="M300 200 Q280 260, 335 310" stroke="#4A7C59" stroke-width="1.5" fill="none"/>
+                <path d="M500 220 Q530 280, 460 330" stroke="#4A7C59" stroke-width="1.5" fill="none"/>
+                <path d="M250 400 Q290 420, 340 380" stroke="#6B8F71" stroke-width="1" fill="none"/>
+                <path d="M540 380 Q500 420, 450 370" stroke="#6B8F71" stroke-width="1" fill="none"/>
+                <path d="M380 450 Q400 500, 420 520" stroke="#4A7C59" stroke-width="1" fill="none"/>
+
+                <!-- Floating nodes - varying sizes -->
+                <circle cx="280" cy="180" r="8" fill="#4A7C59" opacity="0.6"/>
+                <circle cx="520" cy="200" r="6" fill="#6B8F71" opacity="0.5"/>
+                <circle cx="230" cy="380" r="10" fill="#4A7C59" opacity="0.4"/>
+                <circle cx="560" cy="400" r="7" fill="#6B8F71" opacity="0.5"/>
+                <circle cx="400" cy="540" r="9" fill="#4A7C59" opacity="0.5"/>
+                <circle cx="600" cy="320" r="5" fill="#2D4A3E" opacity="0.4"/>
+                <circle cx="180" cy="300" r="6" fill="#6B8F71" opacity="0.4"/>
+
+                <!-- Signal paths - dotted, irregular -->
+                <path d="M288 180 Q340 220, 360 280" stroke="#B8860B" stroke-width="1" stroke-dasharray="3 3" fill="none" opacity="0.6"/>
+                <path d="M520 206 Q480 260, 440 310" stroke="#B8860B" stroke-width="1" stroke-dasharray="3 3" fill="none" opacity="0.6"/>
+                <path d="M390 365 Q400 440, 400 530" stroke="#8B5A2B" stroke-width="1" stroke-dasharray="4 4" fill="none" opacity="0.5"/>
+
+                <!-- Handwritten labels -->
+                <text x="620" y="300" font-family="Caveat, cursive" font-size="18" fill="#78716C" transform="rotate(5 620 300)">sensing</text>
+                <text x="150" y="320" font-family="Caveat, cursive" font-size="18" fill="#78716C" transform="rotate(-8 150 320)">world model</text>
+                <text x="350" y="580" font-family="Caveat, cursive" font-size="18" fill="#78716C">action</text>
+                <text x="360" y="310" font-family="Caveat, cursive" font-size="14" fill="#2D4A3E">τ(x)</text>
+
+                <!-- Rough annotations -->
+                <path d="M580 295 L610 295" stroke="#78716C" stroke-width="1" fill="none"/>
+                <path d="M185 310 L155 315" stroke="#78716C" stroke-width="1" fill="none"/>
+                <path d="M395 555 L395 575" stroke="#78716C" stroke-width="1" fill="none"/>
             </svg>
-        </a>
+        </div>
+    </section>
 
-        <div class="hero-visual">
-            <svg class="hero-diagram" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Outer ring -->
-                <circle cx="200" cy="200" r="180" stroke="url(#grad1)" stroke-width="1" fill="none" opacity="0.3"/>
-                <circle cx="200" cy="200" r="140" stroke="#00FF88" stroke-width="1" fill="none" opacity="0.2" stroke-dasharray="8 4"/>
-                <circle cx="200" cy="200" r="100" stroke="#00D4FF" stroke-width="1" fill="none" opacity="0.15"/>
+    <!-- THE WALL: Notebook entries, not cards -->
+    <section class="wall-section">
+        <div class="section-marker">01 — THE PROBLEM</div>
+        <h2 class="wall-title">The scaling hypothesis is hitting <em>four walls</em></h2>
+        <span class="wall-annotation">everyone sees this coming ↓</span>
 
-                <!-- Center pulsing core -->
-                <circle cx="200" cy="200" r="40" fill="url(#grad2)" opacity="0.6">
-                    <animate attributeName="r" values="35;45;35" dur="3s" repeatCount="indefinite"/>
-                    <animate attributeName="opacity" values="0.6;0.3;0.6" dur="3s" repeatCount="indefinite"/>
-                </circle>
-                <circle cx="200" cy="200" r="20" fill="#00FF88" opacity="0.8"/>
+        <div class="walls-container">
+            <div class="wall-entry">
+                <div class="wall-number">1</div>
+                <h3>Energy</h3>
+                <p>GPT-4 uses 20 megawatts. The human brain uses 20 watts. A million-fold gap that scaling cannot close.</p>
+            </div>
+            <div class="wall-entry">
+                <div class="wall-number">2</div>
+                <h3>Data</h3>
+                <p>The internet is finite. Quality text is exhausted. Synthetic data creates model collapse. The well is running dry.</p>
+                <span class="wall-margin-note">→ no one talks about this</span>
+            </div>
+            <div class="wall-entry">
+                <div class="wall-number">3</div>
+                <h3>Latency</h3>
+                <p>Cloud inference takes 200-500ms. A robot cannot wait half a second to react. Real autonomy requires edge intelligence.</p>
+            </div>
+            <div class="wall-entry">
+                <div class="wall-number">4</div>
+                <h3>Physics</h3>
+                <p>LLMs have no causal model. They predict tokens, not reality. They hallucinate physics because they never experienced it.</p>
+            </div>
+        </div>
+    </section>
 
-                <!-- Orbiting nodes -->
-                <g>
-                    <circle cx="200" cy="60" r="8" fill="#00FF88"/>
-                    <animateTransform attributeName="transform" type="rotate" from="0 200 200" to="360 200 200" dur="20s" repeatCount="indefinite"/>
-                </g>
-                <g>
-                    <circle cx="60" cy="200" r="6" fill="#00D4FF"/>
-                    <animateTransform attributeName="transform" type="rotate" from="120 200 200" to="480 200 200" dur="25s" repeatCount="indefinite"/>
-                </g>
-                <g>
-                    <circle cx="340" cy="200" r="6" fill="#00FF88" opacity="0.7"/>
-                    <animateTransform attributeName="transform" type="rotate" from="240 200 200" to="600 200 200" dur="18s" repeatCount="indefinite"/>
-                </g>
+    <!-- TRINITY: Biological diagram style -->
+    <section class="trinity-section">
+        <svg class="trinity-bg-drawing" viewBox="0 0 1400 800" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <!-- Background organic shapes -->
+            <circle cx="1100" cy="200" r="300" stroke="#4A7C59" stroke-width="0.5" fill="none" opacity="0.15"/>
+            <circle cx="1150" cy="250" r="250" stroke="#6B8F71" stroke-width="0.5" fill="none" opacity="0.1"/>
+            <path d="M900 100 Q1000 300, 850 500 Q700 700, 900 750" stroke="#4A7C59" stroke-width="0.5" fill="none" opacity="0.1"/>
+            <path d="M1200 50 Q1300 200, 1250 400" stroke="#6B8F71" stroke-width="0.5" fill="none" opacity="0.1"/>
+        </svg>
 
-                <!-- Connection lines -->
-                <line x1="200" y1="200" x2="200" y2="60" stroke="#00FF88" stroke-width="1" opacity="0.3"/>
-                <line x1="200" y1="200" x2="60" y2="200" stroke="#00D4FF" stroke-width="1" opacity="0.2"/>
-                <line x1="200" y1="200" x2="340" y2="200" stroke="#00FF88" stroke-width="1" opacity="0.2"/>
+        <div class="trinity-content">
+            <div class="trinity-text">
+                <h2>The 20n <em>trinity</em></h2>
+                <p>Three paradigms, unified. Not a framework—an organism architecture.</p>
 
-                <!-- Labels -->
-                <text x="200" y="30" text-anchor="middle" fill="#A0A0A0" font-family="JetBrains Mono" font-size="9">SENSING</text>
-                <text x="380" y="205" text-anchor="middle" fill="#A0A0A0" font-family="JetBrains Mono" font-size="9">ACTION</text>
-                <text x="20" y="205" text-anchor="start" fill="#A0A0A0" font-family="JetBrains Mono" font-size="9">WORLD</text>
+                <ul class="trinity-list">
+                    <li>
+                        <span class="marker">A</span>
+                        <div>
+                            <span class="label">Liquid Networks</span>
+                            <span class="desc">— time constants that adapt during inference</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="marker">B</span>
+                        <div>
+                            <span class="label">Active Inference</span>
+                            <span class="desc">— minimize surprise, not maximize reward</span>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="marker">C</span>
+                        <div>
+                            <span class="label">Sparse Signals</span>
+                            <span class="desc">— compute only when information flows</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <svg class="trinity-organism" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Large biological diagram - the trinity as interconnected system -->
+
+                <!-- Three main lobes - irregular, organic -->
+                <path d="M250 80 Q350 60, 400 150 Q450 240, 380 300 Q310 360, 250 320 Q190 360, 120 300 Q50 240, 100 150 Q150 60, 250 80"
+                      stroke="#2D4A3E" stroke-width="2" fill="rgba(45,74,62,0.04)"/>
+
+                <!-- Internal structure A - Liquid -->
+                <ellipse cx="250" cy="140" rx="70" ry="50" stroke="#4A7C59" stroke-width="1.5" fill="rgba(74,124,89,0.06)" transform="rotate(-5 250 140)"/>
+                <path d="M200 130 Q225 150, 250 130 Q275 110, 300 130" stroke="#4A7C59" stroke-width="1" fill="none"/>
+                <text x="250" y="145" font-family="Caveat, cursive" font-size="16" fill="#2D4A3E" text-anchor="middle">liquid</text>
+
+                <!-- Internal structure B - Active Inference -->
+                <ellipse cx="160" cy="260" rx="60" ry="45" stroke="#4A7C59" stroke-width="1.5" fill="rgba(74,124,89,0.06)" transform="rotate(15 160 260)"/>
+                <circle cx="160" cy="260" r="15" stroke="#6B8F71" stroke-width="1" fill="rgba(107,143,113,0.1)"/>
+                <text x="160" y="265" font-family="Caveat, cursive" font-size="14" fill="#2D4A3E" text-anchor="middle">belief</text>
+
+                <!-- Internal structure C - Sparse -->
+                <ellipse cx="340" cy="260" rx="55" ry="48" stroke="#4A7C59" stroke-width="1.5" fill="rgba(74,124,89,0.06)" transform="rotate(-10 340 260)"/>
+                <path d="M310 250 L330 260 L320 275" stroke="#6B8F71" stroke-width="1.5" fill="none"/>
+                <path d="M350 245 L360 265 L355 280" stroke="#6B8F71" stroke-width="1.5" fill="none"/>
+                <text x="340" y="290" font-family="Caveat, cursive" font-size="14" fill="#2D4A3E" text-anchor="middle">spikes</text>
+
+                <!-- Connections between lobes - flowing, organic -->
+                <path d="M220 175 Q190 210, 175 230" stroke="#B8860B" stroke-width="1" stroke-dasharray="4 3" fill="none" opacity="0.7"/>
+                <path d="M280 175 Q310 210, 325 230" stroke="#B8860B" stroke-width="1" stroke-dasharray="4 3" fill="none" opacity="0.7"/>
+                <path d="M200 280 Q250 320, 300 280" stroke="#B8860B" stroke-width="1" stroke-dasharray="4 3" fill="none" opacity="0.7"/>
+
+                <!-- Feedback arrows - hand-drawn style -->
+                <path d="M250 195 Q250 250, 250 310" stroke="#2D4A3E" stroke-width="1.5" fill="none" marker-end="url(#arrowhead)"/>
+
+                <!-- Environment interaction -->
+                <path d="M250 350 Q250 400, 250 440" stroke="#4A7C59" stroke-width="1" stroke-dasharray="6 4" fill="none"/>
+                <ellipse cx="250" cy="460" rx="80" ry="25" stroke="#6B8F71" stroke-width="1" fill="none" stroke-dasharray="4 4"/>
+                <text x="250" y="465" font-family="Caveat, cursive" font-size="14" fill="#78716C" text-anchor="middle">environment</text>
+
+                <!-- Annotations -->
+                <text x="420" y="150" font-family="Caveat, cursive" font-size="13" fill="#8B5A2B" transform="rotate(5 420 150)">τ adapts</text>
+                <text x="60" y="200" font-family="Caveat, cursive" font-size="13" fill="#8B5A2B" transform="rotate(-5 60 200)">minimize F</text>
+                <text x="430" y="300" font-family="Caveat, cursive" font-size="13" fill="#8B5A2B">event-driven</text>
 
                 <defs>
-                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stop-color="#00FF88"/>
-                        <stop offset="100%" stop-color="#00D4FF"/>
-                    </linearGradient>
-                    <radialGradient id="grad2" cx="50%" cy="50%" r="50%">
-                        <stop offset="0%" stop-color="#00FF88"/>
-                        <stop offset="100%" stop-color="transparent"/>
-                    </radialGradient>
+                    <marker id="arrowhead" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+                        <polygon points="0 0, 8 3, 0 6" fill="#2D4A3E"/>
+                    </marker>
                 </defs>
             </svg>
         </div>
+    </section>
 
-        <div class="stats-bar">
-            <div class="stat">
-                <div class="stat-value">20<span>W</span></div>
-                <div class="stat-label">Target power</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value">&lt;1K</div>
-                <div class="stat-label">Parameters</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value">100<span>×</span></div>
-                <div class="stat-label">More efficient</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value">∞</div>
-                <div class="stat-label">Adaptation</div>
-            </div>
+    <!-- WOW SECTION: Full chaos, notebook wall -->
+    <section class="wow-section">
+        <svg class="wow-bg" viewBox="0 0 1400 800" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <!-- Dense background of organic shapes and lines -->
+            <!-- Membrane structures -->
+            <ellipse cx="200" cy="200" rx="180" ry="120" stroke="#4A7C59" stroke-width="0.8" fill="none" opacity="0.2" transform="rotate(-15 200 200)"/>
+            <ellipse cx="1200" cy="150" rx="150" ry="100" stroke="#6B8F71" stroke-width="0.6" fill="none" opacity="0.15" transform="rotate(10 1200 150)"/>
+            <ellipse cx="700" cy="400" rx="250" ry="180" stroke="#2D4A3E" stroke-width="1" fill="rgba(45,74,62,0.02)" transform="rotate(-5 700 400)"/>
+            <ellipse cx="400" cy="600" rx="200" ry="130" stroke="#4A7C59" stroke-width="0.6" fill="none" opacity="0.15" transform="rotate(8 400 600)"/>
+            <ellipse cx="1100" cy="550" rx="170" ry="110" stroke="#6B8F71" stroke-width="0.5" fill="none" opacity="0.12"/>
+
+            <!-- Flowing lines -->
+            <path d="M50 300 Q200 250, 350 320 Q500 390, 650 350 Q800 310, 950 380 Q1100 450, 1250 400 Q1350 370, 1400 390" stroke="#4A7C59" stroke-width="0.8" fill="none" opacity="0.15"/>
+            <path d="M0 500 Q150 450, 300 520 Q450 590, 600 550 Q750 510, 900 570 Q1050 630, 1200 580 Q1350 530, 1400 560" stroke="#6B8F71" stroke-width="0.6" fill="none" opacity="0.12"/>
+            <path d="M100 100 Q250 180, 400 120 Q550 60, 700 140 Q850 220, 1000 160 Q1150 100, 1300 180" stroke="#2D4A3E" stroke-width="0.5" fill="none" opacity="0.1"/>
+
+            <!-- Scattered nodes -->
+            <circle cx="150" cy="250" r="6" fill="#4A7C59" opacity="0.3"/>
+            <circle cx="320" cy="180" r="4" fill="#6B8F71" opacity="0.25"/>
+            <circle cx="480" cy="320" r="8" fill="#4A7C59" opacity="0.2"/>
+            <circle cx="620" cy="200" r="5" fill="#2D4A3E" opacity="0.25"/>
+            <circle cx="780" cy="450" r="7" fill="#6B8F71" opacity="0.2"/>
+            <circle cx="920" cy="280" r="4" fill="#4A7C59" opacity="0.3"/>
+            <circle cx="1080" cy="380" r="6" fill="#6B8F71" opacity="0.2"/>
+            <circle cx="1250" cy="250" r="5" fill="#2D4A3E" opacity="0.25"/>
+            <circle cx="250" cy="550" r="7" fill="#4A7C59" opacity="0.2"/>
+            <circle cx="550" cy="620" r="5" fill="#6B8F71" opacity="0.25"/>
+            <circle cx="850" cy="580" r="6" fill="#4A7C59" opacity="0.2"/>
+            <circle cx="1150" cy="480" r="4" fill="#2D4A3E" opacity="0.3"/>
+        </svg>
+
+        <div class="wow-content">
+            <h2 class="wow-title">thinking<br>in<br>progress</h2>
+
+            <svg class="wow-diagram" viewBox="0 0 1000 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Central perception-action loop - chaotic, alive -->
+
+                <!-- Main loop structure -->
+                <ellipse cx="500" cy="200" rx="350" ry="150" stroke="#2D4A3E" stroke-width="2" fill="none" stroke-dasharray="12 6" transform="rotate(-3 500 200)"/>
+
+                <!-- Inner dynamics -->
+                <path d="M200 200 Q300 100, 400 150 Q500 200, 600 150 Q700 100, 800 200" stroke="#4A7C59" stroke-width="1.5" fill="none"/>
+                <path d="M200 200 Q300 300, 400 250 Q500 200, 600 250 Q700 300, 800 200" stroke="#4A7C59" stroke-width="1.5" fill="none"/>
+
+                <!-- Nodes along path -->
+                <circle cx="200" cy="200" r="25" stroke="#2D4A3E" stroke-width="2" fill="rgba(45,74,62,0.1)"/>
+                <circle cx="350" cy="130" r="18" stroke="#4A7C59" stroke-width="1.5" fill="rgba(74,124,89,0.08)"/>
+                <circle cx="500" cy="180" r="35" stroke="#2D4A3E" stroke-width="2" fill="rgba(45,74,62,0.12)"/>
+                <circle cx="650" cy="130" r="15" stroke="#6B8F71" stroke-width="1.5" fill="rgba(107,143,113,0.08)"/>
+                <circle cx="800" cy="200" r="22" stroke="#4A7C59" stroke-width="2" fill="rgba(74,124,89,0.1)"/>
+                <circle cx="650" cy="270" r="20" stroke="#4A7C59" stroke-width="1.5" fill="rgba(74,124,89,0.08)"/>
+                <circle cx="350" cy="270" r="16" stroke="#6B8F71" stroke-width="1.5" fill="rgba(107,143,113,0.08)"/>
+
+                <!-- Connecting flows -->
+                <path d="M225 195 Q280 150, 335 140" stroke="#B8860B" stroke-width="1" stroke-dasharray="4 3" fill="none" opacity="0.6"/>
+                <path d="M365 140 Q430 160, 470 175" stroke="#B8860B" stroke-width="1" stroke-dasharray="4 3" fill="none" opacity="0.6"/>
+                <path d="M530 175 Q590 140, 640 135" stroke="#B8860B" stroke-width="1" stroke-dasharray="4 3" fill="none" opacity="0.6"/>
+                <path d="M665 140 Q730 160, 780 195" stroke="#B8860B" stroke-width="1" stroke-dasharray="4 3" fill="none" opacity="0.6"/>
+                <path d="M785 220 Q730 260, 670 270" stroke="#8B5A2B" stroke-width="1" stroke-dasharray="4 3" fill="none" opacity="0.6"/>
+                <path d="M630 275 Q550 280, 520 200" stroke="#8B5A2B" stroke-width="1" stroke-dasharray="4 3" fill="none" opacity="0.6"/>
+                <path d="M480 205 Q420 260, 370 270" stroke="#8B5A2B" stroke-width="1" stroke-dasharray="4 3" fill="none" opacity="0.6"/>
+                <path d="M335 265 Q270 240, 220 210" stroke="#8B5A2B" stroke-width="1" stroke-dasharray="4 3" fill="none" opacity="0.6"/>
+
+                <!-- Labels - scattered, hand-written style -->
+                <text x="200" y="205" font-family="Caveat, cursive" font-size="14" fill="#2D4A3E" text-anchor="middle">sense</text>
+                <text x="500" y="185" font-family="Caveat, cursive" font-size="16" fill="#2D4A3E" text-anchor="middle">predict</text>
+                <text x="800" y="205" font-family="Caveat, cursive" font-size="14" fill="#2D4A3E" text-anchor="middle">act</text>
+                <text x="500" y="320" font-family="Caveat, cursive" font-size="14" fill="#78716C" text-anchor="middle">update beliefs</text>
+
+                <!-- External annotations -->
+                <text x="100" y="120" font-family="Caveat, cursive" font-size="18" fill="#8B5A2B" transform="rotate(-8 100 120)">the loop never stops</text>
+                <text x="820" y="100" font-family="Caveat, cursive" font-size="16" fill="#8B5A2B" transform="rotate(5 820 100)">continuous time</text>
+                <text x="500" y="380" font-family="Caveat, cursive" font-size="15" fill="#78716C" text-anchor="middle">← this is not RL →</text>
+
+                <!-- Rough lines and marks -->
+                <path d="M150 300 L180 310" stroke="#78716C" stroke-width="0.8" fill="none"/>
+                <path d="M850 300 L880 290" stroke="#78716C" stroke-width="0.8" fill="none"/>
+            </svg>
+        </div>
+
+        <div class="floating-annotations">
+            <span class="float-note">where does thought begin?</span>
+            <span class="float-note">plasticity after deployment</span>
+            <span class="float-note">← not frozen weights</span>
+            <span class="float-note">the network keeps learning</span>
+            <span class="float-note">20 watts, always on</span>
         </div>
     </section>
 
-    <section class="problem-section">
-        <div class="section-header">
-            <span class="section-number">01</span>
-            <h2 class="section-title">The <span class="accent">wall</span></h2>
+    <!-- PHASES: Timeline, not cards -->
+    <section class="phases-section">
+        <div class="phases-header">
+            <h2>The <em>path</em></h2>
+            <p>Four phases toward synthetic life. The first is underway. The last is speculative. Everything in between is engineering.</p>
         </div>
 
-        <p class="problem-intro">
-            The AI industry is racing toward four terminal asymptotes. Everyone sees them coming. Few are building alternatives.
-        </p>
-
-        <div class="walls-grid">
-            <div class="wall">
-                <div class="wall-number">01</div>
-                <h3>Energy</h3>
-                <p>Scaling transformers requires exponentially more power. By 2030, AI could consume more electricity than small countries.</p>
-            </div>
-            <div class="wall">
-                <div class="wall-number">02</div>
-                <h3>Data</h3>
-                <p>The internet is finite. Quality text is exhausted. Synthetic data leads to model collapse. The well is running dry.</p>
-            </div>
-            <div class="wall">
-                <div class="wall-number">03</div>
-                <h3>Latency</h3>
-                <p>Cloud inference takes 200-500ms. A robot cannot wait. Real-time autonomy requires edge intelligence.</p>
-            </div>
-            <div class="wall">
-                <div class="wall-number">04</div>
-                <h3>Reality</h3>
-                <p>Language models have no causal understanding. They predict text, not physics. They hallucinate the world.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="approach">
-        <div class="section-header">
-            <span class="section-number">02</span>
-            <h2 class="section-title">The <span class="accent">trinity</span></h2>
-        </div>
-
-        <div class="trinity-grid">
-            <div class="trinity-card">
-                <svg class="trinity-icon" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="30" cy="30" r="25" stroke="#00FF88" stroke-width="1.5" fill="none" opacity="0.3"/>
-                    <path d="M15 30 Q22 15 30 30 T45 30" stroke="#00FF88" stroke-width="2" fill="none"/>
-                    <circle cx="22" cy="22" r="4" fill="#00FF88" opacity="0.6"/>
-                    <circle cx="38" cy="38" r="3" fill="#00D4FF" opacity="0.6"/>
-                </svg>
-                <div class="trinity-label">ARCHITECTURE</div>
-                <h3>Liquid Networks</h3>
-                <p>Networks where time constants adapt during inference. Not frozen weights—flowing dynamics that keep learning after deployment.</p>
-                <span class="trinity-tag">dx/dt = f(x, τ(input))</span>
-            </div>
-
-            <div class="trinity-card">
-                <svg class="trinity-icon" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="10" y="10" width="40" height="40" stroke="#00FF88" stroke-width="1.5" fill="none" opacity="0.3" rx="4"/>
-                    <circle cx="30" cy="30" r="12" stroke="#00FF88" stroke-width="2" fill="none"/>
-                    <path d="M30 22 L30 38 M22 30 L38 30" stroke="#00D4FF" stroke-width="1.5"/>
-                    <circle cx="30" cy="30" r="4" fill="#00FF88"/>
-                </svg>
-                <div class="trinity-label">OBJECTIVE</div>
-                <h3>Active Inference</h3>
-                <p>Agents that minimize surprise rather than maximize reward. They build world models and act to reduce uncertainty. Curiosity is built in.</p>
-                <span class="trinity-tag">argmin F(q, y)</span>
-            </div>
-
-            <div class="trinity-card">
-                <svg class="trinity-icon" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M10 45 L20 25 L30 35 L40 15 L50 30" stroke="#00FF88" stroke-width="2" fill="none"/>
-                    <circle cx="20" cy="25" r="3" fill="#00FF88"/>
-                    <circle cx="30" cy="35" r="3" fill="#00D4FF"/>
-                    <circle cx="40" cy="15" r="3" fill="#00FF88"/>
-                    <line x1="10" y1="50" x2="50" y2="50" stroke="#00FF88" stroke-width="1" opacity="0.3"/>
-                </svg>
-                <div class="trinity-label">SUBSTRATE</div>
-                <h3>Sparse Signaling</h3>
-                <p>Information transmitted only when needed—through events, not continuous streams. Orders of magnitude more efficient than dense computation.</p>
-                <span class="trinity-tag">~0.5W / chip</span>
-            </div>
-        </div>
-    </section>
-
-    <section class="diagram-section">
-        <div class="diagram-container">
-            <div class="diagram-text">
-                <h3>The perception-action loop</h3>
-                <p>Traditional AI is a one-way street: input → process → output. Living systems work differently. They continuously predict, act, and update.</p>
-                <ul class="diagram-list">
-                    <li>World model predicts sensory input</li>
-                    <li>Prediction errors drive learning</li>
-                    <li>Actions are chosen to minimize surprise</li>
-                    <li>The loop never stops—even after deployment</li>
-                </ul>
-            </div>
-            <div class="diagram-visual">
-                <svg class="diagram-svg" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Background grid -->
-                    <defs>
-                        <pattern id="smallGrid" width="20" height="20" patternUnits="userSpaceOnUse">
-                            <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#ffffff" stroke-width="0.5" opacity="0.05"/>
-                        </pattern>
-                    </defs>
-                    <rect width="400" height="300" fill="url(#smallGrid)"/>
-
-                    <!-- Top box - World Model -->
-                    <rect x="120" y="30" width="160" height="50" stroke="#00FF88" stroke-width="1.5" fill="#00FF88" fill-opacity="0.05" rx="4"/>
-                    <text x="200" y="58" text-anchor="middle" fill="#00FF88" font-family="Space Grotesk" font-size="12" font-weight="500">WORLD MODEL</text>
-                    <text x="200" y="72" text-anchor="middle" fill="#606060" font-family="JetBrains Mono" font-size="8">p(y, θ)</text>
-
-                    <!-- Center box - Free Energy -->
-                    <rect x="120" y="120" width="160" height="60" stroke="#00FF88" stroke-width="2" fill="#00FF88" fill-opacity="0.1" rx="4"/>
-                    <text x="200" y="148" text-anchor="middle" fill="#ffffff" font-family="Space Grotesk" font-size="13" font-weight="600">MINIMIZE</text>
-                    <text x="200" y="165" text-anchor="middle" fill="#00FF88" font-family="JetBrains Mono" font-size="11">surprise</text>
-
-                    <!-- Bottom box - Environment -->
-                    <rect x="120" y="220" width="160" height="50" stroke="#00D4FF" stroke-width="1.5" fill="#00D4FF" fill-opacity="0.05" rx="4"/>
-                    <text x="200" y="248" text-anchor="middle" fill="#00D4FF" font-family="Space Grotesk" font-size="12" font-weight="500">ENVIRONMENT</text>
-
-                    <!-- Arrows -->
-                    <path d="M200 80 L200 120" stroke="#00FF88" stroke-width="1.5" marker-end="url(#arrow)"/>
-                    <path d="M200 180 L200 220" stroke="#00FF88" stroke-width="1.5" marker-end="url(#arrow)"/>
-
-                    <!-- Side loops -->
-                    <path d="M280 150 Q340 150 340 200 Q340 245 280 245" stroke="#00FF88" stroke-width="1.5" fill="none" marker-end="url(#arrow)"/>
-                    <path d="M120 245 Q60 245 60 200 Q60 150 120 150" stroke="#00D4FF" stroke-width="1.5" fill="none" marker-end="url(#arrowCyan)"/>
-
-                    <!-- Labels -->
-                    <text x="355" y="200" text-anchor="start" fill="#00FF88" font-family="JetBrains Mono" font-size="9">ACTION</text>
-                    <text x="20" y="200" text-anchor="start" fill="#00D4FF" font-family="JetBrains Mono" font-size="9">SENSE</text>
-
-                    <defs>
-                        <marker id="arrow" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                            <polygon points="0 0, 10 3.5, 0 7" fill="#00FF88"/>
-                        </marker>
-                        <marker id="arrowCyan" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-                            <polygon points="0 0, 10 3.5, 0 7" fill="#00D4FF"/>
-                        </marker>
-                    </defs>
-                </svg>
-            </div>
-        </div>
-    </section>
-
-    <section id="roadmap">
-        <div class="section-header">
-            <span class="section-number">03</span>
-            <h2 class="section-title">The <span class="accent">path</span></h2>
-        </div>
-
-        <p class="roadmap-intro">Four phases. Subject to revision. The first is already underway.</p>
-
-        <div class="phases">
-            <div class="phase">
-                <div class="phase-status"></div>
-                <div class="phase-label">PHASE I — CURRENT</div>
+        <div class="phases-timeline">
+            <div class="phase-item">
+                <span class="phase-label">PHASE I — CURRENT</span>
                 <h3>Silica Worm</h3>
-                <p>Digital organism with &lt;1,000 parameters. Learns to navigate through curiosity alone. No reward signal. Outperforming deep RL baselines.</p>
+                <p>A digital organism with fewer than 1,000 neurons. Learns through curiosity alone. No reward signal. Outperforming deep RL on navigation tasks.</p>
             </div>
-            <div class="phase">
-                <div class="phase-status"></div>
-                <div class="phase-label">PHASE II — NEXT</div>
-                <h3>Embodiment</h3>
-                <p>Sim-to-real transfer. Physical robots that learn new tasks from single demonstrations. No fine-tuning. No cloud.</p>
+            <div class="phase-item">
+                <span class="phase-label">PHASE II</span>
+                <h3>Ghost in the Shell</h3>
+                <p>Sim-to-real transfer. Physical robots that learn from single demonstrations. No fine-tuning. No cloud dependency.</p>
             </div>
-            <div class="phase">
-                <div class="phase-status"></div>
-                <div class="phase-label">PHASE III — HORIZON</div>
+            <div class="phase-item">
+                <span class="phase-label">PHASE III</span>
                 <h3>Apex</h3>
-                <p>Full anthropomorphic agents. Dexterous manipulation. &lt;50W continuous. Learning from &lt;3 demonstrations.</p>
+                <p>Full anthropomorphic agents. Dexterous manipulation under 50 watts. Learning from fewer than three demonstrations.</p>
             </div>
-            <div class="phase">
-                <div class="phase-status"></div>
-                <div class="phase-label">PHASE IV — SPECULATIVE</div>
+            <div class="phase-item">
+                <span class="phase-label">PHASE IV — SPECULATIVE</span>
                 <h3>Post-Human</h3>
-                <p>Brain-computer interfaces. Synthetic biological tissues. Consciousness extension. This phase is speculative.</p>
+                <p>Brain-computer interfaces. Synthetic biological tissues. The boundary between silicon and carbon becomes irrelevant.</p>
             </div>
         </div>
     </section>
 
+    <!-- CTA -->
     <section class="cta-section">
-        <h2>Build <span class="accent">with us</span></h2>
-        <p class="cta-text">
-            We're looking for researchers who find the current paradigm unsatisfying. Physicists who code. Neuroscientists who question. Anyone who has read Friston and didn't run away.
-        </p>
-        <div class="cta-buttons">
-            <a href="/contact" class="btn-primary">Join the lab</a>
-            <a href="/manifesto" class="btn-secondary">Read the manifesto</a>
+        <div class="cta-content">
+            <h2>Build <em>with us</em></h2>
+            <p>We want physicists who code, neuroscientists who ship, roboticists tired of hand-tuning PID controllers. If you've read Friston and didn't run away, you might be one of us.</p>
+            <a href="/contact" class="cta-link">
+                Get in touch
+                <span>→</span>
+            </a>
         </div>
+        <span class="cta-annotation">we don't hire, we recruit</span>
     </section>
 
     <footer>
-        <div class="footer-logo">20n</div>
-        <div class="footer-text">Paris — Living Intelligence Laboratory</div>
+        <span class="footer-logo">20n</span>
+        <span class="footer-text">Paris — Living Intelligence Laboratory</span>
     </footer>
 </body>
 </html>
